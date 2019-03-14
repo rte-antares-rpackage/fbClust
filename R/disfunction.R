@@ -1,5 +1,6 @@
 setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
 {
+  PLAN <- copy(PLAN)
   col_ptdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
   if (is.null(not_wanted_col)) {
     not_wanted_col <-  col_ptdf[length(col_ptdf)]
