@@ -3,7 +3,7 @@ context("Function .getDistExt")
 test_that(".getDistExt", {
   library(data.table)
   library(quadprog)
-  object <- readRDS(system.file("testdata/object.rds", package = "flowBased4D"))
+  object <- readRDS(system.file("testdata/object.rds", package = "fbClust"))
 
   PL <- object[[4]]
   x0 <- object[[1]]

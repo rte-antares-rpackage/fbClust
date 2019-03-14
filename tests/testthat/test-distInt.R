@@ -2,7 +2,7 @@ context("Function .getDistInt")
 
 test_that(".getDistInt", {
   library(data.table)
-  object_int <- readRDS(system.file("testdata/object_int.rds", package = "flowBased4D"))
+  object_int <- readRDS(system.file("testdata/object_int.rds", package = "fbClust"))
   PL <- object_int[[3]]
   x0 <- object_int[[1]]
   ram <- object_int[[4]]

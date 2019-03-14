@@ -1,4 +1,4 @@
 library(testthat)
-library(flowBased4D)
+library(fbClust)
 
-test_check("flowBased4D")
+test_check("fbClust")

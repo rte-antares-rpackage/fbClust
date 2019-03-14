@@ -2,8 +2,8 @@ context("Function .flagExtOrInt")
 
 test_that(".flagExtOrInt", {
   library(data.table)
-  object_int <- readRDS(system.file("testdata/object_int.rds", package = "flowBased4D"))
-  object_ext <- readRDS(system.file("testdata/object.rds", package = "flowBased4D"))
+  object_int <- readRDS(system.file("testdata/object_int.rds", package = "fbClust"))
+  object_ext <- readRDS(system.file("testdata/object.rds", package = "fbClust"))
 
   ram_int <- object_int[[4]]
   Ax0_int <- object_int[[2]]
