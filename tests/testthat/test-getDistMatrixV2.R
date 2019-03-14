@@ -4,7 +4,7 @@ test_that(".getDistMatrixV2", {
   library(data.table)
   library(quadprog)
   
-  pl_vert <- readRDS(system.file("testdata/pl_vert_test.rds", package = "flowBasedClustering"))
+  pl_vert <- readRDS(system.file("testdata/pl_vert_test.rds", package = "fbClust"))
   VERT <- pl_vert[[2]]
   PLAN <- pl_vert[[1]]
   col_ptdf <- pl_vert[[3]]
