@@ -1,3 +1,10 @@
+#' Compute differance for remove contry
+#' 
+#' @description Remove country in not_wanted_col
+#' 
+#' @param PLAN {data.table}
+#' @param not_wanted_col {character}
+#' 
 setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
 {
   PLAN2 <- copy(PLAN)
@@ -98,9 +105,8 @@ setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
 }
 
 
-######### dEnd : Récupération du calcul de distance entre polyèdres #####
-
-dEnd <- function(VERT, PLAN, col_ptdf)
+######### .dEnd : Récupération du calcul de distance entre polyèdres #####
+.dEnd <- function(VERT, PLAN, col_ptdf)
 {
   Dmat <- diag(1, nrow = dim(VERT[, .SD, .SDcols = col_ptdf])[2])
   PL <- as.matrix(
@@ -149,13 +155,13 @@ dEnd <- function(VERT, PLAN, col_ptdf)
       print(h)
       # print(paste("begin", date_1, date_2, Sys.time()))
 
-      DD <- dEnd(VERT[Date == date_1 & Period == h],
+      DD <- .dEnd(VERT[Date == date_1 & Period == h],
                  PLAN[Date == date_2 & Period == h], col_ptdf = col_ptdf)
 
       # print(paste("end", date_1, date_2, Sys.time()))
       # print(paste("begin", date_2, date_1, Sys.time()))
 
-      DD2 <- dEnd(VERT[Date == date_2 & Period == h],
+      DD2 <- .dEnd(VERT[Date == date_2 & Period == h],
                   PLAN[Date == date_1 & Period == h], col_ptdf = col_ptdf)
 
       # print(paste("end", date_2, date_1, Sys.time()))
