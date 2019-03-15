@@ -1,7 +1,7 @@
 context("Function getCalendar")
 
 test_that("getSequence works", {
-  
+  library(timeDate)
   dates <- getSequence("2015-11-01", "2017-01-20")
   expect_true(as.Date("2015-11-01") %in% dates)
   expect_true(as.Date("2015-11-02") %in% dates)
@@ -14,6 +14,7 @@ test_that("getSequence works", {
 
 
 test_that("getCalendar works", {
+  library(timeDate)
   
   # run function
   dates <- getSequence("2016-01-01", "2016-12-31")
