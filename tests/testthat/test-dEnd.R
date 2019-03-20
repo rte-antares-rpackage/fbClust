@@ -8,7 +8,9 @@ test_that("dEnd", {
   PLAN <- pl_vert[[1]]
   col_ptdf <- pl_vert[[3]]
 
-  res <- .dEnd(VERT = VERT[VERT$Date == "2019-02-14",],
-              PLAN = PLAN[PLAN$Date == "2019-02-15",], col_ptdf = col_ptdf)
+  setDT(VERT)
+  setDT(PLAN)
+  res <- .dEnd(VERT = VERT[Date == "2019-02-14"],
+              PLAN = PLAN[Date == "2019-02-15"], col_ptdf = col_ptdf)
   expect_true(res < 357 & res > 356)
 })

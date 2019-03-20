@@ -5,6 +5,7 @@
 #' @param PLAN {data.table}
 #' @param not_wanted_col {character}
 #' 
+#' @import data.table
 setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
 {
   # PLAN2 <- copy(PLAN)
@@ -14,9 +15,12 @@ setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
   }
   col_ptdf <- col_ptdf[-which(col_ptdf == not_wanted_col)]
 
-  PLAN[, col_ptdf] <- sapply(col_ptdf, function(ptdf) {
-    PLAN[[ptdf]] <- PLAN[[ptdf]] - PLAN[[not_wanted_col]]
-  })
+  for(i in col_ptdf){
+    PLAN[[i]] <- PLAN[[i]] - PLAN[[not_wanted_col]]
+  }
+  # PLAN[[col_ptdf]] <- sapply(col_ptdf, function(ptdf) {
+  #  
+  # })
   # PLAN2[, c(col_ptdf) := lapply(col_ptdf, function(ptdf) {
   #   PLAN2[[ptdf]] - PLAN2[[not_wanted_col]]
   # })]

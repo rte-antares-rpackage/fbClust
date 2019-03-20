@@ -7,6 +7,9 @@ test_that(".getDistMatrixV2", {
   pl_vert <- readRDS(system.file("testdata/pl_vert_test.rds", package = "fbClust"))
   VERT <- pl_vert[[2]]
   PLAN <- pl_vert[[1]]
+  VERT <- setDT(VERT)
+  PLAN <- setDT(PLAN)
+  
   hourWeight <- rep(1, 24)
   res <- .getDistMatrixV2(VERT = VERT, PLAN = PLAN, hourWeight = hourWeight)
   expect_true(is.data.table(res))

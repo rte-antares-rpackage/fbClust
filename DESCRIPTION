@@ -9,9 +9,10 @@ Description: More about what it does (maybe more than one line)
 License: MIT
 Encoding: UTF-8
 LazyData: true
+Depends:
+    data.table
 Imports:
   XML,
-  data.table,
   parallel,
   vertexenum,
   quadprog,
