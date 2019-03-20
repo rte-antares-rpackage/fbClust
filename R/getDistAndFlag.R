@@ -1,10 +1,10 @@
 ######### .dEnd : Récupération du calcul de distance entre polyèdres #####
 .dEnd <- function(VERT, PLAN, col_ptdf)
 {
-  setDF(VERT) ; setDF(PLAN)
+  # setDF(VERT) ; setDF(PLAN)
 
-  # Dmat <- diag(1, nrow = dim(VERT[, .SD, .SDcols = col_ptdf])[2])
-  Dmat <- diag(1, nrow = dim(VERT[, col_ptdf])[2])
+  Dmat <- diag(1, nrow = dim(VERT[, .SD, .SDcols = col_ptdf])[2])
+  # Dmat <- diag(1, nrow = dim(VERT[, col_ptdf])[2])
   # PL <- as.matrix(PLAN[, .SD, .SDcols = col_ptdf])
   PL <- as.matrix(PLAN[, col_ptdf])
   
