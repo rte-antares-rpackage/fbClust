@@ -7,8 +7,10 @@ test_that("dEnd", {
   VERT <- pl_vert[[2]]
   PLAN <- pl_vert[[1]]
   col_ptdf <- pl_vert[[3]]
-  VERT <- as.data.table(VERT)
-  PLAN <- as.data.table(PLAN)
+
+
+  setDT(VERT)
+  setDT(PLAN)
   
   res <- .dEnd(VERT = VERT[Date == "2019-02-14"],
               PLAN = PLAN[Date == "2019-02-15"], col_ptdf = col_ptdf)
