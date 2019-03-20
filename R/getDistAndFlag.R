@@ -1,23 +1,26 @@
 ######### .dEnd : Récupération du calcul de distance entre polyèdres #####
 .dEnd <- function(VERT, PLAN, col_ptdf)
 {
-  Dmat <- diag(1, nrow = dim(VERT[, .SD, .SDcols = col_ptdf])[2])
-  PL <- as.matrix(
-    PLAN[, .SD, .SDcols = col_ptdf])
+  setDF(VERT) ; setDF(PLAN)
+
+  # Dmat <- diag(1, nrow = dim(VERT[, .SD, .SDcols = col_ptdf])[2])
+  Dmat <- diag(1, nrow = dim(VERT[, col_ptdf])[2])
+  # PL <- as.matrix(PLAN[, .SD, .SDcols = col_ptdf])
+  PL <- as.matrix(PLAN[, col_ptdf])
+  
   TPL <- -t(PL)
-  ram <- PLAN[, ram]
-  VERT <- as.matrix(VERT[, .SD, .SDcols = col_ptdf])
+  ram <- PLAN[['ram']]
+  # VERT <- as.matrix(VERT[, .SD, .SDcols = col_ptdf])
+  VERT <- as.matrix(VERT[, col_ptdf])
+  
   mean(sapply(1:nrow(VERT), function(X){
-    # print(X)
+    print(X)
     V1 <- matrix(VERT[X,])
     Ax0 <- PL%*%V1
     flag <- .flagExtOrInt(Ax0, ram)
     if (flag) {
-      # print("external")
-      # saveRDS(list(V1, flag, Ax0, PL, X, ram), "object.rds")
       .getDistExt(V1 = V1, PL = TPL, ram = ram, Dmat = Dmat)
     } else {
-      # print("interior")
       .getDistInt(V1 = V1, PL = PL, ram = ram, Ax0 = Ax0)
     }
   }))
