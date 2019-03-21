@@ -29,3 +29,30 @@
   data$timestamp <- as.character(data$timestamp)
   data
 }
+
+.ctrlWeight <- function(hourWeight){
+  #control Weigth
+  if(length(hourWeight)!=24){
+    stop("Length of hourWeight must be 24")
+  }
+  
+}
+
+.ctrlVertPlanFormat <- function(VERT, PLAN) {
+  col_plan <- colnames(PLAN)
+  col_vert <- colnames(VERT)
+  col_ptdf_plan <- col_plan[grep("^ptdf[A-Z]{2}$", col_plan)]
+  col_ptdf_vert <- col_plan[grep("^ptdf[A-Z]{2}$", col_vert)]
+  if(length(col_ptdf_plan) == 0 | length(col_ptdf_vert) == 0) {
+    stop("VERT & PLAN must have ptdf colnames in the form ptdfXX (ex : ptdfFR)")
+  }
+  if(!all(col_ptdf_plan %in% col_ptdf_vert) |
+     !all(col_ptdf_vert %in% col_ptdf_plan)) {
+    stop(cat("PLAN & VERT must have the same ptdf colnames, \n Currently for PLAN:",
+               col_ptdf_plan, " \n Currently for VECT:", col_ptdf_vert))
+  }
+  if(is.null(PLAN$ram)) {
+    stop("PLAN should contains the column named ram")
+  }
+  message("Good: columns of VERT & PLAN match")
+}
