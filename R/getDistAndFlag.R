@@ -1,22 +1,16 @@
 ######### .dEnd : Récupération du calcul de distance entre polyèdres #####
 .dEnd <- function(VERT, PLAN, col_ptdf)
 {
-  # setDF(VERT) ; setDF(PLAN)
 
   Dmat <- diag(1, nrow = dim(VERT[, .SD, .SDcols = col_ptdf])[2])
-  # Dmat <- diag(1, nrow = dim(VERT[, col_ptdf])[2])
-  #setDF(VERT) ; setDF(PLAN)
-  #Dmat <- diag(1, nrow = dim(VERT[, col_ptdf])[2])
-  # PL <- as.matrix(PLAN[, .SD, .SDcols = col_ptdf])
   PL <- as.matrix(PLAN[, .SD, .SDcols = col_ptdf])
   
   TPL <- -t(PL)
   ram <- PLAN[['ram']]
-  # VERT <- as.matrix(VERT[, .SD, .SDcols = col_ptdf])
   VERT <- as.matrix(VERT[, .SD, .SDcols = col_ptdf])
   
   mean(sapply(1:nrow(VERT), function(X){
-    print(X)
+    # print(X)
     V1 <- matrix(VERT[X,])
     Ax0 <- PL%*%V1
     flag <- .flagExtOrInt(Ax0, ram)
@@ -26,8 +20,6 @@
       .getDistInt(V1 = V1, PL = PL, ram = ram, Ax0 = Ax0)
     }
   }))
-  # Y_X <- get_dist_poly( VERT, PLAN, col_ptdf = col_ptdf)
-  # X_Y + Y_X
 }
 
 

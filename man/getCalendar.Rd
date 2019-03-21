@@ -5,10 +5,11 @@
 \title{Build a calendar}
 \usage{
 getCalendar(dates, interSeasonBegin, interSeasonEnd, dayExclude = NULL,
-  holiday = c("NewYearsDay", "GoodFriday", "EasterSunday", "EasterMonday",
-  "LaborDay", "FRAscension", "Pentecost", "PentecostMonday",
-  "FRAssumptionVirginMary", "FRAllSaints", "FRArmisticeDay", "ChristmasEve",
-  "ChristmasDay", "BoxingDay", "DENewYearsEve"), dayInWeekend = c(6, 7))
+  holiday = c("NewYearsDay", "GoodFriday", "EasterSunday",
+  "EasterMonday", "LaborDay", "FRAscension", "Pentecost",
+  "PentecostMonday", "FRAssumptionVirginMary", "FRAllSaints",
+  "FRArmisticeDay", "ChristmasEve", "ChristmasDay", "BoxingDay",
+  "DENewYearsEve"), dayInWeekend = c(6, 7))
 }
 \arguments{
 \item{dates}{\code{character or date}, vector of dates YYYY-MM-DD, can be generate with \link{getSequence}}

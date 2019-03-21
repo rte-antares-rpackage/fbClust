@@ -19,12 +19,10 @@
     ##To sapply
     date_1 <- as.character(res_hour[comb, "V1"])
     date_2 <- as.character(res_hour[comb, "V2"])
-    print('vite f wow')
     print(date_1)
     # v_hours <- intersect(VERT[Date%in% date_1, Period], VERT[Date%in% date_2, Period])
     v_hours <- intersect(unlist(VERT[VERT$Date%in% date_1, "Period"]), unlist(VERT[VERT$Date%in% date_2, "Period"]))
     
-    print('wow')
     ##To sapply
     # h <- v_hours[1]
     rbindlist(sapply(v_hours, function(h){
