@@ -56,3 +56,33 @@
   }
   message("Good: columns of VERT & PLAN match")
 }
+
+
+.getDataAndMakeOutput <- function(X, vect, distMat, className)
+{
+  dateIn <- names(vect[which(vect == X)])
+  colSel <- row.names(distMat)%in%dateIn
+  
+  #detect day closed to middle of cluster
+  if(length(dateIn) > 1)
+  {
+    minDay <- which.min(rowSums(distMat[, colSel]))
+    distINfo <- distMat[minDay,colSel]
+    data.table(TypicalDay = names(minDay),
+               Class = className,
+               dayIn = list(data.table(Date = rep(dateIn, each = 24), Period = rep(1:24, length(dateIn)))),
+               distance = list(data.table(Date = dateIn, Distance = distINfo)))
+  }
+  # case where cluster is of size one :
+  else
+  {
+    minDay <- dateIn
+    distINfo <- 0
+    data.table(TypicalDay = minDay,
+               Class = className,
+               dayIn = list(data.table(Date = rep(dateIn, each = 24),
+                                       Period = rep(1:24, length(dateIn)))),
+               distance = list(data.table(Date = dateIn, Distance = distINfo)))
+  }
+}
+

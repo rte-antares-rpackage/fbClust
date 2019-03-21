@@ -31,10 +31,31 @@
 # 
 #   dates <- as.character(dates)
 #   .ctrlDates(dates, unique(VERT$Date))
-#   
+# 
 #   .ctrlWeight(hourWeight)
-#   
+# 
 #   .ctrlVertPlanFormat(VERT = VERT, PLAN = PLAN)
 #   
+#   dt_dist <- .getDistMatrixV2(VERT = VERT, PLAN = PLAN, hourWeight = hourWeight)
+# 
+#   distMat <- dt_dist[, list(dist = sum(dist)), by = c("Date1", "Date2")]
+#   distMat <- dcast(distMat, Date1~Date2, value.var = "dist")
+#   distMat[, Date1 := NULL]
+#   distMat <- as.matrix(distMat)
+#   rownames(distMat) <- colnames(distMat)
+#   diag(distMat) <- 0
 #   
+#   set.seed(123456)
+#   vect <- cluster::pam(distMat, nbCluster, diss = TRUE)$clustering
+#   
+#   if(is.null(className)){
+#     className <- as.character("Class")
+#   }
+#   
+#   allTypDay <- rbindlist(sapply(1:nbCluster, function(X){
+#     # Found a representative day for each class
+#     .getDataAndMakeOutput(X, vect, distMat, className)
+#     
+#   }, simplify = FALSE))
+# 
 # }
