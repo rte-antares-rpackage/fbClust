@@ -9,20 +9,18 @@ test_that("clusterTypicalDaysForOneClass", {
   nbcluster <- 2
   maxDomainSize <- 20000
   allTypDays <- clusterTypicalDaysForOneClass(
-    dates = dates, PLAN = PLAN, VERT = NULL, 
+    dates = dates, PLAN = PLAN, VERT = NULL,
     maxDomainSize = maxDomainSize, nbCluster = nbcluster,
     report = F)
 
   maxDomainSize2 <- 2000
-  
+
   expect_true(nrow(allTypDays) == nbcluster)
 
   reportPath_failed <- "here"
   expect_error(clusterTypicalDaysForOneClass(
-    dates = dates, PLAN = PLAN, VERT = NULL, 
+    dates = dates, PLAN = PLAN, VERT = NULL,
     maxDomainSize = maxDomainSize2, nbCluster = nbcluster,
     report = F))
 
 })
-
-saveRDS(PLAN, "plan_not_wanted_ptdf.rds")
