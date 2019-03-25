@@ -13,8 +13,9 @@ test_that(".getDataAndMakeOutput", {
   typDay1 <- .getDataAndMakeOutput(distMat = distMat, X = X1, vect = vect, className  = classe)
   typDay2 <- .getDataAndMakeOutput(distMat = distMat, X = X2, vect = vect, className  = classe)
 
-  expect_true(all(typDay1[, distance][[1]][, Distance] == distMat[1:3, 1]))
-  expect_true(all(typDay2[, distance][[1]][, Distance] == distMat[4, 4]))
+  expect_true(all(typDay1[, .SD, .SDcols = "distance"][[1]][[
+    1]][, .SD, .SDcols = "Distance"] == distMat[1:3, 1]))
+  expect_true(all(typDay2[, .SD, .SDcols = "distance"][[1]][[
+    1]][,.SD, .SDcols = "Distance"] == distMat[4, 4]))
   expect_true(all(colnames(typDay1) == c("TypicalDay", "Class", "dayIn", "distance")))
-  
 })
