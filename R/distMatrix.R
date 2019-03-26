@@ -21,7 +21,9 @@
     date_2 <- as.character(res_hour[comb, "V2"])
     print(date_1)
     # v_hours <- intersect(VERT[Date%in% date_1, Period], VERT[Date%in% date_2, Period])
-    v_hours <- intersect(unlist(VERT[VERT$Date%in% date_1, "Period"]), unlist(VERT[VERT$Date%in% date_2, "Period"]))
+    # v_hours <- intersect(unlist(VERT[VERT$Date%in% date_1, "Period"]), unlist(VERT[VERT$Date%in% date_2, "Period"]))
+    v_hours <- intersect(unlist(VERT[Date%in% date_1, .SD, .SDcols = "Period"]), 
+                         unlist(VERT[Date%in% date_2, .SD, .SDcols = "Period"]))
     
     ##To sapply
     # h <- v_hours[1]
