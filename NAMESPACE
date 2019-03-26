@@ -2,5 +2,7 @@
 
 export(getCalendar)
 export(getSequence)
+export(getVertices)
 import(data.table)
 import(timeDate)
+import(vertexenum)

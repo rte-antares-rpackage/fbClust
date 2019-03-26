@@ -43,7 +43,7 @@ getSequence <- function(dateBegin, dateEnd){
 #' getCalendar(dates, interSeasonBegin, interSeasonEnd, dayExclude = dayExclude)
 #' }
 #'
-#' @import timeDate
+#' @import timeDate 
 #'
 #' @export
 getCalendar <- function(dates,

@@ -13,7 +13,7 @@ clusterTypicalDaysForOneClass <- function(dates,
   # setTxtProgressBar(pb, 0)
 
   if(is.null(VERT)) {
-    VERT <- fbTools::getVertices(PLAN)
+    VERT <- getVertices(PLAN)
   }
   PLAN <- .ctrlTimestamp(PLAN)
   VERT <- .ctrlTimestamp(VERT)
@@ -43,7 +43,8 @@ clusterTypicalDaysForOneClass <- function(dates,
 
   distMat <- dt_dist[, list(dist = sum(dist)), by = c("Date1", "Date2")]
   distMat <- dcast(distMat, Date1~Date2, value.var = "dist")
-  distMat[, Date1 := NULL]
+  # distMat[, Date1 := NULL]
+  distMat[['Date1']] <- NULL
   distMat <- as.matrix(distMat)
   rownames(distMat) <- colnames(distMat)
   diag(distMat) <- 0
