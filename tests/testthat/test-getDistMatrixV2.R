@@ -4,12 +4,12 @@ test_that(".getDistMatrixV2", {
   library(data.table)
   library(quadprog)
 
-  # pl_vert <- readRDS(system.file("testdata/pl_vert_test.rds", package = "fbClust"))
-  PL_VE <- readRDS(system.file("testdata/plan_not_wanted_ptdf.rds", package = "fbClust"))
-  # VERT <- pl_vert[[2]]
-  # PLAN <- pl_vert[[1]]
-  VERT <- PL_VE[[2]]
-  PLAN <- PL_VE[[1]]
+  pl_vert <- readRDS(system.file("testdata/pl_vert_test.rds", package = "fbClust"))
+  # PL_VE <- readRDS(system.file("testdata/plan_not_wanted_ptdf.rds", package = "fbClust"))
+  VERT <- pl_vert[[2]]
+  PLAN <- pl_vert[[1]]
+  # VERT <- PL_VE[[2]]
+  # PLAN <- PL_VE[[1]]
   VERT <- setDT(VERT)
   PLAN <- setDT(PLAN)
   
