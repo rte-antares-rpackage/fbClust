@@ -10,10 +10,10 @@ test_that(".crtOutFile", {
   expect_true(grepl(Sys.Date(), res$outputFile) &
                 res$step == 10)
 
-  # reportPath_failed <- "here"
-  # expect_error(.crtOutFile(dt_test, reportPath = reportPath_failed),
-  #              regexp = paste("The directory", reportPath_failed, "does not exist"),
-  #              fixed = T)
+  reportPath_failed <- "here"
+  expect_error(.crtOutFile(dt_test, reportPath = reportPath_failed),
+               regexp = paste("The directory", reportPath_failed, "does not exist"),
+               fixed = T)
 
 })
 
