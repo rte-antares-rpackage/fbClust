@@ -17,8 +17,7 @@ Imports:
   vertexenum,
   quadprog,
   timeDate,
-  cluster,
-  fbTools
+  cluster
 RoxygenNote: 6.1.1
 Suggests: testthat,
     covr
