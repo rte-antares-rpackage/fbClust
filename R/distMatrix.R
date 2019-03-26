@@ -49,8 +49,10 @@
       d <- weigthPond * d
       print(data.table(Date1 = c(date_1, date_2),
                        Date2 = c(date_2, date_1), Period = h, dist = d))
-      data.table(Date1 = c(date_1, date_2),
+      data <- data.table(Date1 = c(date_1, date_2),
                  Date2 = c(date_2, date_1), Period = h, dist = d)
+      print("hello")
+      data
     }, simplify = FALSE))
     
   }, simplify = FALSE))
