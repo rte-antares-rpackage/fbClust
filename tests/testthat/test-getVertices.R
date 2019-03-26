@@ -9,8 +9,9 @@ test_that("getVertices", {
   VERT <- getVertices(PLAN)
   expect_true(all(colnames(VERT) == c("ptdfAT", "ptdfBE", "ptdfDE", "ptdfFR", "timestamp")))
   expect_true(nrow(VERT) == 3110)
-
-
+  VERT2 <- getVertices(PLAN, ctrdel = "BE")
+  expect_true(all(colnames(VERT2) == c("ptdfAT", "ptdfDE", "ptdfFR", "timestamp")))
+  expect_true(nrow(VERT2) == 620)
 })
 
 
