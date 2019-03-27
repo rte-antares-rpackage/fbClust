@@ -3,7 +3,6 @@ context("Function clusterTypicalDaysForOneClass")
 test_that("clusterTypicalDaysForOneClass", {
   library(data.table)
   library(quadprog)
-  library(fbTools)
 
   PL_VE <- readRDS(system.file("testdata/plan_not_wanted_ptdf.rds", package = "fbClust"))
   PLAN <- PL_VE[[1]]
