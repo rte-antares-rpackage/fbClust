@@ -1,3 +1,5 @@
+#' @import data.table
+
 clusterTypicalDaysForOneClass <- function(dates,
                                           PLAN,
                                           VERT = NULL,
