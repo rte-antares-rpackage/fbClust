@@ -19,7 +19,7 @@ test_that("clusterTypicalDaysForOneClass", {
 
   # maxDomainSize2 <- 2000
   #
-  # expect_true(nrow(allTypDays) == nbcluster)
+  expect_true(nrow(allTypDays) == nbcluster)
   #
   # expect_error(clusterTypicalDaysForOneClass(
   #   dates = dates, PLAN = PLAN, VERT = NULL,
