@@ -42,6 +42,7 @@ clusterTypicalDaysForOneClass <- function(dates,
   .ctrlVertPlanFormat(VERT = VERT, PLAN = PLAN)
 
   dt_dist <- .getDistMatrixV2(VERT = VERT, PLAN = PLAN, hourWeight = hourWeight)
+  print(dt_dist)
   print("distMat data.table is computed")
   distMat <- dt_dist[, list(dist = sum(dist)), by = c("Date1", "Date2")]
   distMat <- dcast(distMat, Date1~Date2, value.var = "dist")
