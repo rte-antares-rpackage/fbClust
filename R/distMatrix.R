@@ -1,4 +1,5 @@
-
+#' @import data.table
+#' 
 ######### Création data.table avec toutes les distances résultantes #####
 
 
