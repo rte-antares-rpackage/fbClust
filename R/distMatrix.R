@@ -66,5 +66,7 @@
     data
   }, simplify = FALSE))
   print("dist matrix last rbind done")
+  setDT(data)
+  print(data)
   return(data)
 }
