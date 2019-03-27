@@ -31,7 +31,7 @@
     
     ##To sapply
     # h <- v_hours[1]
-    rbindlist(sapply(v_hours, function(h){
+    data <- rbindlist(sapply(v_hours, function(h){
       print(h)
       # print(paste("begin", date_1, date_2, Sys.time()))
       
@@ -61,6 +61,10 @@
       setDT(data)
       data
     }, simplify = FALSE))
-    
+    setDT(data)
+    print("dist matrix first rbind done")
+    data
   }, simplify = FALSE))
+  print("dist matrix last rbind done")
+  data
 }
