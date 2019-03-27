@@ -42,8 +42,6 @@ clusterTypicalDaysForOneClass <- function(dates,
   .ctrlVertPlanFormat(VERT = VERT, PLAN = PLAN)
 
   dt_dist <- .getDistMatrixV2(VERT = VERT, PLAN = PLAN, hourWeight = hourWeight)
-  print(dt_dist)
-  print("distMat data.table is computed")
   distMat <- dt_dist[, list(dist = sum(dist)), by = c("Date1", "Date2")]
   distMat <- dcast(distMat, Date1~Date2, value.var = "dist")
   # distMat[, Date1 := NULL]
@@ -51,48 +49,40 @@ clusterTypicalDaysForOneClass <- function(dates,
   distMat <- as.matrix(distMat)
   rownames(distMat) <- colnames(distMat)
   diag(distMat) <- 0
-  print("distMat matrix is computed")
   set.seed(123456)
   vect <- cluster::pam(distMat, nbCluster, diss = TRUE)$clustering
   # setTxtProgressBar(pb, 1)
-  print("clustering is going well")
   if(is.null(className)){
     className <- as.character("Class")
   }
-  print("now a rbindlist")
 
   allTypDay <- rbindlist(sapply(1:nbCluster, function(X){
     # Found a representative day for each class
-    print("go")
     data <- .getDataAndMakeOutput(X, vect, distMat, className)
-    print("one iteration")
     data
   }, simplify = FALSE))
-  print("rbind done")
 
   allTypDay <- .addVerticesAndPlansToTp(allTypDay, VERT, PLAN)
-  print("vertices added")
 
   nb <- id_start:(id_start+nrow(allTypDay)-1)
   allTypDay$idDayType <- nb
   print(allTypDay)
 
-  if(report){
-    cat("\n")
-    cat("Writing report(s)\n")
-    # pb <- txtProgressBar(style = 3)
-    # setTxtProgressBar(pb, 0)
-    outL <- .crtOutFile(allTypDay, reportPath)
-
-    sapply(allTypDay$idDayType, function(X){
-      setTxtProgressBar(pb, getTxtProgressBar(pb) + 1/(outL$step + 1))
-      generateClusteringReport(X, data = allTypDay, outputFile = outL$outputFile)
-    })
-
-    saveRDS(allTypDay, paste0(outL$outputFile, "/resultClust.RDS"))
-    # setTxtProgressBar(pb, 1)
-  }
-  print("cool")
+  # if(report){
+  #   cat("\n")
+  #   cat("Writing report(s)\n")
+  #   # pb <- txtProgressBar(style = 3)
+  #   # setTxtProgressBar(pb, 0)
+  #   outL <- .crtOutFile(allTypDay, reportPath)
+  # 
+  #   sapply(allTypDay$idDayType, function(X){
+  #     setTxtProgressBar(pb, getTxtProgressBar(pb) + 1/(outL$step + 1))
+  #     generateClusteringReport(X, data = allTypDay, outputFile = outL$outputFile)
+  #   })
+  # 
+  #   saveRDS(allTypDay, paste0(outL$outputFile, "/resultClust.RDS"))
+  #   # setTxtProgressBar(pb, 1)
+  # }
 
   allTypDay
 }

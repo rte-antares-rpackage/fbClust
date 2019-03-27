@@ -31,7 +31,7 @@
     
     ##To sapply
     # h <- v_hours[1]
-    data <- rbindlist(sapply(v_hours, function(h){
+    rbindlist(sapply(v_hours, function(h){
       print(h)
       # print(paste("begin", date_1, date_2, Sys.time()))
       
@@ -53,20 +53,11 @@
       d <- weigthPond * d
       print(data.table(Date1 = c(date_1, date_2),
                        Date2 = c(date_2, date_1), Period = h, dist = d))
-      data <- data.table(Date1 = c(date_1, date_2),
+      data.table(Date1 = c(date_1, date_2),
                  Date2 = c(date_2, date_1), Period = h, dist = d)
-      print("hello")
-      print(data)
-      print(class(data))
-      setDT(data)
-      data
+
     }, simplify = FALSE))
-    setDT(data)
-    print("dist matrix first rbind done")
-    data
+    
   }, simplify = FALSE))
-  print("dist matrix last rbind done")
-  setDT(data)
-  print(data)
-  return(data)
+  
 }
