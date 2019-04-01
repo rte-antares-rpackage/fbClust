@@ -10,7 +10,6 @@ test_that(".ctrlFile", {
   expect_error(.ctrlFile(
     path_file = system.file("testdata/test.txt")), fixed = T,
     regexp = "Your input data must be a rds or a csv")
-    expect_true(class(f3) == "list")
     expect_true(all(class(f1) == c("data.table", "data.frame")))
 })
   

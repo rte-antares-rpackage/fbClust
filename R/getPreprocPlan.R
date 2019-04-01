@@ -8,10 +8,8 @@ getPreprocPlan <- function(
                      "ptdfHU", "ptdfNL", "ptdfPL", "ptdfRO", "ptdfSI", "ptdfSK",
                      "Core"))
   
-  dtPtdfMatrixFactor <- .ctrlFile(
-    path_data = path_data, path_file = path_ptdf_matrix_factor)
-  dtPtdfMatrixConstraint <- .ctrlFile(
-    path_data = path_data, path_file = path_ptdf_matrix_constraint)
+  dtPtdfMatrixFactor <- .ctrlFile(path_file = path_ptdf_matrix_factor)
+  dtPtdfMatrixConstraint <- .ctrlFile(path_file = path_ptdf_matrix_constraint)
   
   list_ptdf <- .ctrlPtdfMatrixFactorConstraint(
     dtPtdfMatrixFactor, dtPtdfMatrixConstraint, dtPtdfId)
