@@ -113,7 +113,7 @@
   col_plan <- colnames(PLAN)
   col_vert <- colnames(VERT)
   col_ptdf_plan <- col_plan[grep("^ptdf[A-Z]{2}$", col_plan)]
-  col_ptdf_vert <- col_plan[grep("^ptdf[A-Z]{2}$", col_vert)]
+  col_ptdf_vert <- col_vert[grep("^ptdf[A-Z]{2}$", col_vert)]
   if(length(col_ptdf_plan) == 0 | length(col_ptdf_vert) == 0) {
     stop("VERT & PLAN must have ptdf colnames in the form ptdfXX (ex : ptdfFR)")
   }

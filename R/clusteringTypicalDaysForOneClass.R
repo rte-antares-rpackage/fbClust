@@ -14,14 +14,15 @@ clusterTypicalDaysForOneClass <- function(dates,
   # pb <- txtProgressBar(style = 3)
   # setTxtProgressBar(pb, 0)
 
+  # browser()
   if(is.null(VERT)) {
     VERT <- getVertices(PLAN)
   }
-  PLAN <- .ctrlTimestamp(PLAN)
-  VERT <- .ctrlTimestamp(VERT)
-
-  PLAN <- .transformTS(PLAN)
-  VERT <- .transformTS(VERT)
+  # PLAN <- .ctrlTimestamp(PLAN)
+  # VERT <- .ctrlTimestamp(VERT)
+  # 
+  # PLAN <- .transformTS(PLAN)
+  # VERT <- .transformTS(VERT)
   col_ptdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
   Max <- VERT[,max(unlist(.SD)), by = c("Date", "Period"), .SDcols = col_ptdf]
   Max[, isSupLim := V1 > maxDomainSize]

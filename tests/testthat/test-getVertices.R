@@ -3,15 +3,16 @@ context("Function getVertices")
 test_that("getVertices", {
   library(data.table)
   
-  PL_VE <- readRDS(system.file("testdata/plan_not_wanted_ptdf.rds", package = "fbClust"))
-  PLAN <- PL_VE[[1]]
-  
+  PLAN <- readRDS(system.file("testdata/plan_new_format_apres_not_wanted_ptdf.rds", package = "fbClust"))
+
   VERT <- getVertices(PLAN)
-  expect_true(all(colnames(VERT) == c("ptdfAT", "ptdfBE", "ptdfDE", "ptdfFR", "timestamp")))
-  expect_true(nrow(VERT) == 3110)
+  expect_true(all(colnames(VERT) %in% c("ptdfAT", "ptdfBE", "ptdfDE", "ptdfFR", "Date", "Period")) &
+                ncol(VERT) == 6)
+  expect_true(nrow(VERT) == 5278)
   VERT2 <- getVertices(PLAN, ctrdel = "BE")
-  expect_true(all(colnames(VERT2) == c("ptdfAT", "ptdfDE", "ptdfFR", "timestamp")))
-  expect_true(nrow(VERT2) == 620)
+  expect_true(all(colnames(VERT2) %in% c("ptdfAT", "ptdfDE", "ptdfFR", "Date", "Period")) &
+                ncol(VERT2) == 5)
+  expect_true(nrow(VERT2) == 774)
 })
 
 

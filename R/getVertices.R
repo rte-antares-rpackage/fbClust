@@ -12,7 +12,7 @@
 #' @export
 getVertices <- function(PTDF,  ctrdel = NULL){
   PTDF <- data.table(PTDF)
-  
+  PTDF$timestamp <- paste(PTDF$Date, PTDF$Period, sep = "-")
   DDout <- sapply(unique(PTDF$timestamp), function(X){
     DD <- .foundVertices(PTDF[timestamp == X], ctrdel = ctrdel)
     DD$timestamp <- X
@@ -20,6 +20,10 @@ getVertices <- function(PTDF,  ctrdel = NULL){
   }, simplify = FALSE)
   end <- rbindlist(DDout)
   
+  end$Date <- substr(end$timestamp, 1, 10)
+  end$Period <- substr(end$timestamp, 12, 12)
+  PTDF$timestamp <- NULL
+  end$timestamp <- NULL
   end
 }
 

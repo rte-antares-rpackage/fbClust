@@ -4,14 +4,13 @@ test_that("clusterTypicalDaysForOneClass", {
   library(data.table)
   library(quadprog)
 
-  PL_VE <- readRDS(system.file("testdata/plan_not_wanted_ptdf.rds", package = "fbClust"))
-  PLAN <- PL_VE[[1]]
-  VERT <- PL_VE[[2]]
-  dates <- seq(as.Date("2019-02-14"), as.Date("2019-02-17"), by = "day")
+  PLAN <- readRDS(system.file("testdata/plan_new_format_apres_not_wanted_ptdf.rds", 
+                              package = "fbClust"))
+  dates <- seq(as.Date("2018-10-02"), as.Date("2018-10-04"), by = "day")
   nbcluster <- 2
   maxDomainSize <- 20000
   allTypDays <- clusterTypicalDaysForOneClass(
-    dates = dates, PLAN = PLAN, VERT = VERT,
+    dates = dates, PLAN = PLAN, VERT = NULL,
     maxDomainSize = maxDomainSize, nbCluster = nbcluster,
     report = F, hourWeight = rep(1, 24), className = NULL,
     reportPath = NULL, id_start = 1)

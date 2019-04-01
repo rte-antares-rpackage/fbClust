@@ -5,6 +5,7 @@
 
 .getDistMatrixV2 <- function(
   VERT, PLAN, hourWeight){
+  # browser()
   set.seed(1234)
   PLAN[['ram']] <- PLAN[['ram']] + runif(nrow(PLAN))/10000
   # PLAN[, ram := ram + runif(nrow(PLAN))/10000]
@@ -17,7 +18,7 @@
   colnames(res_hour) <- c("V1", "V2")
   print(res_hour)
   data <- rbindlist(sapply(1:nrow(res_hour), function(comb){
-    
+    # browser()
     ##To sapply
     # date_1 <- as.character(res_hour[comb, .SD, .SDcols = "V1"])
     # date_2 <- as.character(res_hour[comb, .SD, .SDcols = "V2"])
@@ -32,6 +33,7 @@
     ##To sapply
     # h <- v_hours[1]
     rbindlist(sapply(v_hours, function(h){
+      # browser()
       print(h)
       # print(paste("begin", date_1, date_2, Sys.time()))
       
@@ -49,7 +51,7 @@
       # print(paste("end", date_2, date_1, Sys.time()))
       d <- DD + DD2
       print("it's ending")
-      weigthPond <- hourWeight[h]
+      weigthPond <- hourWeight[as.numeric(h)]
       d <- weigthPond * d
       print(data.table(Date1 = c(date_1, date_2),
                        Date2 = c(date_2, date_1), Period = h, dist = d))
