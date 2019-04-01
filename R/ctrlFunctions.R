@@ -1,3 +1,67 @@
+.ctrlFile <- function(path_data = NULL, path_file) {
+  if (is.null(path_data)) {
+    sep <- ""
+  } else {
+    sep <- "/"
+  }
+  if (grepl(pattern = "\\.csv$|\\.CSV$", x = path_file)) {
+    data <- fread(paste(
+      path_data, path_file, sep = sep))
+  } else if (grepl(pattern = "\\.rds$|\\.RDS$", x =path_file)) {
+    data <- readRDS(
+      paste(path_data, path_file, sep =sep))
+  } else {
+    stop("Your input data must be a rds or a csv")
+  }
+  data
+}
+
+.ctrlPtdfMatrixFactor_Constraint <- function(
+  dtPtdfMatrixFactor, dtPtdfMatrixConstraint, dtPtdfId) {
+  
+  if (!all(colnames(dtPtdfMatrixFactor) %in% c(
+    "SESSION_ID", "MATRIX_ID", "ROW_ID", "BIDDINGAREA_ID", "FACTOR")) |
+    ncol(dtPtdfMatrixFactor) != 5) {
+    stop(paste("You must have five colnames in PtdfMatrixFactor and these colnames should be",
+               "SESSION_ID, MATRIX_ID, ROW_ID, BIDDINGAREA_ID, FACTOR"))
+  }
+  
+  if (!all(colnames(dtPtdfMatrixConstraint) %in% c(
+    "SESSION_ID", "MATRIX_ID", "ROW_ID", "REMAININGAVAILABLEMARGIN")) |
+    ncol(dtPtdfMatrixConstraint) != 4) {
+    stop(paste("You must have four colnames in PtdfMatrixFactor and these colnames should be",
+               "SESSION_ID, MATRIX_ID, ROW_ID, REMAININGAVAILABLEMARGIN"))
+  }
+  lev <- levels(as.factor(dtPtdfMatrixFactor[["BIDDINGAREA_ID"]]))
+  if (!all(lev %in% 
+           dtPtdfId[["ptdf_id"]])) {
+    stop(paste("Your ptdf id in the column BIDDINGAREA_ID must be in",
+               dtPtdfId[["ptdf_id"]]))
+  }
+  if (nrow(dtPtdfMatrixFactor[FACTOR < -1 |
+                              FACTOR > 1]) > 0) {
+    stop("Your ptdf values must be between -1 and 1")
+  }
+  if(nrow(dtPtdfMatrixFactor[MATRIX_ID < 1 | MATRIX_ID > 24]) > 0 |
+     nrow(dtPtdfMatrixConstraint[MATRIX_ID < 1 | MATRIX_ID > 24]) > 0) {
+    warning("You have Period > 24 or < 1, the lines concerned will be deleted")
+    dtPtdfMatrixFactor <- dtPtdfMatrixFactor[MATRIX_ID > 0 & MATRIX_ID < 25]
+    dtPtdfMatrixConstraint <- dtPtdfMatrixConstraint[MATRIX_ID > 0 & MATRIX_ID < 25]
+  }
+  
+  return(list(dtPtdfMatrixConstraint = dtPtdfMatrixConstraint, 
+              dtPtdfMatrixFactor = dtPtdfMatrixFactor))
+}
+
+
+.crtlNA <- function(data) {
+  sapply(colnames(data), function(col) {
+    if (any(is.na(data[[col]]))) {
+      warning(paste("You have na in the column named", col, "be carefull with that"))
+    }
+  })
+}
+
 .ctrlDates <- function(dates, dayInVertices){
   if(!any(dates%in%dayInVertices)){
     stop("One(some) season(s) are not in vertices data.")
@@ -98,20 +162,20 @@
   for(i in 1:nrow(allTypDay)){
     allTypDay$dayIn[[i]] <- rbindlist(
       sapply(1:nrow(allTypDay$dayIn[[i]]), function(X){
-      date <- allTypDay$dayIn[[i]][X, Date]
-      period <- allTypDay$dayIn[[i]][X, Period]
-
-      if (nrow(VERT[Date == date & Period == period]) > 0 &
-          nrow(PLAN[Date == date & Period == period]) > 0) {
-        data.table(Date = date, Period = period, VERT_details = list(VERT[
-          Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf)]), 
-          PLAN_details = list(PLAN[
-            Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf)
-            ]))
-      } else {
-        data.table()
-      }
-    }))
+        date <- allTypDay$dayIn[[i]][X, Date]
+        period <- allTypDay$dayIn[[i]][X, Period]
+        
+        if (nrow(VERT[Date == date & Period == period]) > 0 &
+            nrow(PLAN[Date == date & Period == period]) > 0) {
+          data.table(Date = date, Period = period, VERT_details = list(VERT[
+            Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf)]), 
+            PLAN_details = list(PLAN[
+              Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf)
+              ]))
+        } else {
+          data.table()
+        }
+      }))
   }
   allTypDay
 }
