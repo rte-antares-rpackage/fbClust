@@ -16,7 +16,7 @@
   data
 }
 
-.ctrlPtdfMatrixFactor_Constraint <- function(
+.ctrlPtdfMatrixFactorConstraint <- function(
   dtPtdfMatrixFactor, dtPtdfMatrixConstraint, dtPtdfId) {
   
   if (!all(colnames(dtPtdfMatrixFactor) %in% c(
@@ -35,7 +35,7 @@
   lev <- levels(as.factor(dtPtdfMatrixFactor[["BIDDINGAREA_ID"]]))
   if (!all(lev %in% 
            dtPtdfId[["ptdf_id"]])) {
-    stop(paste("Your ptdf id in the column BIDDINGAREA_ID must be in",
+    stop(cat("Your ptdf id in the column BIDDINGAREA_ID must be in",
                dtPtdfId[["ptdf_id"]]))
   }
   if (nrow(dtPtdfMatrixFactor[FACTOR < -1 |

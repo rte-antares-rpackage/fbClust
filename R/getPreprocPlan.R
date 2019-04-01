@@ -13,7 +13,7 @@ getPreprocPlan <- function(
   dtPtdfMatrixConstraint <- .ctrlFile(
     path_data = path_data, path_file = path_ptdf_matrix_constraint)
   
-  list_ptdf <- .ctrlPtdfMatrixFactor_Constraint(
+  list_ptdf <- .ctrlPtdfMatrixFactorConstraint(
     dtPtdfMatrixFactor, dtPtdfMatrixConstraint, dtPtdfId)
   dtPtdfMatrixFactor <- list_ptdf$dtPtdfMatrixFactor
   dtPtdfMatrixConstraint <- list_ptdf$dtPtdfMatrixConstraint
