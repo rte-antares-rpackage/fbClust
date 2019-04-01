@@ -1,15 +1,17 @@
-.ctrlFile <- function(path_data = NULL, path_file) {
-  if (is.null(path_data)) {
-    sep <- ""
-  } else {
-    sep <- "/"
-  }
+.ctrlFile <- function(path_file) {
+  # if (is.null(path_data)) {
+  #   sep <- ""
+  # } else {
+  #   sep <- "/"
+  # }
   if (grepl(pattern = "\\.csv$|\\.CSV$", x = path_file)) {
-    data <- fread(paste(
-      path_data, path_file, sep = sep))
+    # data <- fread(paste(
+    #   path_data, path_file, sep = sep))
+    data <- fread(path_file)
   } else if (grepl(pattern = "\\.rds$|\\.RDS$", x =path_file)) {
-    data <- readRDS(
-      paste(path_data, path_file, sep =sep))
+    # data <- readRDS(
+    #   paste(path_data, path_file, sep =sep))
+    data <- readRDS(path_file)
   } else {
     stop("Your input data must be a rds or a csv")
   }
