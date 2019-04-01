@@ -51,6 +51,11 @@
     dtPtdfMatrixConstraint <- dtPtdfMatrixConstraint[MATRIX_ID > 0 & MATRIX_ID < 25]
   }
   
+  if(any(nchar(dtPtdfMatrixFactor[["SESSION_ID"]]) != "8") |
+     any(nchar(dtPtdfMatrixConstraint[["SESSION_ID"]]) != "8")) {
+    stop("The column SESSION_ID has to be in format YYYYMMDD before the pre-processing")
+  }
+  
   return(list(dtPtdfMatrixConstraint = dtPtdfMatrixConstraint, 
               dtPtdfMatrixFactor = dtPtdfMatrixFactor))
 }

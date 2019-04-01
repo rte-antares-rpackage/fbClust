@@ -26,6 +26,8 @@ test_that(".ctrlPtdfMatrixFactorConstraint", {
   ptdfFactor5 <- copy(ptdfFactor)
   ptdfFactor5 <- rbindlist(list(ptdfFactor5, data.table("20180104", "1", 25, 20, 0.06728)))
   
+  ptdfFactor6 <- copy(ptdfFactor)
+  ptdfFactor6[18, SESSION_ID := 9839]
   res_list <- .ctrlPtdfMatrixFactorConstraint(ptdfFactor, ptdfConstraint, dtPtdfId)
   
   expect_error(
@@ -51,7 +53,13 @@ test_that(".ctrlPtdfMatrixFactorConstraint", {
     .ctrlPtdfMatrixFactorConstraint(ptdfFactor5, ptdfConstraint, dtPtdfId), fixed = T,
     regexp = "You have Period > 24 or < 1, the lines concerned will be deleted")
   
+  expect_error(
+    .ctrlPtdfMatrixFactorConstraint(ptdfFactor6, ptdfConstraint, dtPtdfId), fixed = T,
+    regexp = "The column SESSION_ID has to be in format YYYYMMDD before the pre-processing")
+  
   expect_true(all(res_list$dtPtdfMatrixConstraint == ptdfConstraint))
   expect_true(all(res_list$dtPtdfMatrixFactor == ptdfFactor))
+  
+  
 })
 

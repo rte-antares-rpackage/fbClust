@@ -1,7 +1,7 @@
-library(data.table)
 getPreprocPlan <- function(
-  path_data = NULL, path_ptdf_matrix_factor = "PtdfMatrixFactors.csv", 
+  path_ptdf_matrix_factor = "PtdfMatrixFactors.csv", 
   path_ptdf_matrix_constraint = "PtdfMatrixConstraints.csv") {
+  
   dtPtdfId <- data.table(
     ptdf_id = c(23, 90, 95, 22, 20, 59, 97, 92, 41, 98, 83, 96, 99),
     ptdf_country = c("ptdfAT", "ptdfBE", "ptdfCZ", "ptdfDE", "ptdfFR", "ptdfHR",
@@ -29,6 +29,9 @@ getPreprocPlan <- function(
                               "REMAININGAVAILABLEMARGIN", "SESSION_ID", "MATRIX_ID"),
            new = c(dtPtdfId[ptdf_id %in% old_col, ptdf_country], "ram",
                    "Date", "Period"))
+  dtAllPtdf[, Date := paste(
+    substr(Date, 1, 4), substr(Date, 5, 6), substr(Date, 7, 8), sep = "-")]
   dtAllPtdf
   
 }
+
