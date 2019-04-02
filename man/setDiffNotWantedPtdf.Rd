@@ -2,15 +2,16 @@
 % Please edit documentation in R/setDiffNotWantedPtdf.R
 \name{setDiffNotWantedPtdf}
 \alias{setDiffNotWantedPtdf}
-\title{Compute differance for remove contry}
+\title{Compute facets equations}
 \usage{
 setDiffNotWantedPtdf(PLAN, not_wanted_col = NULL)
 }
 \arguments{
 \item{PLAN}{{data.table}}
 
-\item{not_wanted_col}{{character}}
+\item{not_wanted_col}{{character}, if NULL it takes the last ptdf. This paramater
+has to be in the form ptdfXX (where XX is FR, DE, BE or NL for example).}
 }
 \description{
-Remove country in not_wanted_col
+Subtract one ptdf to the others and remove it to compute facets equations
 }

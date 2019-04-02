@@ -1,17 +1,37 @@
-#' vertices from PTDF data
+#' @title Give the vertices from PTDF data
+#' 
+#' @description This function generates the vertices of the polyhedra from the facets
+#' equation. It can only be computed after using \link{setDiffNotWantedPtdf} which
+#' itself compute the plans equations.
+#' Otherwise, it will crash because the ptdf won't correspond to facets equations.
 #'
-#' @param PTDF {data.frame | data.table}
-#' @param ctrdel {character} name of country deleted
-#'
+#' @param PTDF {data.frame | data.table} PLAN, at least Date, Period and two ptdf columns :
+#' 
+#' \itemize{
+#'  \item ptdfAT : autrichian vertices
+#'  \item ptdfBE : belgium vertices
+#'  \item ptdfDE : german vertices
+#'  \item ptdfFR : french vertices
+#'  \item ram : line limits
+#'  \item Date : date in format YYYY-MM-DD
+#'  \item Period : hour in the day, between 1 and 24
+#' }
+#' @param ctrdel {character} name of country deleted (two maj letters,
+#' ex : FR for France or NL for Nederlands), can be NULL
+
 #'
 #' @examples
 #' \dontrun{
-#'   PTDFv <- getVertices(PTDF, "NL")
+#' PLAN <- readRDS(system.file("testdata/plan_test.rds", package = "fbClust"))
+#' 
+#' VERT <- getVertices(PLAN)
 #' }
 #' @import vertexenum
+#' @import data.table
 #' @export
 getVertices <- function(PTDF,  ctrdel = NULL){
   PTDF <- data.table(PTDF)
+  # browser()
   PTDF$timestamp <- paste(PTDF$Date, PTDF$Period, sep = "-")
   DDout <- sapply(unique(PTDF$timestamp), function(X){
     DD <- .foundVertices(PTDF[timestamp == X], ctrdel = ctrdel)
@@ -29,11 +49,10 @@ getVertices <- function(PTDF,  ctrdel = NULL){
 
 
 .foundVertices <- function(PTDF, ctrdel = NULL){
-  
+  # browser()
   ctry <- names(PTDF)[grep("ptdf", names(PTDF))]
   if(!is.null(ctrdel))
   {
-    
     
     ctrdel <- paste0("ptdf", ctrdel)
     ctrnodel <- ctry[ctry!=ctrdel]
@@ -44,7 +63,8 @@ getVertices <- function(PTDF,  ctrdel = NULL){
   }else{
     ctrnodel = ctry
   }
-  vertices <- vertexenum::enumerate.vertices(as.matrix(PTDF[,.SD, .SDcols = ctrnodel]), PTDF$ram)
+  vertices <- vertexenum::enumerate.vertices(
+    as.matrix(PTDF[,.SD, .SDcols = ctrnodel]), PTDF$ram)
   vertices <- data.table(vertices)
   names(vertices) <- ctrnodel
   vertices

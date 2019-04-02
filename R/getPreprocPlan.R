@@ -1,3 +1,45 @@
+#' @title Generate a data.table with the ptdf
+#'
+#' @description With links to the files PtdfMatrixFactors and PtdfMatrixConstraints,
+#' this function computes a data.table containing all columns needed to keep going
+#' on the procedure to get the distances between polyhedra.
+#' 
+#' @param path_ptdf_matrix_factor path of the file containing the ptdf of the
+#' flowbased structure
+#' \itemize{
+#'  \item SESSION_ID : The Date, in numeric format : YYYYMMDD
+#'  \item MATRIX_ID : The Period (hour in the day), between 1 and 24
+#'  \item ROW_ID : The id of the row
+#'  \item REMAININGAVAILABLEMARGIN : The constraint (or ram)
+#' }
+#' 
+#' @param path_ptdf_matrix_constraint path of the file containing the constraints of 
+#' the flowbased structure (the ram). Its columns have to be :
+#' \itemize{
+#'  \item SESSION_ID : The Date, in numeric format : YYYYMMDD
+#'  \item MATRIX_ID : The Period (hour in the day), between 1 and 24
+#'  \item ROW_ID : The id of the row
+#'  \item BIDDINGAREA_ID : The id of the hub, we must have at least two different
+#'  and they have to be in this selection: (23, 90, 95, 22, 20, 59, 97, 92, 41, 98, 83, 96, 99)
+#'  \item FACTOR : The values of the ptdf by hub
+#' }
+#'
+#' @examples
+#' 
+#' \dontrun{
+#' library(data.table)
+#' path_ptdf_matrix_factor = system.file(
+#' "testdata/plan_new_version_factor_AT.rds", package = "fbClust")
+#' path_ptdf_matrix_constraint = system.file(
+#' "testdata/plan_new_version_constraint_AT.rds", package = "fbClust")
+#' 
+#'  PLAN <- getPreprocPlan(path_ptdf_matrix_factor = path_ptdf_matrix_factor,
+#'  path_ptdf_matrix_constraint =  path_ptdf_matrix_constraint)
+#' }
+#' 
+#' @import data.table
+#' @export
+
 getPreprocPlan <- function(
   path_ptdf_matrix_factor = "PtdfMatrixFactors.csv", 
   path_ptdf_matrix_constraint = "PtdfMatrixConstraints.csv") {

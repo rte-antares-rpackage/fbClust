@@ -1,11 +1,15 @@
-#' Compute differance for remove contry
+#' @title Compute facets equations
 #' 
-#' @description Remove country in not_wanted_col
+#' @description Subtract one ptdf to the others and remove it to compute facets equations
 #' 
 #' @param PLAN {data.table}
-#' @param not_wanted_col {character}
+#' @param not_wanted_col {character}, if NULL it takes the last ptdf. This paramater
+#' has to be in the form ptdfXX (where XX is FR, DE, BE or NL for example).
 #' 
 #' @import data.table
+#' 
+#' @export
+
 setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
 {
   # PLAN2 <- copy(PLAN)
@@ -18,37 +22,11 @@ setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
   for(i in col_ptdf){
     PLAN[[i]] <- PLAN[[i]] - PLAN[[not_wanted_col]]
   }
-  # PLAN[[col_ptdf]] <- sapply(col_ptdf, function(ptdf) {
-  #  
-  # })
-  # PLAN2[, c(col_ptdf) := lapply(col_ptdf, function(ptdf) {
-  #   PLAN2[[ptdf]] - PLAN2[[not_wanted_col]]
-  # })]
   PLAN[[not_wanted_col]] <- NULL
   return(PLAN)
 }
 
 
-
-######### COmpute the Ax0 matrix ####
-##### matrix needed for the projection & check if interior point #####
-##### The function also return if a point is interior or external
-
-
-# .computeAx0_checkIntExt <- function(VERT, PLAN) {
-#   Ax0_list <- lapply(1:nrow(VERT), function(X) {
-#     V1 <- VERT[X]
-#     Ax0 <- (as.matrix(
-#       PLAN[, .SD, .SDcols = col_ptdf])%*%t(as.matrix(V1[, .SD, .SDcols = col_ptdf])))
-#     if (sum(Ax0 > PLAN[, ram])) {
-#       VERT[X, INTERIOR := F]
-#       NA
-#     } else {
-#       Ax0
-#     }
-#   })
-#   Ax0_list <- Ax0_list[!is.na(Ax0_list)]
-# }
 
 
 

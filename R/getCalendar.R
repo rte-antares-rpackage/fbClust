@@ -1,4 +1,4 @@
-#' Return a vector of consecutive dates
+#' @title Return a vector of consecutive dates
 #'
 #' @param dateBegin \code{character or date}, date, YYYY-MM-DD
 #' @param dateEnd \code{character or date}, date, YYYY-MM-DD
@@ -16,9 +16,9 @@ getSequence <- function(dateBegin, dateEnd){
 }
 
 
-#' Build a calendar
+#' @title Build a calendar
 #' 
-#' Define a calendar, with three different "seasons" (winter, summer and interseason) and two types
+#' @description Define a calendar, with three different "seasons" (winter, summer and interseason) and two types
 #' of days (working days and weekends)
 #'
 #' @param dates \code{character or date}, vector of dates YYYY-MM-DD, can be generate with \link{getSequence}
