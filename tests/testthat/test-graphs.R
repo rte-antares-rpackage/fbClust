@@ -2,7 +2,9 @@ context("graphs functions")
 
 test_that("clusterPlot", {
   library(data.table)
-  library(quadprog)
+  library(rAmCharts)
+  library(ggplot2)
+  
   data <- readRDS(system.file("testdata/allTypeDaytest.rds", package = "fbClust"))
   country1 <- "FR"
   country2 <- "ptdfDE"
