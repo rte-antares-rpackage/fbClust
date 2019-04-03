@@ -6,7 +6,7 @@ test_that("clusterPlot", {
   library(ggplot2)
   
   data <- readRDS(system.file("testdata/allTypeDaytest.rds", package = "fbClust"))
-  country1 <- "FR"
+  country1 <- "NL"
   country2 <- "ptdfDE"
   hour <- 1
   dayType <- 1
@@ -15,8 +15,8 @@ test_that("clusterPlot", {
                      typicalDayOnly = FALSE, ggplot = FALSE, width = "420px", height = "410px")
   expect_true("htmlwidget" %in% class(out))
   
-  out <- clusterPlot(data, country1, country2, hour, dayType,
-                     typicalDayOnly = FALSE, ggplot = TRUE, width = "420px", height = "410px")
+  out <- clusterPlot(data, "ptdfFR", "ptdfNL", hour, dayType,
+                     typicalDayOnly = TRUE, ggplot = TRUE, width = "420px", height = "410px")
   expect_true("ggplot" %in% class(out))
   
   expect_error(clusterPlot(

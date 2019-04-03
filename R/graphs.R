@@ -86,12 +86,12 @@ clusterPlot <- function(data, country1, country2, hour, dayType,
 .getChull <- function(data, country1, country2){
   data <- data.frame(data)
   if(country1 == "ptdfNL"){
-    ptctry <- -rowSums(data)
+    ptctry <- -rowSums(data[grep("ptdf", colnames(data))])
   }else{
     ptctry <- data[[country1]]
   }
   if(country2 == "ptdfNL"){
-    ptctry2 <- -rowSums(data)
+    ptctry2 <- -rowSums(data[grep("ptdf", colnames(data))])
   }else{
     ptctry2 <- data[[country2]]
   }
@@ -112,7 +112,7 @@ clusterPlot <- function(data, country1, country2, hour, dayType,
     dates <- unique(substr(names(data), 1, 10))
   }
   
-  xlim = c(-round(max(data, na.rm = TRUE), -3), round(max(data, na.rm = TRUE), -3))
+  xlim = c(-round(max(data, na.rm = TRUE) + 500, -3), round(max(data, na.rm = TRUE) + 500, -3))
   ylim = xlim
   
   # xlim = c(-10000, 10000)
