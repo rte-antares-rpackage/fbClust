@@ -55,7 +55,7 @@ clusterPlot <- function(data, country1, country2, hour, dayType,
   } else {
     ctry2 <- country2
   }
-  if(country1 == country2) {
+  if(ctry1 == ctry2) {
     stop("The countries should be distinct")
   }
   if (!grepl("^ptdf[A-Z]{2}$", ctry1) |

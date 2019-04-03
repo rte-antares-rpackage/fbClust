@@ -26,8 +26,19 @@ setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
   return(PLAN)
 }
 
+.setDiffNotWantedPtdf2 <- function(PLAN)
+{
+  
+  vec_ptdf1 <- paste0("ptdf", c("BE", "DE", "FR", "AT"))
+  # PLAN2 <- copy(PLAN)
 
-
-
+  for(i in vec_ptdf1){
+    if (i %in% colnames(PLAN)) {
+      PLAN[[i]] <- PLAN[[i]] - PLAN[["ptdfNL"]]
+    }
+  }
+  PLAN[["ptdfNL"]] <- NULL
+  return(PLAN)
+}
 
 

@@ -20,7 +20,7 @@ test_that("clusterPlot", {
   expect_true("ggplot" %in% class(out))
   
   expect_error(clusterPlot(
-    data, country1, country2 = "FR", hour, dayType,
+    data, country1 = "ptdfFR", country2 = "FR", hour, dayType,
     typicalDayOnly = FALSE, ggplot = TRUE, width = "420px", height = "410px"),
     regexp = "The countries should be distinct", fixed = T)
   expect_error(clusterPlot(
