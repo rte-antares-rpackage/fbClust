@@ -14,7 +14,7 @@
 #' @param width \code{character}, for rAmCharts only. Default to "420px" (set to "100/100" for dynamic resize)
 #' @param height \code{character}, for rAmCharts only. Default to "410px" (set to "100/100" for dynamic resize)
 #' 
-#' @import rAmCharts DT backports ggplot2
+#' @import rAmCharts ggplot2
 #'
 #' @examples
 #'
