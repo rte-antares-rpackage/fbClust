@@ -23,7 +23,8 @@ test_that(".ctrlVertPlanFormat", {
                regexp = "VERT & PLAN must have ptdf colnames in the form ptdfXX (ex : ptdfFR)")
   expect_error(.ctrlVertPlanFormat(VERT2, PLAN), fixed = T,
                regexp = cat("PLAN & VERT must have the same ptdf colnames, \n Currently for PLAN:",
-                            col_ptdf_plan, " \n Currently for VECT:", col_ptdf_vert2))
+                            col_ptdf_plan, " \n Currently for VECT:", col_ptdf_vert2)
+               )
 
 })
 

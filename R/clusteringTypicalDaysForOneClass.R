@@ -23,6 +23,9 @@
 #' @param VERT \code{data.table}, the same Date, Period and ptdf than we have
 #' in PLAN. Default = NULL 
 #' This parameter can be obtained with the function \link{getVertices}.
+#' @param country_list \code{list}, list of countries in the ptdf, with the ones which should
+#' sustracted to the others as the names of the arrays which themself contain the ones which
+#' be sustracted
 #' @param nbCluster \code{numeric}, number of clusters
 #' @param className \code{character}, name of the class characterizing the studied time period
 #' @param id_start \code{numeric}, first identifier of the returned typical days. Default value is 1
