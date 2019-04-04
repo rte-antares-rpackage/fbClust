@@ -3,27 +3,30 @@ context("Function .addVerticesAndPlansToTp")
 test_that(".addVerticesAndPlansToTp", {
   library(data.table)
   allTypDay_list <- readRDS(system.file("testdata/allTypDay_testAddToTpDays.rds", package = "fbClust"))
-  allTypDay <- allTypDay_list[[1]]
-  PLAN <- allTypDay_list[[2]]
-  VERT <- allTypDay_list[[3]]
+  allTypDay <- allTypDay_list$allTypeDay
+  PLAN <- allTypDay_list$PLAN
+  VERT <- allTypDay_list$VERT
+  PLAN_raw <- allTypDay_list$PLAN_raw
   
-  res <- .addVerticesAndPlansToTp(allTypDay = allTypDay, VERT = VERT, PLAN = PLAN)
-  res[, .SD, .SDcols = "dayIn"][[1]][[1]][, .SD, .SDcols = "PLAN_details"][[1]]
-  
-  expect_true(all(colnames(res) == c("TypicalDay", "Class", "dayIn", "distance")))
+  res <- .addVerticesAndPlansToTp(allTypDay = allTypDay, VERT = VERT, PLAN = PLAN, PLAN_raw = PLAN_raw)
+
+  expect_true(all(colnames(res) == c("TypicalDay", "Class", "dayIn", "distance", "idDayType")))
   expect_true(all(colnames(res[, .SD, .SDcols = "dayIn"][[1]][[1]]) == c(
-    "Date", "Period", "VERT_details", "PLAN_details")))
+    "Date", "Period", "VERT_details", "PLAN_details", "PLAN_raw_details")))
   expect_true(all(colnames(
     res[, .SD, .SDcols = "dayIn"][[1]][[1]][, .SD, .SDcols = "VERT_details"][[1]][[1]]) == c(
-      "Date", "Period", "ptdfAT", "ptdfBE", "ptdfDE", "ptdfFR")))
+      "Date", "Period", "ptdfFR", "ptdfDE", "ptdfAT", "ptdfBE")))
   expect_true(nrow(
     res[, .SD, .SDcols = "dayIn"][[1]][[1]][, .SD, .SDcols = "VERT_details"][[1]][[2]]) ==
-      1241)
+      1126)
   
   expect_true(all(colnames(
     res[, .SD, .SDcols = "dayIn"][[1]][[1]][, .SD, .SDcols = "PLAN_details"][[1]][[1]]) == c(
-      "Date", "Period", "ptdfAT", "ptdfBE", "ptdfDE", "ptdfFR")))
+      "Date", "Period", "ptdfFR", "ptdfDE", "ptdfAT", "ptdfBE")))
   expect_true(nrow(
     res[, .SD, .SDcols = "dayIn"][[1]][[1]][, .SD, .SDcols = "PLAN_details"][[1]][[2]]) ==
-      241) 
+      205) 
+  expect_true(nrow(
+    res[, .SD, .SDcols = "dayIn"][[1]][[1]][, .SD, .SDcols = "PLAN_raw_details"][[1]][[2]]) ==
+      205) 
 })

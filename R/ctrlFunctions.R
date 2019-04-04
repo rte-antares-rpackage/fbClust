@@ -1,3 +1,18 @@
+.ctrlCountryList <- function(country_list, PLAN) {
+  col_ptdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
+  if (!grepl("ptdf", names(country_list))) {
+  ptdf_country_list <- c(paste0("ptdf", names(country_list)))
+  }
+  ptdf_country_list <- c(ptdf_country_list, sapply(names(country_list), function(X) {
+    sapply(1:length(country_list[[X]]), function(i) {
+      paste0("ptdf", country_list[[X]][i])
+    })
+  }))
+  if (!all(col_ptdf %in% ptdf_country_list)) {
+    stop("country_list does not contain all the ptdf in PLAN")
+  }
+} 
+
 .ctrlFile <- function(path_file) {
   # if (is.null(path_data)) {
   #   sep <- ""
@@ -131,6 +146,7 @@
 
 .getDataAndMakeOutput <- function(X, vect, distMat, className)
 {
+  # browser()
   dateIn <- names(vect[which(vect == X)])
   colSel <- row.names(distMat)%in%dateIn
   
@@ -158,9 +174,11 @@
   }
 }
 
-.addVerticesAndPlansToTp <- function(allTypDay, VERT, PLAN)
+.addVerticesAndPlansToTp <- function(allTypDay, VERT, PLAN, PLAN_raw)
 {
+  # browser()
   col_ptdf <- colnames(VERT)[grep("^ptdf[A-Z]{2}", colnames(VERT))]
+  col_ptdf_raw <- colnames(PLAN_raw)[grep("^ptdf[A-Z]{2}", colnames(PLAN_raw))]
   # col_ptdf_vert <- paste(col_ptdf, "VERT", sep = "_")
   # col_ptdf_plan <- paste(col_ptdf, "PLAN", sep = "_")
   # colnames(VERT)[colnames(VERT) %in% col_ptdf] <- col_ptdf_vert
@@ -178,11 +196,14 @@
             Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf)]), 
             PLAN_details = list(PLAN[
               Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf)
+              ]),
+            PLAN_raw_details = list(PLAN_raw[
+              Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf_raw)
               ]))
         } else {
           data.table()
         }
-      }))
+      }, simplify = FALSE))
   }
   allTypDay
 }

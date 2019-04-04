@@ -5,6 +5,7 @@
 \title{Generate a set of flow-based typical days on one time period}
 \usage{
 clusterTypicalDaysForOneClass(dates, PLAN, VERT = NULL,
+  country_list = list(NL = c("BE", "DE", "FR", "AT")),
   nbCluster = NULL, reportPath = NULL, hourWeight = rep(1, 24),
   className = NULL, report = F, id_start = 1,
   maxDomainSize = 20000)

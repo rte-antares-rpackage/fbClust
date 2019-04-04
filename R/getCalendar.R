@@ -67,7 +67,7 @@ getCalendar <- function(dates,
                                     "DENewYearsEve"),
                         dayInWeekend = c(6, 7)){
   
-  
+  # browser()
   # Get weekend day
   weekendDay <- function(day, dayInWeekend, holiday){
     daywe <- day[ifelse(data.table::wday(day)==1,7,data.table::wday(day)-1)%in%dayInWeekend]
@@ -197,6 +197,7 @@ getCalendar <- function(dates,
     }
   }
   
+  
   Saison <- lapply(allSaison, function(X){
     allDay[X]
   })
@@ -249,4 +250,4 @@ getCalendar <- function(dates,
   
   
   calendarReturn
-  }
+}

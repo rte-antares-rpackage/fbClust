@@ -60,6 +60,7 @@
 clusterTypicalDaysForOneClass <- function(dates,
                                           PLAN,
                                           VERT = NULL,
+                                          country_list = list(NL = c("BE", "DE", "FR", "AT")),
                                           nbCluster = NULL,
                                           reportPath = NULL,
                                           hourWeight = rep(1, 24),
@@ -72,6 +73,9 @@ clusterTypicalDaysForOneClass <- function(dates,
   # setTxtProgressBar(pb, 0)
 
   # browser()
+  PLAN_raw <- copy(PLAN)
+  .ctrlCountryList(country_list = country_list, PLAN = PLAN)
+  PLAN <- .setDiffNotWantedPtdf2(PLAN = PLAN, country_list = country_list)
   if(is.null(VERT)) {
     VERT <- getVertices(PLAN)
   }
@@ -120,7 +124,7 @@ clusterTypicalDaysForOneClass <- function(dates,
     data
   }, simplify = FALSE))
 
-  allTypDay <- .addVerticesAndPlansToTp(allTypDay, VERT, PLAN)
+  allTypDay <- .addVerticesAndPlansToTp(allTypDay, VERT, PLAN, PLAN_raw)
 
   nb <- id_start:(id_start+nrow(allTypDay)-1)
   allTypDay$idDayType <- nb
