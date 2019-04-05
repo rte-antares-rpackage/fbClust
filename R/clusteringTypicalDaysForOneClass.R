@@ -50,6 +50,7 @@
 #' 
 #'  clusterTypicalDaysForOneClass(
 #'  dates = dates, PLAN = PLAN, VERT = NULL, maxDomainSize = maxDomainSize,
+#'  country_list = list(NL = c("BE", "DE", "FR", "AT")),
 #'  nbCluster = nbcluster,report = F, hourWeight = hourWeight, id_start = id_start)
 #' 
 #' }
