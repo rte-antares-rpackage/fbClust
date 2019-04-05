@@ -30,6 +30,10 @@ function \link{setDiffNotWantedPtdf}}
 in PLAN. Default = NULL 
 This parameter can be obtained with the function \link{getVertices}.}
 
+\item{country_list}{\code{list}, list of countries in the ptdf, with the ones which should
+sustracted to the others as the names of the arrays which themself contain the ones which
+be sustracted}
+
 \item{nbCluster}{\code{numeric}, number of clusters}
 
 \item{reportPath}{\code{character}, path where the report is written.}
@@ -67,6 +71,7 @@ id_start <- 1
 
  clusterTypicalDaysForOneClass(
  dates = dates, PLAN = PLAN, VERT = NULL, maxDomainSize = maxDomainSize,
+ country_list = list(NL = c("BE", "DE", "FR", "AT")),
  nbCluster = nbcluster,report = F, hourWeight = hourWeight, id_start = id_start)
 
 }
