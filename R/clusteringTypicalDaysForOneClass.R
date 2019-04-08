@@ -128,9 +128,10 @@ clusterTypicalDaysForOneClass <- function(dates,
     data <- .getDataAndMakeOutput(X, vect, distMat, className)
     data
   }, simplify = FALSE))
-
+  
+  setDF(allTypDay)
   allTypDay <- .addVerticesAndPlansToTp(allTypDay, VERT, PLAN, PLAN_raw)
-
+  setDT(allTypDay)
   nb <- id_start:(id_start+nrow(allTypDay)-1)
   allTypDay$idDayType <- nb
   print(allTypDay)
