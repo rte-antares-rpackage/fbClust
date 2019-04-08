@@ -24,6 +24,14 @@
       paste0("ptdf", country_list[[X]][i])
     })
   }))
+  
+  if (!all(ptdf_country_list %in% col_ptdf)) {
+    warning(paste(paste(
+      ptdf_country_list[!(ptdf_country_list %in% col_ptdf)], collapse = " "),
+      "is (are) not in ptdf name"))
+  }
+  ptdf_country_list <- c(ptdf_country_list, "UK", "blbl")
+  ptdf_country_list[!(ptdf_country_list %in% col_ptdf)]
   if (!all(col_ptdf %in% ptdf_country_list)) {
     stop("country_list does not contain all the ptdf in PLAN")
   }

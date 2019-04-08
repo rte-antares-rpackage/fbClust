@@ -15,4 +15,7 @@ test_that(".ctrlCountryList", {
   expect_error(.ctrlCountryList(list(NL = c("BE", "DE", "FR")), PLAN), fixed = T,
                regexp = "country_list does not contain all the ptdf in PLAN")
   
+  expect_warning(.ctrlCountryList(list(NL = c("BE", "DE", "FR", "AT", "UK")), PLAN), fixed = T,
+               regexp = "ptdfUK is (are) not in ptdf name")
+  
 })
