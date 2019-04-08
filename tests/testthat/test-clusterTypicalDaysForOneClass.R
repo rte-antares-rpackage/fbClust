@@ -15,7 +15,7 @@ test_that("clusterTypicalDaysForOneClass", {
   maxDomainSize <- 20000
   hourWeight <- rep(1, 24)
   allTypDays <- clusterTypicalDaysForOneClass(
-    dates = dates, PLAN = PLAN, VERT = VERT,
+    dates = dates, PLAN = PLAN, VERT = NULL,
     maxDomainSize = maxDomainSize, nbCluster = nbcluster,
     report = F, hourWeight = hourWeight, className = NULL,
     reportPath = NULL, id_start = 1)
