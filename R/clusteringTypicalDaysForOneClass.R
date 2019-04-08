@@ -17,10 +17,8 @@
 #'  \item Date : date in format YYYY-MM-DD
 #'  \item Period : hour in the day, between 1 and 24
 #' }
-#' If it's not already done, this parameter needs to be standardized with the
-#' function \link{setDiffNotWantedPtdf}
 #' 
-#' @param VERT \code{data.table}, the same Date, Period and ptdf than we have
+#' @param VERT \code{data.table}, the same Date, Period and ptdf  we have
 #' in PLAN. Default = NULL 
 #' This parameter can be obtained with the function \link{getVertices}.
 #' @param country_list \code{list}, list of countries in the ptdf, with the ones which should
