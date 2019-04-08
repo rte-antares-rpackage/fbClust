@@ -44,11 +44,12 @@ getPreprocPlan <- function(
   path_ptdf_matrix_factor = "PtdfMatrixFactors.csv", 
   path_ptdf_matrix_constraint = "PtdfMatrixConstraints.csv") {
   
-  dtPtdfId <- data.table(
-    ptdf_id = c(23, 90, 95, 22, 20, 59, 97, 92, 41, 98, 83, 96, 99),
-    ptdf_country = c("ptdfAT", "ptdfBE", "ptdfCZ", "ptdfDE", "ptdfFR", "ptdfHR",
-                     "ptdfHU", "ptdfNL", "ptdfPL", "ptdfRO", "ptdfSI", "ptdfSK",
-                     "Core"))
+  # dtPtdfId <- data.table(
+  #   ptdf_id = c(23, 90, 95, 22, 20, 59, 97, 92, 41, 98, 83, 96, 99),
+  #   ptdf_country = c("ptdfAT", "ptdfBE", "ptdfCZ", "ptdfDE", "ptdfFR", "ptdfHR",
+  #                    "ptdfHU", "ptdfNL", "ptdfPL", "ptdfRO", "ptdfSI", "ptdfSK",
+  #                    "Core"))
+  dtPtdfId <- fread(system.file("testdata/matchingIdPtdf.csv", package = "fbClust"))
   
   dtPtdfMatrixFactor <- .ctrlFile(path_file = path_ptdf_matrix_factor)
   dtPtdfMatrixConstraint <- .ctrlFile(path_file = path_ptdf_matrix_constraint)
