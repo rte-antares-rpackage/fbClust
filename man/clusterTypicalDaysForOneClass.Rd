@@ -22,11 +22,9 @@ clusterTypicalDaysForOneClass(dates, PLAN, VERT = NULL,
  \item ram : line limits
  \item Date : date in format YYYY-MM-DD
  \item Period : hour in the day, between 1 and 24
-}
-If it's not already done, this parameter needs to be standardized with the
-function \link{setDiffNotWantedPtdf}}
+}}
 
-\item{VERT}{\code{data.table}, the same Date, Period and ptdf than we have
+\item{VERT}{\code{data.table}, the same Date, Period and ptdf  we have
 in PLAN. Default = NULL 
 This parameter can be obtained with the function \link{getVertices}.}
 
@@ -62,16 +60,17 @@ days at the same hour.
 \dontrun{
 library(data.table)
 library(quadprog)
-PLAN <- readRDS(system.file("testdata/plan_test.rds", package = "fbClust"))
+PLAN <- readRDS(system.file("testdata/plan_test2.rds", package = "fbClust"))
 dates <- seq(as.Date("2018-10-02"), as.Date("2018-10-04"), by = "day")
 hourWeight = rep(1, 24)
 nbcluster <- 2
 maxDomainSize <- 20000
 id_start <- 1
+country_list <- list(NL = c("BE", "DE", "FR", "AT"))
 
  clusterTypicalDaysForOneClass(
  dates = dates, PLAN = PLAN, VERT = NULL, maxDomainSize = maxDomainSize,
- country_list = list(NL = c("BE", "DE", "FR", "AT")),
+ country_list = country_list,
  nbCluster = nbcluster,report = F, hourWeight = hourWeight, id_start = id_start)
 
 }

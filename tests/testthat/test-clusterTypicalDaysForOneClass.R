@@ -18,13 +18,17 @@ test_that("clusterTypicalDaysForOneClass", {
     maxDomainSize = maxDomainSize, nbCluster = nbcluster,
     report = F, hourWeight = rep(1, 24), className = NULL,
     reportPath = NULL, id_start = 1)
+  
+  VERT <- rbindlist(lapply(1:length(allTypDays[, dayIn]), function(X) {
+    rbindlist(allTypDays[, dayIn][[X]][, VERT_details])
+  }))
 
   maxDomainSize2 <- 2000
 
   expect_true(nrow(allTypDays) == nbcluster)
 
   expect_error(clusterTypicalDaysForOneClass(
-    dates = dates, PLAN = PLAN, VERT = NULL,
+    dates = dates, PLAN = PLAN, VERT = VERT,
     maxDomainSize = maxDomainSize2, nbCluster = nbcluster,
     report = F))
 
