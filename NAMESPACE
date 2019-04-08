@@ -2,6 +2,7 @@
 
 export(clusterPlot)
 export(clusterTypicalDaysForOneClass)
+export(clusteringTypicalDays)
 export(getCalendar)
 export(getPreprocPlan)
 export(getSequence)
