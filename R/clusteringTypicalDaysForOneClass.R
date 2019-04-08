@@ -41,16 +41,17 @@
 #' \dontrun{
 #' library(data.table)
 #' library(quadprog)
-#' PLAN <- readRDS(system.file("testdata/plan_test.rds", package = "fbClust"))
+#' PLAN <- readRDS(system.file("testdata/plan_test2.rds", package = "fbClust"))
 #' dates <- seq(as.Date("2018-10-02"), as.Date("2018-10-04"), by = "day")
 #' hourWeight = rep(1, 24)
 #' nbcluster <- 2
 #' maxDomainSize <- 20000
 #' id_start <- 1
+#' country_list <- list(NL = c("BE", "DE", "FR", "AT"))
 #' 
 #'  clusterTypicalDaysForOneClass(
 #'  dates = dates, PLAN = PLAN, VERT = NULL, maxDomainSize = maxDomainSize,
-#'  country_list = list(NL = c("BE", "DE", "FR", "AT")),
+#'  country_list = country_list,
 #'  nbCluster = nbcluster,report = F, hourWeight = hourWeight, id_start = id_start)
 #' 
 #' }

@@ -1,7 +1,23 @@
+.ctrlCalendar <- function(calendar){
+  
+  if(any(!names(calendar)%in% c("interSeasonWe",
+                                "interSeasonWd",
+                                "winterWe",
+                                "winterWd",
+                                "summerWe",
+                                "summerWd")) | is.null(names(calendar))){
+    
+    stop("Names of calendar must be 'interSeasonWe',
+         'interSeasonWd', 'winterWe',
+         'winterWd', 'summerWe', 'summerWd'")
+  }
+  
+}
+
 .ctrlCountryList <- function(country_list, PLAN) {
   col_ptdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
   if (!grepl("ptdf", names(country_list))) {
-  ptdf_country_list <- c(paste0("ptdf", names(country_list)))
+    ptdf_country_list <- c(paste0("ptdf", names(country_list)))
   }
   ptdf_country_list <- c(ptdf_country_list, sapply(names(country_list), function(X) {
     sapply(1:length(country_list[[X]]), function(i) {
@@ -53,7 +69,7 @@
   if (!all(lev %in% 
            dtPtdfId[["ptdf_id"]])) {
     stop(cat("Your ptdf id in the column BIDDINGAREA_ID must be in",
-               dtPtdfId[["ptdf_id"]]))
+             dtPtdfId[["ptdf_id"]]))
   }
   if (nrow(dtPtdfMatrixFactor[FACTOR < -1 |
                               FACTOR > 1]) > 0) {
@@ -183,7 +199,6 @@
   # col_ptdf_plan <- paste(col_ptdf, "PLAN", sep = "_")
   # colnames(VERT)[colnames(VERT) %in% col_ptdf] <- col_ptdf_vert
   # colnames(PLAN)[colnames(PLAN) %in% col_ptdf] <- col_ptdf_plan
-  
   for(i in 1:nrow(allTypDay)){
     allTypDay$dayIn[[i]] <- rbindlist(
       sapply(1:nrow(allTypDay$dayIn[[i]]), function(X){

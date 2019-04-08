@@ -4,14 +4,14 @@ test_that(".getDistMatrixV2", {
   library(data.table)
   library(quadprog)
 
-  # pl_vert <- readRDS(system.file("testdata/pl_vert_test.rds", package = "fbClust"))
-  PL_VE <- readRDS(system.file("testdata/plan_not_wanted_ptdf.rds", package = "fbClust"))
-  # VERT <- pl_vert[[2]]
-  # PLAN <- pl_vert[[1]]
-  VERT <- PL_VE[[2]]
-  PLAN <- PL_VE[[1]]
-  PLAN <- .transformTS(PLAN)
-  VERT <- .transformTS(VERT)
+  pl_vert <- readRDS(system.file("testdata/pl_vert_test.rds", package = "fbClust"))
+  # PL_VE <- readRDS(system.file("testdata/plan_not_wanted_ptdf.rds", package = "fbClust"))
+  VERT <- pl_vert[[2]]
+  PLAN <- pl_vert[[1]]
+  # VERT <- PL_VE[[2]]
+  # PLAN <- PL_VE[[1]]
+  # PLAN <- .transformTS(PLAN)
+  # VERT <- .transformTS(VERT)
   VERT <- setDT(VERT)
   PLAN <- setDT(PLAN)
   
@@ -20,5 +20,5 @@ test_that(".getDistMatrixV2", {
   expect_true(is.data.table(res))
   expect_true(length(unique(res[, "dist"])) == 1)
   expect_true(res[1, "dist"] < 782 & res[1, "dist"] > 778)
-  expect_true(nrow(res) == 12 & ncol(res) == 4)
+  expect_true(nrow(res) == 2 & ncol(res) == 4)
 })

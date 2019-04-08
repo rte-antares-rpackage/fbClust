@@ -3,7 +3,7 @@ context("Function .ctrlFile")
 test_that(".ctrlFile", {
   library(data.table)
   
-  f1 <- .ctrlFile(path_file = system.file("testdata/190318_plan.csv", package = "fbClust"))
+  f1 <- .ctrlFile(path_file = system.file("testdata/plan_new_version_factor_AT.rds", package = "fbClust"))
   # message(getwd())
   f2 <- .ctrlFile(path_file = system.file("testdata/object.rds", package = "fbClust"))
   # f4 <- .ctrlFile(path_data = "testdata", path_file = "test.txt")
