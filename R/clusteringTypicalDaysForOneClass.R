@@ -106,7 +106,9 @@ clusterTypicalDaysForOneClass <- function(dates,
 
   .ctrlVertPlanFormat(VERT = VERT, PLAN = PLAN)
 
-  dt_dist <- .getDistMatrixV2(VERT = VERT, PLAN = PLAN, hourWeight = hourWeight)
+  dt_dist <- .getDistMatrixV2(VERT = VERT[Period %in% which(hourWeight > 0)], 
+                              PLAN = PLAN[Period %in% which(hourWeight > 0)], 
+                              hourWeight = hourWeight)
   distMat <- dt_dist[, list(dist = sum(dist)), by = c("Date1", "Date2")]
   distMat <- dcast(distMat, Date1~Date2, value.var = "dist")
   # distMat[, Date1 := NULL]

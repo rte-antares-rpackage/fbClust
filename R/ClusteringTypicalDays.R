@@ -116,9 +116,12 @@ clusteringTypicalDays <- function(calendar,
     1, function(season){
       
       nbClust <- ifelse(season$We, nbClustWeekend, nbClustWeek)
-      dt_dist <- .getDistMatrixV2(VERT = VERT[Date %in% as.character(season$calendar)], 
-                                  PLAN = PLAN[Date %in% as.character(season$calendar)], 
-                                  hourWeight = hourWeight)
+      dt_dist <- .getDistMatrixV2(
+        VERT = VERT[Date %in% as.character(season$calendar) &
+                      Period %in% which(hourWeight > 0)], 
+        PLAN = PLAN[Date %in% as.character(season$calendar) &
+                      Period %in% which(hourWeight > 0)], 
+        hourWeight = hourWeight)
       distMat <- dt_dist[, list(dist = sum(dist)), by = c("Date1", "Date2")]
       distMat <- dcast(distMat, Date1~Date2, value.var = "dist")
       # distMat[, Date1 := NULL]

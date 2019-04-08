@@ -28,6 +28,17 @@ test_that("clusteringTypicalDays", {
     rbindlist(allTypDays[, dayIn][[X]][, VERT_details])
   }))
   
+  hourWeight[3] <- 0
+  allTypDays2 <- clusteringTypicalDays(
+    calendar = calendar, PLAN = PLAN, VERT = VERT, country_list = country_list,
+    maxDomainSize = maxDomainSize, nbClustWeek = nbClustWeek, 
+    nbClustWeekend = nbClustWeekend, hourWeight = hourWeight)
+  expect_true(nrow(allTypDays) == length(calendar))
+  VERT2 <- rbindlist(lapply(1:length(allTypDays2[, dayIn]), function(X) {
+    rbindlist(allTypDays2[, dayIn][[X]][, VERT_details])
+  }))
+  expect_true(all.equal(VERT, VERT2))
+  
   maxDomainSize2 <- 2000
 
   expect_error(clusteringTypicalDays(
