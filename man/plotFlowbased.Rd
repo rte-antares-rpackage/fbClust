@@ -49,7 +49,6 @@ Plot flow-based domain(s)
 
 \dontrun{
 library(data.table)
-library(vertexenum)
 library(rAmCharts)
 PLAN <- getPreprocPlan(
 path_ptdf_matrix_factor = system.file(

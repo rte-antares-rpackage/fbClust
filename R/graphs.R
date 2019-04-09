@@ -229,7 +229,6 @@ clusterPlot <- function(data, country1, country2, hour, dayType,
 #'
 #' \dontrun{
 #' library(data.table)
-#' library(vertexenum)
 #' library(rAmCharts)
 #' PLAN <- getPreprocPlan(
 #' path_ptdf_matrix_factor = system.file(

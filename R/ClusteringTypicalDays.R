@@ -37,7 +37,6 @@
 #' \dontrun{
 #' library(data.table)
 #' library(quadprog)
-#' library(vertexenum)
 #' PLAN <- readRDS(system.file("testdata/plan_test2.rds", package = "fbClust"))
 #' calendar <- list()
 #' calendar$interSeasonWe <- c("2018-10-01", "2018-10-02")

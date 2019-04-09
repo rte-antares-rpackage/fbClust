@@ -37,8 +37,7 @@ test_that("clusterPlot", {
 test_that("plotFlowbased", {
   library(data.table)
   library(rAmCharts)
-  library(vertexenum)
-  
+
   PLAN <- getPreprocPlan(
     path_ptdf_matrix_factor = system.file(
       "testdata/plan_new_version_factor_AT.rds", package = "fbClust"),

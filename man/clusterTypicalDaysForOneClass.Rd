@@ -61,7 +61,6 @@ days at the same hour.
 \dontrun{
 library(data.table)
 library(quadprog)
-library(vertexenum)
 PLAN <- readRDS(system.file("testdata/plan_test2.rds", package = "fbClust"))
 dates <- seq(as.Date("2018-10-02"), as.Date("2018-10-04"), by = "day")
 hourWeight = rep(1, 24)
