@@ -22,7 +22,8 @@ clusterTypicalDaysForOneClass(dates, PLAN, VERT = NULL,
  \item ram : line limits
  \item Date : date in format YYYY-MM-DD
  \item Period : hour in the day, between 1 and 24
-}}
+}
+PLAN is generated in this format with the function \link{getPreprocPlan}}
 
 \item{VERT}{\code{data.table}, the same Date, Period and ptdf  we have
 in PLAN. Default = NULL 
@@ -60,6 +61,7 @@ days at the same hour.
 \dontrun{
 library(data.table)
 library(quadprog)
+library(vertexenum)
 PLAN <- readRDS(system.file("testdata/plan_test2.rds", package = "fbClust"))
 dates <- seq(as.Date("2018-10-02"), as.Date("2018-10-04"), by = "day")
 hourWeight = rep(1, 24)
