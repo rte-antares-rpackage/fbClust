@@ -196,3 +196,172 @@ clusterPlot <- function(data, country1, country2, hour, dayType,
     
   }
 }
+
+
+
+#' Plot flow-based domain(s)
+#'
+#' @param PLAN \code{data.table}, at least ram, Date, Period and two ptdf columns :
+#' \itemize{
+#'  \item ptdfAT : autrichian vertices
+#'  \item ptdfBE : belgium vertices
+#'  \item ptdfDE : german vertices
+#'  \item ptdfFR : french vertices
+#'  \item ram : line limits
+#'  \item Date : date in format YYYY-MM-DD
+#'  \item Period : hour in the day, between 1 and 24
+#' }
+#' PLAN is generated in this format with the function \link{getPreprocPlan}
+#' @param country1 \code{character}, name of the country whose net position is in the x axis (BE, FR, DE, AT or NL)
+#' @param country2 \code{character}, name of the country whose net position is in the y axis (BE, FR, DE, AT or NL)
+#' @param hours \code{character}, hours of interest for the graphics.
+#' @param dates \code{character}, dates of interest for the graphics. (All the combinations of dates and hours are )
+#' @param domainsNames \code{character} names of the domain(s), used as legend of the graphics.
+#' The length of domainsNames has to be the same of the number of combinations of hours and dates
+#' @param main \code{character} title of the graph, if NULL, the title will be "Domains country1 - country2"
+#' @param country_list \code{list}, list of countries in the ptdf, with the ones which should
+#' sustracted to the others as the names of the arrays which themself contain the ones which
+#' be sustracted
+#' @param width \code{character}, for rAmCharts only. Default to "420px" (set to "100/100" for dynamic resize)
+#' @param height \code{character}, for rAmCharts only. Default to "410px" (set to "100/100" for dynamic resize)
+#' 
+#' @examples
+#'
+#' \dontrun{
+#' library(data.table)
+#' library(vertexenum)
+#' library(rAmCharts)
+#' PLAN <- getPreprocPlan(
+#' path_ptdf_matrix_factor = system.file(
+#'   "testdata/plan_new_version_factor_AT.rds", package = "fbClust"),
+#' path_ptdf_matrix_constraint = system.file(
+#'  "testdata/plan_new_version_constraint_AT.rds", package = "fbClust"))
+#'  
+#'  country_list = list(NL = c("BE", "DE", "FR", "AT"))
+#' #Plot unique polyhedron
+#' plotFlowbased(PLAN, "BE", "DE", country_list = country_list, 
+#' hours = c(2), dates = c("2018-10-02"), domainsNames = "2018-10-02", main = "")
+#'
+#' #Plot four polyhedra
+#' plotFlowbased(PLAN, "BE", "DE", country_list = country_list, 
+#' hours = c(3, 4), dates = c("2018-10-02", "2018-10-04"), domainsNames = NULL,
+#' main = NULL)
+#'
+#' }
+#'
+#' @export
+plotFlowbased <- function(PLAN,
+                          country1,
+                          country2,
+                          hours,
+                          dates,
+                          domainsNames = NULL,
+                          country_list = list(NL = c("BE", "DE", "FR", "AT")),
+                          main = NULL,
+                          width = "420px", height = "410px"){
+  
+  #Generate data for plot
+  if (!grepl("ptdf", country1)) {
+    ctry1 <- paste0("ptdf", country1)
+  } else {
+    ctry1 <- country1
+  }
+  if (!grepl("ptdf", country2)) {
+    ctry2 <- paste0("ptdf", country2)
+  } else {
+    ctry2 <- country2
+  }
+  if(ctry1 == ctry2) {
+    stop("The countries should be distinct")
+  }
+  
+  PLAN <- copy(PLAN)
+  PLAN <- PLAN[Period %in% hours & Date %in% dates]
+  .ctrlCountryList(country_list = country_list, PLAN = PLAN)
+  PLAN <- .setDiffNotWantedPtdf2(PLAN = PLAN, country_list = country_list)
+  comb <- unique(PLAN[, list(Period, Date)])
+  
+  #Control arguments
+  multiPDTF <- (nrow(comb) > 1)
+  if(!is.null(domainsNames)){
+    if(!multiPDTF){
+      if(length(domainsNames) != 1){
+        stop("Only one PLAN specified for 2 or more domainsNames")
+      }
+    }else{
+      if(length(domainsNames) != nrow(comb)){
+        stop(paste0("You must have one domainsNames specified by combination of hours and time, currently you have ",
+                    length(domainsNames), " domainsNames specify for ", 
+                    nrow(comb), " PLAN"))
+      }
+    }
+  }
+  if(is.null(domainsNames)){
+    domainsNames <- paste("Date :", comb[, Date], "Hour :", comb[, Period])
+  }
+  
+  VERT <- getVertices(PLAN)
+  lim <- round(max(VERT[, list(get(ctry1), get(ctry2))])+500, -3)
+  xlim <- c(-lim, lim)
+  ylim <- c(-lim, lim)
+  givePlotData <- function(VERT, ctry1, ctry2, comb){
+    
+    res <- lapply(1:nrow(comb), function(X) {
+      period <- comb[X, Period]
+      date <- comb[X, Date]
+      data <- data.table(.getChull(VERT[Period == period & Date == date], ctry1, ctry2)
+                         # , Date = date, Period = period
+      )
+      setnames(data, old = c("ptctry", "ptctry2"), 
+               new = paste(domainsNames[X], c(gsub("ptdf", "", ctry1), gsub("ptdf", "", ctry2))))
+      # names(dataToGraph)[X:(X+1)]))
+      data
+    })
+  }
+  
+  
+  
+  dataToGraph <- givePlotData(VERT, ctry1, ctry2, comb)
+  rowMax <- max(unlist(lapply(dataToGraph, nrow)))
+  dataToGraph <- lapply(dataToGraph, function(dta){
+    if(nrow(dta)<rowMax){
+      Na <-  data.frame(rep(NA,rowMax - nrow(dta)),
+                        rep(NA,rowMax - nrow(dta)))
+      names(Na) <- names(dta)
+      rbind(dta,Na)
+    }else{
+      dta
+    }
+  })
+  dataToGraph <- do.call(cbind, dataToGraph)
+  if (is.null(main)) {
+    main <- paste("Domains", gsub("ptdf", "", ctry1), "-", gsub("ptdf", " ", ctry2))
+  }
+  
+  
+  #Graph creation for more exmples see rAmCharts::runExamples()
+  graphs <- sapply(1:length(domainsNames), function(X){
+    amGraph(title = domainsNames[X], balloonText =
+              paste0('<b>',domainsNames[X],'<br>', 
+                     paste0(domainsNames[X], gsub("ptdf", " ", ctry1)), 
+                     '</b> :[[x]] <br><b>',
+                     paste0(domainsNames[X], gsub("ptdf", " ", ctry2)), '</b> :[[y]]'),
+            bullet = 'circle', xField = paste0(domainsNames[X], gsub("ptdf", " ", ctry1)),
+            yField = paste0(domainsNames[X], gsub("ptdf", " ", ctry2)),
+            lineAlpha = 1, bullet = "bubble", bulletSize = 4, lineThickness = 3)
+    
+  }, USE.NAMES = FALSE)
+  pipeR::pipeline(
+    amXYChart(dataProvider = dataToGraph),
+    addTitle(text = main),
+    setGraphs(graphs),
+    setChartCursor(),
+    addValueAxes(title = paste(gsub("ptdf", "", ctry1), "(MW)"), position = "bottom", minimum = xlim[1], 
+                 maximum = xlim[2], minHorizontalGap = 35, minVerticalGap = 35),
+    addValueAxes(title =  paste(gsub("ptdf", "", ctry2), "(MW)"), minimum = ylim[1], 
+                 maximum = ylim[2], minHorizontalGap = 35, minVerticalGap = 35),
+    setExport(enabled = TRUE),
+    setLegend(enabled = TRUE),
+    plot(width = width, height = height)
+  )
+}
