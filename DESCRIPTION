@@ -25,7 +25,8 @@ Imports:
   manipulateWidget,
   rmarkdown,
   shiny,
-  flexdashboard
+  flexdashboard,
+  DT
 RoxygenNote: 6.1.1
 Suggests: testthat,
     covr

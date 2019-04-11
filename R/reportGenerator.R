@@ -29,7 +29,7 @@
 #' }
 #' @export
 #' 
-#' @import rmarkdown flexdashboard manipulateWidget gridExtra
+#' @import rmarkdown flexdashboard manipulateWidget gridExtra DT
 #' @importFrom shiny tags
 generateClusteringReport <- function(
   dayType, 

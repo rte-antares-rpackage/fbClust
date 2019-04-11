@@ -11,6 +11,8 @@
 #' @param typicalDayOnly \code{logical} if TRUE, plot only the domain of the typical day 
 #' and not the other domains of the cluster
 #' @param ggplot \code{logical} should ggplot package be used (static graph) instead of rAmCharts (dynamic graph)
+#' @param xlim \code{numeric}, limits of x-axis (default = c(-10000, 10000))
+#' @param ylim \code{numeric}, limits of x-axis (default = c(-10000, 10000))
 #' @param width \code{character}, for rAmCharts only. Default to "420px" (set to "100/100" for dynamic resize)
 #' @param height \code{character}, for rAmCharts only. Default to "410px" (set to "100/100" for dynamic resize)
 #' 
@@ -232,6 +234,8 @@ clusterPlot <- function(data,
 #' @param country_list \code{list}, list of countries in the ptdf, with the ones which should
 #' sustracted to the others as the names of the arrays which themself contain the ones which
 #' be sustracted
+#' @param xlim \code{numeric}, limits of x-axis (default = c(-10000, 10000))
+#' @param ylim \code{numeric}, limits of x-axis (default = c(-10000, 10000))
 #' @param width \code{character}, for rAmCharts only. Default to "420px" (set to "100/100" for dynamic resize)
 #' @param height \code{character}, for rAmCharts only. Default to "410px" (set to "100/100" for dynamic resize)
 #' 
