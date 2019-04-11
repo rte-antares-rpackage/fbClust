@@ -6,7 +6,8 @@
 \usage{
 plotFlowbased(PLAN, country1, country2, hours, dates,
   domainsNames = NULL, country_list = list(NL = c("BE", "DE", "FR",
-  "AT")), main = NULL, width = "420px", height = "410px")
+  "AT")), xlim = c(-10000, 10000), ylim = c(-10000, 10000),
+  main = NULL, width = "420px", height = "410px")
 }
 \arguments{
 \item{PLAN}{\code{data.table}, at least ram, Date, Period and two ptdf columns :

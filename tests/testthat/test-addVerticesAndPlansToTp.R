@@ -22,7 +22,7 @@ test_that(".addVerticesAndPlansToTp", {
   
   expect_true(all(colnames(
     res[, .SD, .SDcols = "dayIn"][[1]][[1]][, .SD, .SDcols = "PLAN_details"][[1]][[1]]) == c(
-      "Date", "Period", "ptdfFR", "ptdfDE", "ptdfAT", "ptdfBE")))
+      "Date", "Period", "ptdfFR", "ptdfDE", "ptdfAT", "ptdfBE", "ram")))
   expect_true(nrow(
     res[, .SD, .SDcols = "dayIn"][[1]][[1]][, .SD, .SDcols = "PLAN_details"][[1]][[2]]) ==
       205) 

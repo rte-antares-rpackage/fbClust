@@ -34,7 +34,7 @@ getVertices <- function(PTDF,  ctrdel = NULL){
   # browser()
   PTDF$timestamp <- paste(PTDF$Date, PTDF$Period, sep = "-")
   DDout <- sapply(unique(PTDF$timestamp), function(X){
-    print(X)
+    # print(X)
     DD <- .foundVertices(PTDF[timestamp == X], ctrdel = ctrdel)
     DD$timestamp <- X
     DD

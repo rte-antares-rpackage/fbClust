@@ -1,3 +1,21 @@
+.crtlCountriesCombn <- function(countries) {
+  if(class(countries) == "list") {
+    data <- data.frame(rbindlist(lapply(1:length(countries), function(X) {
+      if(length(countries[[X]]) != 2) {
+        stop(paste("The combination of countries must all be of length 2, currrently for the",
+                   X, "element of the list :", length(countries[[X]])))
+      }
+      data.frame("X1" = countries[[X]][1], "X2" = countries[[X]][2])
+    })))
+  } else if(class(countries) == "character") {
+    data <- data.frame(t(combn(countries, 2)))
+  } else {
+    stop("countries type can only be list or character")
+  }
+  data
+}
+
+
 .ctrlCalendar <- function(calendar){
   
   if(any(!names(calendar)%in% c("interSeasonWe",
@@ -218,10 +236,10 @@
           data.table(Date = date, Period = period, VERT_details = list(VERT[
             Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf)]), 
             PLAN_details = list(PLAN[
-              Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf)
+              Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf, "ram")
               ]),
             PLAN_raw_details = list(PLAN_raw[
-              Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf_raw)
+              Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf_raw, "ram")
               ]))
         } else {
           data.table()

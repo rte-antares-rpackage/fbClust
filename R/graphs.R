@@ -32,11 +32,19 @@
 #' 
 #' @export
 
-clusterPlot <- function(data, country1, country2, hour, dayType,
-                        typicalDayOnly = FALSE, ggplot = FALSE, width = "420px", height = "410px"){
-  
+clusterPlot <- function(data, 
+                        country1, 
+                        country2,
+                        hour,
+                        dayType,
+                        typicalDayOnly = FALSE, 
+                        ggplot = FALSE, 
+                        width = "420px", 
+                        height = "410px",
+                        xlim = c(-10000, 10000),
+                        ylim = c(-10000, 10000)){
   dataPlot <- .getDataPlotClustering(data[idDayType==dayType],  country1, country2, hour)
-  .makeGraph(dataPlot, data[idDayType==dayType]$TypicalDay,
+  .makeGraph(dataPlot, data[idDayType==dayType]$TypicalDay, xlim = xlim, ylim = ylim,
              typicalDayOnly = typicalDayOnly, ggplot = ggplot, width = width, height = height)
 }
 
@@ -105,7 +113,8 @@ clusterPlot <- function(data, country1, country2, hour, dayType,
 ##### Render plots, ggplot2 or rAmcharts
 
 .makeGraph <- function(data, typicalDayDate, typicalDayOnly = FALSE, 
-                       ggplot = FALSE, width = "420px", height = "410px"){
+                       ggplot = FALSE, width = "420px", height = "410px",
+                       xlim, ylim){
   ctry <- unique(substr(names(data), 16, 17))
   if(typicalDayOnly){
     dates <- typicalDayDate
@@ -113,8 +122,8 @@ clusterPlot <- function(data, country1, country2, hour, dayType,
     dates <- unique(substr(names(data), 1, 10))
   }
   
-  xlim = c(-round(max(data, na.rm = TRUE) + 500, -3), round(max(data, na.rm = TRUE) + 500, -3))
-  ylim = xlim
+  # xlim = c(-round(max(data, na.rm = TRUE) + 500, -3), round(max(data, na.rm = TRUE) + 500, -3))
+  # ylim = xlim
   
   # xlim = c(-10000, 10000)
   # ylim = c(-10000, 10000)
@@ -258,6 +267,8 @@ plotFlowbased <- function(PLAN,
                           dates,
                           domainsNames = NULL,
                           country_list = list(NL = c("BE", "DE", "FR", "AT")),
+                          xlim = c(-10000, 10000),
+                          ylim = c(-10000, 10000),
                           main = NULL,
                           width = "420px", height = "410px"){
 
@@ -302,11 +313,11 @@ plotFlowbased <- function(PLAN,
   }
 
   VERT <- getVertices(PLAN)
-  lim <- round(max(VERT[, list(get(ctry1), get(ctry2))])+500, -3)
-  xlim <- c(-lim, lim)
-  ylim <- c(-lim, lim)
+  # lim <- round(max(VERT[, list(get(ctry1), get(ctry2))])+500, -3)
+  # xlim <- c(-lim, lim)
+  # ylim <- c(-lim, lim)
 
-  dataToGraph <- .givePlotData(VERT, ctry1, ctry2, comb)
+  dataToGraph <- .givePlotData(VERT, ctry1, ctry2, comb, domainsNames)
   rowMax <- max(unlist(lapply(dataToGraph, nrow)))
   dataToGraph <- lapply(dataToGraph, function(dta){
     if(nrow(dta)<rowMax){
@@ -351,7 +362,7 @@ plotFlowbased <- function(PLAN,
   )
 }
 
-.givePlotData <- function(VERT, ctry1, ctry2, comb){
+.givePlotData <- function(VERT, ctry1, ctry2, comb, domainsNames){
   
   res <- lapply(1:nrow(comb), function(X) {
     period <- comb[X, Period]

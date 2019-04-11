@@ -142,6 +142,6 @@ clusteringTypicalDays <- function(calendar,
       
     }))
   
-  print(allTypDay)
+  # print(allTypDay)
   allTypDay
 }

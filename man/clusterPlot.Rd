@@ -6,7 +6,7 @@
 \usage{
 clusterPlot(data, country1, country2, hour, dayType,
   typicalDayOnly = FALSE, ggplot = FALSE, width = "420px",
-  height = "410px")
+  height = "410px", xlim = c(-10000, 10000), ylim = c(-10000, 10000))
 }
 \arguments{
 \item{data}{\code{data.table} results from the clustering, output data from \link{clusterTypicalDaysForOneClass}}
