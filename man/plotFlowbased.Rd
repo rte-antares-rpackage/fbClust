@@ -37,6 +37,10 @@ The length of domainsNames has to be the same of the number of combinations of h
 sustracted to the others as the names of the arrays which themself contain the ones which
 be sustracted}
 
+\item{xlim}{\code{numeric}, limits of x-axis (default = c(-10000, 10000))}
+
+\item{ylim}{\code{numeric}, limits of x-axis (default = c(-10000, 10000))}
+
 \item{main}{\code{character} title of the graph, if NULL, the title will be "Domains country1 - country2"}
 
 \item{width}{\code{character}, for rAmCharts only. Default to "420px" (set to "100/100" for dynamic resize)}

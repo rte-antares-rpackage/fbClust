@@ -27,6 +27,10 @@ and not the other domains of the cluster}
 \item{width}{\code{character}, for rAmCharts only. Default to "420px" (set to "100/100" for dynamic resize)}
 
 \item{height}{\code{character}, for rAmCharts only. Default to "410px" (set to "100/100" for dynamic resize)}
+
+\item{xlim}{\code{numeric}, limits of x-axis (default = c(-10000, 10000))}
+
+\item{ylim}{\code{numeric}, limits of x-axis (default = c(-10000, 10000))}
 }
 \description{
 For a given hour, plot the flow-based domain of one typical day along with the other
