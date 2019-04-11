@@ -20,7 +20,12 @@ Imports:
   cluster,
   rAmCharts,
   pipeR,
-  ggplot2
+  ggplot2,
+  gridExtra,
+  manipulateWidget,
+  rmarkdown,
+  shiny,
+  flexdashboard
 RoxygenNote: 6.1.1
 Suggests: testthat,
     covr
