@@ -32,26 +32,26 @@
   
 }
 
-.ctrlCountryList <- function(country_list, PLAN) {
+.ctrlHubDrop <- function(hubDrop, PLAN) {
   col_ptdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
-  if (!grepl("ptdf", names(country_list))) {
-    ptdf_country_list <- c(paste0("ptdf", names(country_list)))
+  if (!grepl("ptdf", names(hubDrop))) {
+    ptdf_hubDrop <- c(paste0("ptdf", names(hubDrop)))
   }
-  ptdf_country_list <- c(ptdf_country_list, sapply(names(country_list), function(X) {
-    sapply(1:length(country_list[[X]]), function(i) {
-      paste0("ptdf", country_list[[X]][i])
+  ptdf_hubDrop <- c(ptdf_hubDrop, sapply(names(hubDrop), function(X) {
+    sapply(1:length(hubDrop[[X]]), function(i) {
+      paste0("ptdf", hubDrop[[X]][i])
     })
   }))
   
-  if (!all(ptdf_country_list %in% col_ptdf)) {
+  if (!all(ptdf_hubDrop %in% col_ptdf)) {
     warning(paste(paste(
-      ptdf_country_list[!(ptdf_country_list %in% col_ptdf)], collapse = " "),
+      ptdf_hubDrop[!(ptdf_hubDrop %in% col_ptdf)], collapse = " "),
       "is (are) not in ptdf name"))
   }
-  ptdf_country_list <- c(ptdf_country_list, "UK", "blbl")
-  ptdf_country_list[!(ptdf_country_list %in% col_ptdf)]
-  if (!all(col_ptdf %in% ptdf_country_list)) {
-    stop("country_list does not contain all the ptdf in PLAN")
+  ptdf_hubDrop <- c(ptdf_hubDrop, "UK", "blbl")
+  ptdf_hubDrop[!(ptdf_hubDrop %in% col_ptdf)]
+  if (!all(col_ptdf %in% ptdf_hubDrop)) {
+    stop("hubDrop does not contain all the ptdf in PLAN")
   }
 } 
 

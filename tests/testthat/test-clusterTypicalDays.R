@@ -13,13 +13,13 @@ test_that("clusteringTypicalDays", {
   calendar <- list()
   calendar$interSeasonWe <- c("2018-10-01", "2018-10-02")
   calendar$interSeasonWd <- c("2018-10-03", "2018-10-04")
-  country_list <- list(NL = c("BE", "DE", "FR", "AT"))
+  hubDrop <- list(NL = c("BE", "DE", "FR", "AT"))
   hourWeight = rep(1, 24)
   nbClustWeek <- 1
   nbClustWeekend <- 1  
   maxDomainSize <- 20000
   allTypDays <- clusteringTypicalDays(
-    calendar = calendar, PLAN = PLAN, VERT = NULL, country_list = country_list,
+    calendar = calendar, PLAN = PLAN, VERT = NULL, hubDrop = hubDrop,
     maxDomainSize = maxDomainSize, nbClustWeek = nbClustWeek, 
     nbClustWeekend = nbClustWeekend, hourWeight = hourWeight)
   expect_true(nrow(allTypDays) == length(calendar))
@@ -30,7 +30,7 @@ test_that("clusteringTypicalDays", {
   
   hourWeight[3] <- 0
   allTypDays2 <- clusteringTypicalDays(
-    calendar = calendar, PLAN = PLAN, VERT = VERT, country_list = country_list,
+    calendar = calendar, PLAN = PLAN, VERT = VERT, hubDrop = hubDrop,
     maxDomainSize = maxDomainSize, nbClustWeek = nbClustWeek, 
     nbClustWeekend = nbClustWeekend, hourWeight = hourWeight)
   expect_true(nrow(allTypDays) == length(calendar))
@@ -42,7 +42,7 @@ test_that("clusteringTypicalDays", {
   maxDomainSize2 <- 2000
 
   expect_error(clusteringTypicalDays(
-    calendar = calendar, PLAN = PLAN, VERT = VERT, country_list = country_list,
+    calendar = calendar, PLAN = PLAN, VERT = VERT, hubDrop = hubDrop,
     maxDomainSize = maxDomainSize2, nbClustWeek = nbClustWeek, 
     nbClustWeekend = nbClustWeekend, hourWeight = hourWeight))
   

@@ -38,7 +38,7 @@ generateClusteringReport(dayType = 1, data = allTypDay, outputFile = tempdir(),
 countries = list(c("BE", "FR"), c("BE", "NL")), xlim = c(-12000, 12000),
 ylim = c(-12000, 12000))
 
-#' generateClusteringReport(dayType = 1, data = allTypDay, outputFile = tempdir(),
+generateClusteringReport(dayType = 1, data = allTypDay, outputFile = tempdir(),
 countries = c("AT", "FR", "NL", "DE"), xlim = c(-12000, 12000),
 ylim = c(-12000, 12000))
 }

@@ -5,10 +5,9 @@
 \title{Generate a set of flow-based typical days on one time period}
 \usage{
 clusterTypicalDaysForOneClass(dates, PLAN, VERT = NULL,
-  country_list = list(NL = c("BE", "DE", "FR", "AT")),
-  nbCluster = NULL, reportPath = NULL, hourWeight = rep(1, 24),
-  className = NULL, report = F, id_start = 1,
-  maxDomainSize = 20000)
+  hubDrop = list(NL = c("BE", "DE", "FR", "AT")), nbCluster = NULL,
+  reportPath = NULL, hourWeight = rep(1, 24), className = NULL,
+  report = F, id_start = 1, maxDomainSize = 20000)
 }
 \arguments{
 \item{dates}{\code{character}, vector of date (format YYYY-MM-DD).}
@@ -29,7 +28,7 @@ PLAN is generated in this format with the function \link{getPreprocPlan}}
 in PLAN. Default = NULL 
 This parameter can be obtained with the function \link{getVertices}.}
 
-\item{country_list}{\code{list}, list of countries in the ptdf, with the ones which should
+\item{hubDrop}{\code{list}, list of hubs in the ptdf, with the ones which should
 sustracted to the others as the names of the arrays which themself contain the ones which
 be sustracted}
 
@@ -67,11 +66,11 @@ hourWeight = rep(1, 24)
 nbcluster <- 2
 maxDomainSize <- 20000
 id_start <- 1
-country_list <- list(NL = c("BE", "DE", "FR", "AT"))
+hubDrop <- list(NL = c("BE", "DE", "FR", "AT"))
 
  clusterTypicalDaysForOneClass(
  dates = dates, PLAN = PLAN, VERT = NULL, maxDomainSize = maxDomainSize,
- country_list = country_list,
+ hubDrop = hubDrop,
  nbCluster = nbcluster,report = F, hourWeight = hourWeight, id_start = id_start)
 
 }

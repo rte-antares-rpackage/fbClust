@@ -5,9 +5,9 @@
 \title{Plot flow-based domain(s)}
 \usage{
 plotFlowbased(PLAN, country1, country2, hours, dates,
-  domainsNames = NULL, country_list = list(NL = c("BE", "DE", "FR",
-  "AT")), xlim = c(-10000, 10000), ylim = c(-10000, 10000),
-  main = NULL, width = "420px", height = "410px")
+  domainsNames = NULL, hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
+  xlim = c(-10000, 10000), ylim = c(-10000, 10000), main = NULL,
+  width = "420px", height = "410px")
 }
 \arguments{
 \item{PLAN}{\code{data.table}, at least ram, Date, Period and two ptdf columns :
@@ -33,7 +33,7 @@ PLAN is generated in this format with the function \link{getPreprocPlan}}
 \item{domainsNames}{\code{character} names of the domain(s), used as legend of the graphics.
 The length of domainsNames has to be the same of the number of combinations of hours and dates}
 
-\item{country_list}{\code{list}, list of countries in the ptdf, with the ones which should
+\item{hubDrop}{\code{list}, list of hubs in the ptdf, with the ones which should
 sustracted to the others as the names of the arrays which themself contain the ones which
 be sustracted}
 
@@ -61,13 +61,13 @@ path_ptdf_matrix_factor = system.file(
 path_ptdf_matrix_constraint = system.file(
  "testdata/plan_new_version_constraint_AT.rds", package = "fbClust"))
  
- country_list = list(NL = c("BE", "DE", "FR", "AT"))
+ hubDrop = list(NL = c("BE", "DE", "FR", "AT"))
 #Plot unique polyhedron
-plotFlowbased(PLAN, "BE", "DE", country_list = country_list, 
+plotFlowbased(PLAN, "BE", "DE", hubDrop = hubDrop, 
 hours = c(2), dates = c("2018-10-02"), domainsNames = "2018-10-02", main = "")
 
 #Plot four polyhedra
-plotFlowbased(PLAN, "BE", "DE", country_list = country_list, 
+plotFlowbased(PLAN, "BE", "DE", hubDrop = hubDrop, 
 hours = c(3, 4), dates = c("2018-10-02", "2018-10-04"), domainsNames = NULL,
 main = NULL)
 

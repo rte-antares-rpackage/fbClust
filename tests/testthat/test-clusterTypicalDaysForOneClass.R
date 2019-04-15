@@ -16,6 +16,7 @@ test_that("clusterTypicalDaysForOneClass", {
   hourWeight <- rep(1, 24)
   allTypDays <- clusterTypicalDaysForOneClass(
     dates = dates, PLAN = PLAN, VERT = NULL,
+    hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
     maxDomainSize = maxDomainSize, nbCluster = nbcluster,
     report = F, hourWeight = hourWeight, className = NULL,
     reportPath = NULL, id_start = 1)
@@ -27,7 +28,8 @@ test_that("clusterTypicalDaysForOneClass", {
 
   hourWeight[4] <- 0
   allTypDays2 <- clusterTypicalDaysForOneClass(
-    dates = dates, PLAN = PLAN, VERT = VERT,
+    dates = dates, PLAN = PLAN, VERT = VERT, 
+    hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
     maxDomainSize = maxDomainSize, nbCluster = nbcluster,
     report = F, hourWeight = hourWeight, className = NULL,
     reportPath = NULL, id_start = 1)
@@ -42,6 +44,7 @@ test_that("clusterTypicalDaysForOneClass", {
   maxDomainSize2 <- 2000
   expect_error(clusterTypicalDaysForOneClass(
     dates = dates, PLAN = PLAN, VERT = VERT,
+    hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
     maxDomainSize = maxDomainSize2, nbCluster = nbcluster,
     report = F))
 

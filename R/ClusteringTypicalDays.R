@@ -22,7 +22,7 @@
 #' @param VERT \code{data.table}, the same Date, Period and ptdf  we have
 #' in PLAN. Default = NULL 
 #' This parameter can be obtained with the function \link{getVertices}.
-#' @param country_list \code{list}, list of countries in the ptdf, with the ones which should
+#' @param hubDrop \code{list}, list of hubs in the ptdf, with the ones which should
 #' sustracted to the others as the names of the arrays which themself contain the ones which
 #' be sustracted
 #' @param nbClustWeek \code{numeric}, number of clusters for week period(working days). Defaut to 3
@@ -41,13 +41,13 @@
 #' calendar <- list()
 #' calendar$interSeasonWe <- c("2018-10-01", "2018-10-02")
 #' calendar$interSeasonWd <- c("2018-10-03", "2018-10-04")
-#' country_list <- list(NL = c("BE", "DE", "FR", "AT"))
+#' hubDrop <- list(NL = c("BE", "DE", "FR", "AT"))
 #' hourWeight = rep(1, 24)
 #' nbClustWeek <- 1
 #' nbClustWeekend <- 1
 #' maxDomainSize <- 20000
 #'  clusteringTypicalDays(
-#'  calendar = calendar, PLAN = PLAN, VERT = NULL, country_list = country_list,
+#'  calendar = calendar, PLAN = PLAN, VERT = NULL, hubDrop = hubDrop,
 #'  maxDomainSize = maxDomainSize, nbClustWeek = nbClustWeek, 
 #'  nbClustWeekend = nbClustWeekend, hourWeight = hourWeight)
 #' 
@@ -62,7 +62,7 @@
 clusteringTypicalDays <- function(calendar,
                                   PLAN,
                                   VERT = NULL,
-                                  country_list = list(NL = c("BE", "DE", "FR", "AT")),
+                                  hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
                                   nbClustWeek = 1,
                                   nbClustWeekend = 1,
                                   hourWeight = rep(1, 24),
@@ -73,9 +73,9 @@ clusteringTypicalDays <- function(calendar,
   
   # browser()
   PLAN_raw <- copy(PLAN)
-  .ctrlCountryList(country_list = country_list, PLAN = PLAN)
+  .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
   PLAN <- PLAN[as.character(PLAN$Date) %in% as.character(do.call("c", calendar))]
-  PLAN <- .setDiffNotWantedPtdf2(PLAN = PLAN, country_list = country_list)
+  PLAN <- .setDiffNotWantedPtdf2(PLAN = PLAN, hubDrop = hubDrop)
   if(is.null(VERT)) {
     VERT <- getVertices(PLAN)
   }

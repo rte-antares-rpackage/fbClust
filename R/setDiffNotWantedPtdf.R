@@ -31,11 +31,11 @@ setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
   return(PLAN)
 }
 
-.setDiffNotWantedPtdf2 <- function(PLAN, country_list = list(
+.setDiffNotWantedPtdf2 <- function(PLAN, hubDrop = list(
   NL = c("BE", "DE", "FR", "AT")))
 {
-  for (X in names(country_list)) {
-    vec_ptdf <- country_list[[X]]
+  for (X in names(hubDrop)) {
+    vec_ptdf <- hubDrop[[X]]
     col_X <- paste0("ptdf", X)
     
     for(i in vec_ptdf){

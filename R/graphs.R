@@ -242,7 +242,7 @@ clusterPlot <- function(data,
 #' @param domainsNames \code{character} names of the domain(s), used as legend of the graphics.
 #' The length of domainsNames has to be the same of the number of combinations of hours and dates
 #' @param main \code{character} title of the graph, if NULL, the title will be "Domains country1 - country2"
-#' @param country_list \code{list}, list of countries in the ptdf, with the ones which should
+#' @param hubDrop \code{list}, list of hubs in the ptdf, with the ones which should
 #' sustracted to the others as the names of the arrays which themself contain the ones which
 #' be sustracted
 #' @param xlim \code{numeric}, limits of x-axis (default = c(-10000, 10000))
@@ -261,13 +261,13 @@ clusterPlot <- function(data,
 #' path_ptdf_matrix_constraint = system.file(
 #'  "testdata/plan_new_version_constraint_AT.rds", package = "fbClust"))
 #'  
-#'  country_list = list(NL = c("BE", "DE", "FR", "AT"))
+#'  hubDrop = list(NL = c("BE", "DE", "FR", "AT"))
 #' #Plot unique polyhedron
-#' plotFlowbased(PLAN, "BE", "DE", country_list = country_list, 
+#' plotFlowbased(PLAN, "BE", "DE", hubDrop = hubDrop, 
 #' hours = c(2), dates = c("2018-10-02"), domainsNames = "2018-10-02", main = "")
 #'
 #' #Plot four polyhedra
-#' plotFlowbased(PLAN, "BE", "DE", country_list = country_list, 
+#' plotFlowbased(PLAN, "BE", "DE", hubDrop = hubDrop, 
 #' hours = c(3, 4), dates = c("2018-10-02", "2018-10-04"), domainsNames = NULL,
 #' main = NULL)
 #'
@@ -281,7 +281,7 @@ plotFlowbased <- function(PLAN,
                           hours,
                           dates,
                           domainsNames = NULL,
-                          country_list = list(NL = c("BE", "DE", "FR", "AT")),
+                          hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
                           xlim = c(-10000, 10000),
                           ylim = c(-10000, 10000),
                           main = NULL,
@@ -305,8 +305,8 @@ plotFlowbased <- function(PLAN,
   hubnames <- gsub("ptdf", "", colnames(PLAN)[grep("ptdf", colnames(PLAN))])
   PLAN <- copy(PLAN)
   PLAN <- PLAN[Period %in% hours & Date %in% dates]
-  .ctrlCountryList(country_list = country_list, PLAN = PLAN)
-  PLAN <- .setDiffNotWantedPtdf2(PLAN = PLAN, country_list = country_list)
+  .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
+  PLAN <- .setDiffNotWantedPtdf2(PLAN = PLAN, hubDrop = hubDrop)
   comb <- unique(PLAN[, list(Period, Date)])
 
   #Control arguments

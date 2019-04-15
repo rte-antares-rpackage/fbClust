@@ -4,9 +4,9 @@
 \alias{clusteringTypicalDays}
 \title{Generate a set of flow-based typical days on one time period}
 \usage{
-clusteringTypicalDays(calendar, PLAN, VERT = NULL,
-  country_list = list(NL = c("BE", "DE", "FR", "AT")), nbClustWeek = 1,
-  nbClustWeekend = 1, hourWeight = rep(1, 24), maxDomainSize = 20000)
+clusteringTypicalDays(calendar, PLAN, VERT = NULL, hubDrop = list(NL =
+  c("BE", "DE", "FR", "AT")), nbClustWeek = 1, nbClustWeekend = 1,
+  hourWeight = rep(1, 24), maxDomainSize = 20000)
 }
 \arguments{
 \item{calendar}{\code{list}, vector of date for each period. Can be obtain with \link{getCalendar}}
@@ -27,7 +27,7 @@ PLAN is generated in this format with the function \link{getPreprocPlan}}
 in PLAN. Default = NULL 
 This parameter can be obtained with the function \link{getVertices}.}
 
-\item{country_list}{\code{list}, list of countries in the ptdf, with the ones which should
+\item{hubDrop}{\code{list}, list of hubs in the ptdf, with the ones which should
 sustracted to the others as the names of the arrays which themself contain the ones which
 be sustracted}
 
@@ -58,13 +58,13 @@ PLAN <- readRDS(system.file("testdata/plan_test2.rds", package = "fbClust"))
 calendar <- list()
 calendar$interSeasonWe <- c("2018-10-01", "2018-10-02")
 calendar$interSeasonWd <- c("2018-10-03", "2018-10-04")
-country_list <- list(NL = c("BE", "DE", "FR", "AT"))
+hubDrop <- list(NL = c("BE", "DE", "FR", "AT"))
 hourWeight = rep(1, 24)
 nbClustWeek <- 1
 nbClustWeekend <- 1
 maxDomainSize <- 20000
  clusteringTypicalDays(
- calendar = calendar, PLAN = PLAN, VERT = NULL, country_list = country_list,
+ calendar = calendar, PLAN = PLAN, VERT = NULL, hubDrop = hubDrop,
  maxDomainSize = maxDomainSize, nbClustWeek = nbClustWeek, 
  nbClustWeekend = nbClustWeekend, hourWeight = hourWeight)
 

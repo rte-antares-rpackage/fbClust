@@ -42,28 +42,28 @@ test_that("clusterPlot", {
     path_ptdf_matrix_constraint = system.file(
       "testdata/plan_new_version_constraint_AT.rds", package = "fbClust"))
 
-  country_list = list(NL = c("BE", "DE", "FR", "AT"))
+  hubDrop = list(NL = c("BE", "DE", "FR", "AT"))
 
   #Plot unique polyhedron
-  out <- plotFlowbased(PLAN, country1 = "BE", country2 = "DE", country_list = country_list,
+  out <- plotFlowbased(PLAN, country1 = "BE", country2 = "DE", hubDrop = hubDrop,
                        hours = c(2), dates = c("2018-10-02"), domainsNames = "2018-10-02", main = "")
   expect_true("htmlwidget" %in% class(out))
 
   #Plot four polyhedra
-  out2 <- plotFlowbased(PLAN, country1 = "BE", country2 = "DE", country_list = country_list,
+  out2 <- plotFlowbased(PLAN, country1 = "BE", country2 = "DE", hubDrop = hubDrop,
                         hours = c(3, 4), dates = c("2018-10-02", "2018-10-04"), domainsNames = NULL,
                         main = NULL)
   expect_true("htmlwidget" %in% class(out))
 
   expect_error(plotFlowbased(
-    PLAN, country1 = "BE", country2 = "DE", country_list = country_list, hours = c(3, 4),
+    PLAN, country1 = "BE", country2 = "DE", hubDrop = hubDrop, hours = c(3, 4),
     dates = c("2018-10-02", "2018-10-04"), domainsNames = c("one domain"), main = NULL),
     regexp = paste0("You must have one domainsNames specified by combination of hours and time, currently you have ",
                     1, " domainsNames specify for ",
                     4, " PLAN"), fixed = T)
 
   expect_error(plotFlowbased(
-    PLAN, country1 = "BE", country2 = "DE", country_list = country_list, hours = c(4),
+    PLAN, country1 = "BE", country2 = "DE", hubDrop = hubDrop, hours = c(4),
     dates = c("2018-10-04"), domainsNames = c("one domain", "two domains"), main = NULL),
     regexp = "Only one PLAN specified for 2 or more domainsNames", fixed = T)
   
