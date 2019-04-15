@@ -335,7 +335,7 @@ plotFlowbased <- function(PLAN,
   # xlim <- c(-lim, lim)
   # ylim <- c(-lim, lim)
 
-  dataToGraph <- .givePlotData(VERT, ctry1, ctry2, comb, domainsNames)
+  dataToGraph <- .givePlotData(VERT, ctry1, ctry2, comb, domainsNames, hubname_diff)
   rowMax <- max(unlist(lapply(dataToGraph, nrow)))
   dataToGraph <- lapply(dataToGraph, function(dta){
     if(nrow(dta)<rowMax){
@@ -380,7 +380,7 @@ plotFlowbased <- function(PLAN,
   )
 }
 
-.givePlotData <- function(VERT, ctry1, ctry2, comb, domainsNames){
+.givePlotData <- function(VERT, ctry1, ctry2, comb, domainsNames, hubname_diff){
   
   res <- lapply(1:nrow(comb), function(X) {
     period <- comb[X, Period]
