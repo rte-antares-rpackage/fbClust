@@ -45,6 +45,7 @@ getVertices <- function(PTDF,  ctrdel = NULL){
   end$Period <- substr(end$timestamp, 12, 13)
   PTDF$timestamp <- NULL
   end$timestamp <- NULL
+  colnames(end) <- gsub("ptdf", "", colnames(end))
   end
 }
 

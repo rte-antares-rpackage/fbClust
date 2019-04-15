@@ -6,10 +6,10 @@ test_that("clusterPlot", {
   library(ggplot2)
   
   # data <- readRDS(system.file("testdata/allTypeDaytest.rds", package = "fbClust"))
-  allTypDay_list <- readRDS(system.file("testdata/allTypDay_testAddToTpDays.rds", package = "fbClust"))
-  data <- allTypDay_list$allTypeDay
+  data <- readRDS(system.file("testdata/allTypDays.rds", package = "fbClust"))
+  # data <- allTypDay_list$allTypeDay
   country1 <- "NL"
-  country2 <- "ptdfDE"
+  country2 <- "DE"
   hour <- 1
   dayType <- 1
   
@@ -17,19 +17,19 @@ test_that("clusterPlot", {
                      typicalDayOnly = FALSE, ggplot = FALSE, width = "420px", height = "410px")
   expect_true("htmlwidget" %in% class(out))
   
-  out <- clusterPlot(data, "ptdfFR", "ptdfNL", hour, dayType,
+  out <- clusterPlot(data, "FR", "NL", hour, dayType,
                      typicalDayOnly = TRUE, ggplot = TRUE, width = "420px", height = "410px")
   expect_true("ggplot" %in% class(out))
   
   expect_error(clusterPlot(
-    data, country1 = "ptdfFR", country2 = "FR", hour, dayType,
+    data, country1 = "FR", country2 = "FR", hour, dayType,
     typicalDayOnly = FALSE, ggplot = TRUE, width = "420px", height = "410px"),
-    regexp = "The countries should be distinct", fixed = T)
+    regexp = "The hubs should be distinct", fixed = T)
   expect_error(clusterPlot(
     data, country1, country2 = "fr", hour, dayType,
     typicalDayOnly = FALSE, ggplot = TRUE, width = "420px", height = "410px"),
     regexp = paste("country1 or country 2 has wrong format. Format should be",
-                   "ptdfXX or XX (where XX is the abreviation of the country (ex : FR, DE, BE))"), 
+                   "XX (where XX is the abreviation of the hub (ex : FR, DE, BE))"), 
     fixed = T)
   
   ######### pllotFlowbased part

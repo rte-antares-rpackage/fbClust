@@ -56,27 +56,35 @@ clusterPlot <- function(data,
 
 .getDataPlotClustering <- function(allTypeDay, country1, country2, hour)
 {
-  if (!grepl("ptdf", country1)) {
-    ctry1 <- paste0("ptdf", country1)
+  if (grepl("ptdf", country1)) {
+    ctry1 <- gsub("ptdf", "", country1)
   } else {
     ctry1 <- country1
   }
-  if (!grepl("ptdf", country2)) {
-    ctry2 <- paste0("ptdf", country2)
+  if (grepl("ptdf", country2)) {
+    ctry2 <- gsub("ptdf", "", country2)
   } else {
     ctry2 <- country2
   }
   if(ctry1 == ctry2) {
-    stop("The countries should be distinct")
+    stop("The hubs should be distinct")
   }
-  if (!grepl("^ptdf[A-Z]{2}$", ctry1) |
-      !grepl("^ptdf[A-Z]{2}$", ctry2)) {
+  
+  hubnames <- colnames(allTypeDay$dayIn[[1]][Period == hour, PLAN_raw_details][[1]])
+  hubnames <- gsub("ptdf", "", hubnames[grepl("ptdf", hubnames)])
+  print(hubnames)
+  if (!(ctry1 %in% hubnames) |
+      !(ctry2 %in% hubnames)) {
     stop(paste("country1 or country 2 has wrong format. Format should be",
-               "ptdfXX or XX (where XX is the abreviation of the country (ex : FR, DE, BE))"))
+               "XX (where XX is the abreviation of the hub (ex : FR, DE, BE))"))
   }
+  hubnames_vert <- colnames(allTypeDay$dayIn[[1]][Period == hour, PLAN_details][[1]])
+  hubnames_vert <- gsub("ptdf", "", hubnames_vert[grepl("ptdf", hubnames_vert)])
+  hubname_diff <- hubnames[!(hubnames %in% hubnames_vert)]
+  
   data_stud <- allTypeDay$dayIn[[1]][Period == hour]
   data_plot <- lapply(1:nrow(data_stud), function(X) {
-    dataChull <- .getChull(data_stud[X, VERT_details][[1]], ctry1, ctry2)
+    dataChull <- .getChull(data_stud[X, VERT_details][[1]], ctry1, ctry2, hubname_diff)
     dataChull <- data.frame(dataChull)
     names(dataChull) <- c(
       paste(unique(data_stud[X, VERT_details][[1]]$Date), ctry1, sep = "_"), 
@@ -92,17 +100,20 @@ clusterPlot <- function(data,
   data_plot
 }
 
+
+
+
 ## Compute the convex hull from two countries in a data.frame
 
-.getChull <- function(data, country1, country2){
+.getChull <- function(data, country1, country2, hubname_diff){
   data <- data.frame(data)
-  if(country1 == "ptdfNL"){
-    ptctry <- -rowSums(data[grep("ptdf", colnames(data))])
+  if(country1 == hubname_diff){
+    ptctry <- -rowSums(data[!grepl("Period|Date", colnames(data))])
   }else{
     ptctry <- data[[country1]]
   }
-  if(country2 == "ptdfNL"){
-    ptctry2 <- -rowSums(data[grep("ptdf", colnames(data))])
+  if(country2 == hubname_diff){
+    ptctry2 <- -rowSums(data[!grepl("Period|Date", colnames(data))])
   }else{
     ptctry2 <- data[[country2]]
   }
@@ -117,7 +128,7 @@ clusterPlot <- function(data,
 .makeGraph <- function(data, typicalDayDate, typicalDayOnly = FALSE, 
                        ggplot = FALSE, width = "420px", height = "410px",
                        xlim, ylim){
-  ctry <- unique(substr(names(data), 16, 17))
+  ctry <- unique(substr(names(data), 12, 13))
   if(typicalDayOnly){
     dates <- typicalDayDate
   } else {
@@ -137,7 +148,7 @@ clusterPlot <- function(data,
   
   if(!ggplot){
     graphs <- sapply(dates, function(X){
-      columns <- names(data)[grep(X,names(data))]
+      columns <- names(data)[grep(X, names(data))]
       if(X == typicalDayDate){
         graph <- amGraph(
           title = X, balloonText =
@@ -277,20 +288,21 @@ plotFlowbased <- function(PLAN,
                           width = "420px", height = "410px"){
 
   #Generate data for plot
-  if (!grepl("ptdf", country1)) {
-    ctry1 <- paste0("ptdf", country1)
+  if (grepl("ptdf", country1)) {
+    ctry1 <- gsub("ptdf", "", country1)
   } else {
     ctry1 <- country1
   }
-  if (!grepl("ptdf", country2)) {
-    ctry2 <- paste0("ptdf", country2)
+  if (grepl("ptdf", country2)) {
+    ctry2 <- gsub("ptdf", "", country2)
   } else {
     ctry2 <- country2
   }
   if(ctry1 == ctry2) {
     stop("The countries should be distinct")
   }
-
+  PLAN
+  hubnames <- gsub("ptdf", "", colnames(PLAN)[grep("ptdf", colnames(PLAN))])
   PLAN <- copy(PLAN)
   PLAN <- PLAN[Period %in% hours & Date %in% dates]
   .ctrlCountryList(country_list = country_list, PLAN = PLAN)
@@ -317,6 +329,8 @@ plotFlowbased <- function(PLAN,
   }
 
   VERT <- getVertices(PLAN)
+  hubnames_vert <- gsub("ptdf", "", colnames(VERT)[grep("ptdf", colnames(VERT))])
+  hubname_diff <- hubnames[!(hubnames %in% hubnames_vert)]
   # lim <- round(max(VERT[, list(get(ctry1), get(ctry2))])+500, -3)
   # xlim <- c(-lim, lim)
   # ylim <- c(-lim, lim)
@@ -346,8 +360,8 @@ plotFlowbased <- function(PLAN,
                      paste0(domainsNames[X], gsub("ptdf", " ", ctry1)),
                      '</b> :[[x]] <br><b>',
                      paste0(domainsNames[X], gsub("ptdf", " ", ctry2)), '</b> :[[y]]'),
-            bullet = 'circle', xField = paste0(domainsNames[X], gsub("ptdf", " ", ctry1)),
-            yField = paste0(domainsNames[X], gsub("ptdf", " ", ctry2)),
+            bullet = 'circle', xField = paste0(domainsNames[X], " ", ctry1),
+            yField = paste0(domainsNames[X], " ", ctry2),
             lineAlpha = 1, bullet = "bubble", bulletSize = 4, lineThickness = 3)
 
   }, USE.NAMES = FALSE)
@@ -371,12 +385,12 @@ plotFlowbased <- function(PLAN,
   res <- lapply(1:nrow(comb), function(X) {
     period <- comb[X, Period]
     date <- comb[X, Date]
-    data <- data.table(.getChull(VERT[Period == period & Date == date], ctry1, ctry2)
-                       # , Date = date, Period = period
-    )
+    data <- data.table(.getChull(VERT[Period == period & Date == date], 
+                                 ctry1, ctry2, hubname_diff))
     setnames(data, old = c("ptctry", "ptctry2"),
              new = paste(domainsNames[X], c(gsub("ptdf", "", ctry1), gsub("ptdf", "", ctry2))))
     # names(dataToGraph)[X:(X+1)]))
     data
   })
 }
+

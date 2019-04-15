@@ -167,17 +167,20 @@
 }
 
 .ctrlVertPlanFormat <- function(VERT, PLAN) {
-  col_plan <- colnames(PLAN)
-  col_vert <- colnames(VERT)
-  col_ptdf_plan <- col_plan[grep("^ptdf[A-Z]{2}$", col_plan)]
-  col_ptdf_vert <- col_vert[grep("^ptdf[A-Z]{2}$", col_vert)]
-  if(length(col_ptdf_plan) == 0 | length(col_ptdf_vert) == 0) {
-    stop("VERT & PLAN must have ptdf colnames in the form ptdfXX (ex : ptdfFR)")
+  
+  col_plan_all <- colnames(PLAN)
+  col_vert_all <- colnames(VERT)
+  col_ptdf <- col_plan_all[grep("^ptdf[A-Z]{2}$", col_plan_all)]
+  col_vert <- col_vert_all[!grepl("Date|Period", col_vert_all)]
+  
+  if(length(col_ptdf) == 0 | length(col_vert) == 0) {
+    stop("PLAN must have ptdf colnames in the form ptdfXX (ex : ptdfFR) & VERT in the form XX (ex : FR)")
   }
-  if(!all(col_ptdf_plan %in% col_ptdf_vert) |
-     !all(col_ptdf_vert %in% col_ptdf_plan)) {
-    stop(cat("PLAN & VERT must have the same ptdf colnames, \n Currently for PLAN:",
-             col_ptdf_plan, " \n Currently for VECT:", col_ptdf_vert))
+  if(!all(gsub("ptdf", "", col_ptdf) %in% col_vert) |
+     !all(col_vert %in% gsub("ptdf", "", col_ptdf))) {
+    stop(cat(
+      "PLAN & VERT must have same hub names, with ptdf for PLAN and not for VECT, 
+             \n Currently for PLAN:", col_ptdf, " \n Currently for VECT:", col_vert))
   }
   if(is.null(PLAN$ram)) {
     stop("PLAN should contains the column named ram")
@@ -219,7 +222,8 @@
 .addVerticesAndPlansToTp <- function(allTypDay, VERT, PLAN, PLAN_raw)
 {
   # browser()
-  col_ptdf <- colnames(VERT)[grep("^ptdf[A-Z]{2}", colnames(VERT))]
+  col_vert <- colnames(VERT)[!grepl("Period|Date", colnames(VERT))]
+  col_ptdf <- colnames(PLAN)[grep("^ptdf[A-Z]{2}", colnames(PLAN))]
   col_ptdf_raw <- colnames(PLAN_raw)[grep("^ptdf[A-Z]{2}", colnames(PLAN_raw))]
   # col_ptdf_vert <- paste(col_ptdf, "VERT", sep = "_")
   # col_ptdf_plan <- paste(col_ptdf, "PLAN", sep = "_")
@@ -234,7 +238,7 @@
         if (nrow(VERT[Date == date & Period == period]) > 0 &
             nrow(PLAN[Date == date & Period == period]) > 0) {
           data.table(Date = date, Period = period, VERT_details = list(VERT[
-            Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf)]), 
+            Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_vert)]), 
             PLAN_details = list(PLAN[
               Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf, "ram")
               ]),
