@@ -73,7 +73,6 @@ clusterPlot <- function(data,
   
   hubnames <- colnames(allTypeDay$dayIn[[1]][Period == hour, PLAN_raw_details][[1]])
   hubnames <- gsub("ptdf", "", hubnames[grepl("ptdf", hubnames)])
-  print(hubnames)
   if (!(ctry1 %in% hubnames) |
       !(ctry2 %in% hubnames)) {
     stop(paste("country1 or country 2 has wrong format. Format should be",

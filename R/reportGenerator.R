@@ -35,7 +35,7 @@ generateClusteringReport <- function(
   dayType, 
   outputFile, 
   data, 
-  countries = list(c("BE", "FR"), c("BE", "NL"), c("DE", "FR"), c("DE", "NL")),
+  countries = list(c("BE", "FR"), c("BE", "NL"), c("DE", "FR"), c("DE", "AT")),
   xlim = c(-10000, 10000),
   ylim = c(-10000, 10000)){
   output_Dir <- outputFile

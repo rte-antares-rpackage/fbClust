@@ -7,6 +7,17 @@
 manipulateAllTypeDays(allTypeDay, output)
 }
 \arguments{
+\item{allTypeDay}{the output data.table of one of the functions 
+\link{clusterTypicalDaysForOneClass} and \link{clusterTypicalDays}.
+\itemize{
+ \item TypicalDay : The typical day of the cluster defined by the idDayType column.
+ \item Class : The class of the clustering (typically, one of the classes obtained
+ with the \link{getCalendar} function).
+ \item dayIn : The details of the days in the cluster.
+ \item distance : The distance of each day of the cluster to the typical day.
+ \item idDayType : The id of the cluster.
+}}
+
 \item{output}{The type of output you want to return (either ptdf, ptdfraw, vertices or summary)
 \itemize{
  \item ptdf : The ptdf obtained after differenciation 
@@ -19,17 +30,6 @@ manipulateAllTypeDays(allTypeDay, output)
   \item Class : The class of the clustering
   \item nbDaysCluster : The number of days in the cluster
   }
-}}
-
-\item{allTypeDayr}{the output data.table of one of the functions 
-\link{clusterTypicalDaysForOneClass} and \link{clusterTypicalDays}.
-\itemize{
- \item TypicalDay : The typical day of the cluster defined by the idDayType column.
- \item Class : The class of the clustering (typically, one of the classes obtained
- with the \link{getCalendar} function).
- \item dayIn : The details of the days in the cluster.
- \item distance : The distance of each day of the cluster to the typical day.
- \item idDayType : The id of the cluster.
 }}
 }
 \description{

@@ -6,7 +6,7 @@
 \usage{
 generateClusteringReport(dayType, outputFile, data,
   countries = list(c("BE", "FR"), c("BE", "NL"), c("DE", "FR"), c("DE",
-  "NL")), xlim = c(-10000, 10000), ylim = c(-10000, 10000))
+  "AT")), xlim = c(-10000, 10000), ylim = c(-10000, 10000))
 }
 \arguments{
 \item{dayType}{\code{numeric} Typical day identifier}
