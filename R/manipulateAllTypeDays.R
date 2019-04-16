@@ -6,7 +6,7 @@
 #' the vertices of the input data, the raw ptdf of the input data or the ptdf after 
 #' differenciation of the input data.
 #' 
-#' @param allTypeDayr the output data.table of one of the functions 
+#' @param allTypeDay the output data.table of one of the functions 
 #' \link{clusterTypicalDaysForOneClass} and \link{clusterTypicalDays}.
 #' \itemize{
 #'  \item TypicalDay : The typical day of the cluster defined by the idDayType column.
