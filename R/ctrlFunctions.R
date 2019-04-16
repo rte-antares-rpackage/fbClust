@@ -1,3 +1,19 @@
+.crtlAllTypeDay <- function(allTypeDay) {
+  
+  suppressWarnings(if (!all(colnames(allTypeDay) == c(
+    "TypicalDay", "Class", "dayIn", "distance", "idDayType")) |
+    length(colnames(allTypeDay)) != 5) {
+    stop(paste("The colnames of allTypeDay must be the following, in this order :",
+               "TypicalDay,", "Class,", "dayIn,", "distance,", "idDayType"))
+  })
+  if (!all(names(rbindlist(allTypeDay[, dayIn])) == c(
+    "Date", "Period", "VERT_details", "PLAN_details", "PLAN_raw_details"))) {
+    stop(paste("The colnames of allTypeDay[, dayIn] must be the following, in this order :",
+               "Date,", "Period,", "VERT_details,", "PLAN_details,", "PLAN_raw_details"))
+  }
+}
+
+
 .crtlCountriesCombn <- function(countries) {
   if(class(countries) == "list") {
     data <- data.frame(rbindlist(lapply(1:length(countries), function(X) {

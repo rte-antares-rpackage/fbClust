@@ -23,7 +23,8 @@ test_that("clusteringTypicalDays", {
     maxDomainSize = maxDomainSize, nbClustWeek = nbClustWeek, 
     nbClustWeekend = nbClustWeekend, hourWeight = hourWeight)
   expect_true(nrow(allTypDays) == length(calendar))
-  
+  expect_true(all(colnames(allTypDays) == c(
+    "TypicalDay", "Class", "dayIn", "distance", "idDayType")))
   VERT <- rbindlist(lapply(1:length(allTypDays[, dayIn]), function(X) {
     rbindlist(allTypDays[, dayIn][[X]][, VERT_details])
   }))
@@ -47,6 +48,5 @@ test_that("clusteringTypicalDays", {
     nbClustWeekend = nbClustWeekend, hourWeight = hourWeight))
   
 })
-
 
 

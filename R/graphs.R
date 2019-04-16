@@ -45,6 +45,7 @@ clusterPlot <- function(data,
                         height = "410px",
                         xlim = c(-10000, 10000),
                         ylim = c(-10000, 10000)){
+  .crtlAllTypeDay(data)
   dataPlot <- .getDataPlotClustering(data[idDayType==dayType],  country1, country2, hour)
   .makeGraph(dataPlot, data[idDayType==dayType]$TypicalDay, xlim = xlim, ylim = ylim,
              typicalDayOnly = typicalDayOnly, ggplot = ggplot, width = width, height = height)
