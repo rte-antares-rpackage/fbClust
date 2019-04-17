@@ -35,7 +35,7 @@ manipulateAllTypeDays(allTypeDay, output)
 \description{
 This function has been built in order to help the user to manipulate
 the output object of the functions \link{clusterTypicalDaysForOneClass} and
-\link{clusterTypicalDays}. The user can choose to get a summary of the clustering realised,
+\link{clusteringTypicalDays}. The user can choose to get a summary of the clustering realised,
 the vertices of the input data, the raw ptdf of the input data or the ptdf after 
 differenciation of the input data.
 }
