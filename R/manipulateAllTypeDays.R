@@ -7,7 +7,7 @@
 #' differenciation of the input data.
 #' 
 #' @param allTypeDay the output data.table of one of the functions 
-#' \link{clusterTypicalDaysForOneClass} and \link{clusterTypicalDays}.
+#' \link{clusterTypicalDaysForOneClass} and \link{clusteringTypicalDays}.
 #' \itemize{
 #'  \item TypicalDay : The typical day of the cluster defined by the idDayType column.
 #'  \item Class : The class of the clustering (typically, one of the classes obtained

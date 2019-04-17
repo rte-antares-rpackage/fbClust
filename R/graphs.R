@@ -57,15 +57,16 @@ clusterPlot <- function(data,
 
 .getDataPlotClustering <- function(allTypeDay, country1, country2, hour)
 {
+  # browser()
   if (grepl("ptdf", country1)) {
     ctry1 <- gsub("ptdf", "", country1)
   } else {
-    ctry1 <- country1
+    ctry1 <- as.character(country1)
   }
   if (grepl("ptdf", country2)) {
     ctry2 <- gsub("ptdf", "", country2)
   } else {
-    ctry2 <- country2
+    ctry2 <- as.character(country2)
   }
   if(ctry1 == ctry2) {
     stop("The hubs should be distinct")
@@ -84,6 +85,7 @@ clusterPlot <- function(data,
   
   data_stud <- allTypeDay$dayIn[[1]][Period == hour]
   data_plot <- lapply(1:nrow(data_stud), function(X) {
+    # browser()
     dataChull <- .getChull(data_stud[X, VERT_details][[1]], ctry1, ctry2, hubname_diff)
     dataChull <- data.frame(dataChull)
     names(dataChull) <- c(
@@ -106,6 +108,7 @@ clusterPlot <- function(data,
 ## Compute the convex hull from two countries in a data.frame
 
 .getChull <- function(data, country1, country2, hubname_diff){
+  # browser()
   data <- data.frame(data)
   if(country1 == hubname_diff){
     ptctry <- -rowSums(data[!grepl("Period|Date", colnames(data))])
@@ -128,6 +131,7 @@ clusterPlot <- function(data,
 .makeGraph <- function(data, typicalDayDate, typicalDayOnly = FALSE, 
                        ggplot = FALSE, width = "420px", height = "410px",
                        xlim, ylim){
+  # browser()
   ctry <- unique(substr(names(data), 12, 13))
   if(typicalDayOnly){
     dates <- typicalDayDate
@@ -181,9 +185,10 @@ clusterPlot <- function(data,
   } else {
     
     gg_data <- do.call("rbind.data.frame", lapply(dates, function(X){
+      # browser()
       columns <- names(data)[grep(X, names(data))]
       tmp_data <- data[, columns]
-      colnames(tmp_data) <- gsub(paste0(X, "_ptdf"), "", colnames(tmp_data))
+      colnames(tmp_data) <- gsub(paste0(X, "_"), "", colnames(tmp_data))
       tmp_data <- tmp_data[!is.na(tmp_data[, 1]), ]
       tmp_data$date  <- X
       if(X == typicalDayDate){
