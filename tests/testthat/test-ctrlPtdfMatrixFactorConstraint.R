@@ -29,6 +29,8 @@ test_that(".ctrlPtdfMatrixFactorConstraint", {
   ptdfFactor6 <- copy(ptdfFactor)
   ptdfFactor6[18, SESSION_ID := 9839]
   res_list <- .ctrlPtdfMatrixFactorConstraint(ptdfFactor, ptdfConstraint, dtPtdfId)
+  ptdfFactor7 <- copy(ptdfFactor)
+  ptdfFactor7 <- ptdfFactor7[-1]
   
   expect_error(
     .ctrlPtdfMatrixFactorConstraint(ptdfFactor2, ptdfConstraint, dtPtdfId), fixed = T,
@@ -56,9 +58,11 @@ test_that(".ctrlPtdfMatrixFactorConstraint", {
   expect_error(
     .ctrlPtdfMatrixFactorConstraint(ptdfFactor6, ptdfConstraint, dtPtdfId), fixed = T,
     regexp = "The column SESSION_ID has to be in format YYYYMMDD before the pre-processing")
+  expect_warning(.ctrlPtdfMatrixFactorConstraint(ptdfFactor7, ptdfConstraint, dtPtdfId))
   
   expect_true(all(res_list$dtPtdfMatrixConstraint == ptdfConstraint))
   expect_true(all(res_list$dtPtdfMatrixFactor == ptdfFactor))
+  
   
   
 })

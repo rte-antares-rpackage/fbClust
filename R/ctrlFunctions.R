@@ -163,6 +163,19 @@
     stop("The column SESSION_ID has to be in format YYYYMMDD before the pre-processing")
   }
   
+  if (!all(dtPtdfMatrixFactor$SESSION_ID %in% 
+           dtPtdfMatrixConstraint$SESSION_ID &
+           dtPtdfMatrixConstraint$SESSION_ID %in% dtPtdfMatrixFactor$SESSION_ID) |
+      !all(dtPtdfMatrixFactor$ROW_ID %in% 
+           dtPtdfMatrixConstraint$ROW_ID &
+           dtPtdfMatrixConstraint$ROW_ID %in% dtPtdfMatrixFactor$ROW_ID) |
+      !all(dtPtdfMatrixFactor$MATRIX_ID %in% 
+           dtPtdfMatrixConstraint$MATRIX_ID &
+           dtPtdfMatrixConstraint$MATRIX_ID %in% dtPtdfMatrixFactor$MATRIX_ID)) {
+    warning(paste("Some id(s) are in one of dtPtdfMatrixFactor or dtPtdfMatrixConstraint",
+                  "and not in the other"))
+  }
+  
   return(list(dtPtdfMatrixConstraint = dtPtdfMatrixConstraint, 
               dtPtdfMatrixFactor = dtPtdfMatrixFactor))
 }
