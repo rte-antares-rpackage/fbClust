@@ -1,3 +1,38 @@
+.crtlPlan <- function(PLAN) {
+  if (!("data.table" %in% class(PLAN))) {
+    stop("The object PLAN should be a data.table")
+  }
+  if (nrow(PLAN) == 0) {
+    stop("The object PLAN has no row")
+  }
+  if (!all(c("Date", "Period", "ram") %in% colnames(PLAN)) |
+      !any(grepl("^ptdf", colnames(PLAN)))) {
+    stop(paste("PLAN should contains at least, a column named Date, one named Period,",
+               "one named ram and one starting with ptdf.", "Currently :",
+               paste(colnames(PLAN), collapse = ", ")))
+  }
+}
+
+
+.addSignToVertices <- function(VERT) {
+  
+  col_vert <- colnames(VERT)[!grepl("Date|Period", colnames(VERT))]
+  if (all(!grepl("sign|N|nbsign", col_vert))) {
+  vert_sign <- VERT[, lapply(.SD, function(X) {(X > 0)}) , list(Date, Period),
+                        .SDcols = col_vert]
+  sign <- vert_sign[, get(col_vert[1])]
+  for (i in 2:length(col_vert)) {
+    sign <- paste(sign, vert_sign[, get(col_vert[i])])
+  }
+  VERT <- cbind(VERT, sign = sign)
+  VERT <- merge(VERT, VERT[, .N, by = c("Date", "Period", "sign")], 
+                by = c("Date", "Period", "sign"))
+  VERT <- merge(VERT, VERT[, unique(sign), by = c("Date", "Period")][, list(
+    nbsign = .N), by = c("Date", "Period")], by = c("Date", "Period"))
+  }
+  VERT
+}
+
 .crtlAllTypeDay <- function(allTypeDay) {
   
   suppressWarnings(if (!all(colnames(allTypeDay) == c(
@@ -64,8 +99,7 @@
       ptdf_hubDrop[!(ptdf_hubDrop %in% col_ptdf)], collapse = " "),
       "is (are) not in ptdf name"))
   }
-  ptdf_hubDrop <- c(ptdf_hubDrop, "UK", "blbl")
-  ptdf_hubDrop[!(ptdf_hubDrop %in% col_ptdf)]
+
   if (!all(col_ptdf %in% ptdf_hubDrop)) {
     stop("hubDrop does not contain all the ptdf in PLAN")
   }
@@ -187,7 +221,7 @@
   col_plan_all <- colnames(PLAN)
   col_vert_all <- colnames(VERT)
   col_ptdf <- col_plan_all[grep("^ptdf[A-Z]{2}$", col_plan_all)]
-  col_vert <- col_vert_all[!grepl("Date|Period", col_vert_all)]
+  col_vert <- col_vert_all[!grepl("Date|Period|N|nbsign|sign", col_vert_all)]
   
   if(length(col_ptdf) == 0 | length(col_vert) == 0) {
     stop("PLAN must have ptdf colnames in the form ptdfXX (ex : ptdfFR) & VERT in the form XX (ex : FR)")
