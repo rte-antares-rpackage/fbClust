@@ -30,6 +30,8 @@
 #' @import data.table
 #' @export
 getVertices <- function(PTDF,  ctrdel = NULL){
+  .crtlPlan(PTDF)
+  
   PTDF <- data.table(PTDF)
   # browser()
   PTDF$timestamp <- paste(PTDF$Date, PTDF$Period, sep = "-")
