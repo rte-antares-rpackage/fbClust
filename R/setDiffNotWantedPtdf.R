@@ -12,7 +12,7 @@
 
 setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
 {
-
+  
   col_ptdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
   
   if (is.null(not_wanted_col)) {
@@ -21,9 +21,9 @@ setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
   if (!grepl("ptdf", not_wanted_col)) {
     not_wanted_col <- c(paste0("ptdf", not_wanted_col))
   }
-
+  
   col_ptdf <- col_ptdf[-which(col_ptdf == not_wanted_col)]
-
+  
   for(i in col_ptdf){
     PLAN[[i]] <- PLAN[[i]] - PLAN[[not_wanted_col]]
   }
@@ -34,9 +34,14 @@ setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
 .setDiffNotWantedPtdf2 <- function(PLAN, hubDrop = list(
   NL = c("BE", "DE", "FR", "AT")))
 {
+  # browser()
+  .ctrlHubDrop(PLAN = PLAN, hubDrop = hubDrop)
   for (X in names(hubDrop)) {
     vec_ptdf <- hubDrop[[X]]
     col_X <- paste0("ptdf", X)
+    # if (!all(col_X %in% colnames(PLAN))) {
+    #   stop("All hubDrop have to be in your PLAN")
+    # }
     
     for(i in vec_ptdf){
       col_i <- paste0("ptdf", i)
