@@ -2,13 +2,26 @@ Package: fbClust
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: MIT
+Authors@R: c(
+    person("Julien", "BRETTEVILLE", , "julien.bretteville@datastorm.fr", role = c("aut", "ctb")),
+    person("Titouan", "ROBERT", , "titouan.robert@datastorm.fr", role = c("aut", "ctb")),
+    person("Baptiste", "SEGUINOT", , "baptiste.seguinot@rte-france.com", role = c("aut", "cre")),
+    person("Marion", "LI", , "marion.li@rte-france.com", role = c("aut", "ctb")),
+    person("RTE", role = "cph")
+    )
+Maintainer: Baptiste SEGUINOT <baptiste.seguinot@rte-france.com>
+Description: 'Flow-based' is a methodology used in the CWE (Central Western Europe) area in order to compute 
+    exchange capacities offered by the electrical grid. For each time step, 
+    the set of possible exchanges is a n (usually 5)-dimensional  polyhedron called 'flow-based' domains.
+    The purpose of this package is to import ptdf data, get vertices from it,
+    cluster and visualize 'flow-based' domains, manipulate the clusters and generate 
+    visualization reports of the clustering.
+    (more information about 'flow-based' and the clustering methodology here: <https://antares.rte-france.com/?page_id=19>).
+URL: https://github.com/rte-antares-rpackage/fbClust
+BugReports: https://github.com/rte-antares-rpackage/fbClust/issues
+License: GPL (>= 2) | file LICENSE 
 Encoding: UTF-8
-LazyData: true
+LazyData: TRUE
 Depends:
     data.table
 Imports:
