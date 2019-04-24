@@ -22,6 +22,29 @@
   }))
 }
 
+.dEnd2 <- function(VERT, PLAN, col_ptdf, col_vert)
+{
+  
+  Dmat <- diag(1, nrow = dim(VERT[, .SD, .SDcols = col_vert])[2])
+  PL <- as.matrix(PLAN[, .SD, .SDcols = col_ptdf])
+  nbsign <- 1/unique(VERT[, nbsign])
+  vect_sign <- 1/VERT[, N]
+  TPL <- -t(PL)
+  ram <- PLAN[['ram']]
+  VERT <- as.matrix(VERT[, .SD, .SDcols = col_vert])
+  
+  nbsign*sum(vect_sign*sapply(1:nrow(VERT), function(X){
+    # print(X)
+    V1 <- matrix(VERT[X,])
+    Ax0 <- PL%*%V1
+    flag <- .flagExtOrInt(Ax0, ram)
+    if (flag) {
+      .getDistExt(V1 = V1, PL = TPL, ram = ram, Dmat = Dmat)
+    } else {
+      .getDistInt(V1 = V1, PL = PL, ram = ram, Ax0 = Ax0)
+    }
+  }))
+}
 
 .flagExtOrInt <- function(Ax0, b) {
   flag <- (sum(Ax0 > b) > 0)

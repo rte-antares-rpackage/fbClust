@@ -76,6 +76,7 @@ clusterTypicalDaysForOneClass <- function(dates,
   # setTxtProgressBar(pb, 0)
 
   # browser()
+  .crtlPlan(PLAN)
   PLAN_raw <- copy(PLAN)
   .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
   PLAN <- .setDiffNotWantedPtdf2(PLAN = PLAN, hubDrop = hubDrop)
@@ -88,7 +89,7 @@ clusterTypicalDaysForOneClass <- function(dates,
   # PLAN <- .transformTS(PLAN)
   # VERT <- .transformTS(VERT)
   col_ptdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
-  col_vert <- colnames(VERT)[!grepl("Date|Period", colnames(VERT))]
+  col_vert <- colnames(VERT)[!grepl("Date|Period|sign|N|nbsign", colnames(VERT))]
   Max <- VERT[,max(unlist(.SD)), by = c("Date", "Period"), .SDcols = col_vert]
   Max[, isSupLim := V1 > maxDomainSize]
   Max <- Max[Max$isSupLim]
@@ -106,7 +107,9 @@ clusterTypicalDaysForOneClass <- function(dates,
   .ctrlWeight(hourWeight)
 
   .ctrlVertPlanFormat(VERT = VERT, PLAN = PLAN)
-
+  
+  ##### Ca c'est un test
+  VERT <- .addSignToVertices(VERT)
   dt_dist <- .getDistMatrixV2(VERT = VERT[Period %in% which(hourWeight > 0)], 
                               PLAN = PLAN[Period %in% which(hourWeight > 0)], 
                               hourWeight = hourWeight)

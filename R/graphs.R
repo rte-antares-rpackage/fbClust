@@ -111,12 +111,12 @@ clusterPlot <- function(data,
   # browser()
   data <- data.frame(data)
   if(country1 == hubname_diff){
-    ptctry <- -rowSums(data[!grepl("Period|Date", colnames(data))])
+    ptctry <- -rowSums(data[!grepl("Date|Period|N|nbsign|sign", colnames(data))])
   }else{
     ptctry <- data[[country1]]
   }
   if(country2 == hubname_diff){
-    ptctry2 <- -rowSums(data[!grepl("Period|Date", colnames(data))])
+    ptctry2 <- -rowSums(data[!grepl("Date|Period|N|nbsign|sign", colnames(data))])
   }else{
     ptctry2 <- data[[country2]]
   }
@@ -203,7 +203,9 @@ clusterPlot <- function(data,
     
     ggplot(data=gg_data, aes(
       x = get(ctry[1]), y = get(ctry[2]), 
-      group = date, colour = col, size = size, linetype = as.character(col))) + 
+      group = date, colour = col, size = size, linetype = as.character(col))) +
+      geom_hline(yintercept = 0, colour = 'black', size = 0.5, linetype = 'dashed') +
+      geom_vline(xintercept = 0, colour = 'black', size = 0.5, linetype = 'dashed') +
       geom_path() +
       geom_point()+ 
       scale_size(range=c(0.1, 2), guide=FALSE) + 
@@ -219,7 +221,7 @@ clusterPlot <- function(data,
       scale_y_continuous(breaks = seq(ylim[1], ylim[2], 2000), 
                          limits = ylim, expand = c(0, 0)) +
       scale_x_continuous(breaks = seq(xlim[1], xlim[2], 2000), 
-                         limits = xlim, expand = c(0, 0))
+                         limits = xlim, expand = c(0, 0)) 
     
     
   }
@@ -334,7 +336,8 @@ plotFlowbased <- function(PLAN,
   }
 
   VERT <- getVertices(PLAN)
-  hubnames_vert <- gsub("ptdf", "", colnames(VERT)[grep("ptdf", colnames(VERT))])
+  hubnames_vert <- colnames(VERT)[!grepl("Date|Period", colnames(VERT))]
+  # hubnames_vert <- gsub("ptdf", "", colnames(VERT)[grep("ptdf", colnames(VERT))])
   hubname_diff <- hubnames[!(hubnames %in% hubnames_vert)]
   # lim <- round(max(VERT[, list(get(ctry1), get(ctry2))])+500, -3)
   # xlim <- c(-lim, lim)
