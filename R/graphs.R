@@ -46,9 +46,14 @@ clusterPlot <- function(data,
                         height = "410px",
                         xlim = c(-10000, 10000),
                         ylim = c(-10000, 10000)){
-  idDayTtpe <- NULL
+  
   .crtlAllTypeDay(data)
+  
+  # remove NOTE data.table
+  idDayTtpe <- NULL
   dataPlot <- .getDataPlotClustering(data[idDayType==dayType],  country1, country2, hour)
+  # remove NOTE data.table
+  idDayTtpe <- NULL
   .makeGraph(dataPlot, data[idDayType==dayType]$TypicalDay, xlim = xlim, ylim = ylim,
              typicalDayOnly = typicalDayOnly, ggplot = ggplot, width = width, height = height)
 }
@@ -142,7 +147,7 @@ clusterPlot <- function(data,
 .makeGraph <- function(data, typicalDayDate, typicalDayOnly = FALSE, 
                        ggplot = FALSE, width = "420px", height = "410px",
                        xlim, ylim){
-  # browser()
+  
   ctry <- unique(substr(names(data), 12, 13))
   if(typicalDayOnly){
     dates <- typicalDayDate
@@ -150,16 +155,6 @@ clusterPlot <- function(data,
     dates <- unique(substr(names(data), 1, 10))
   }
   
-  # xlim = c(-round(max(data, na.rm = TRUE) + 500, -3), round(max(data, na.rm = TRUE) + 500, -3))
-  # ylim = xlim
-  
-  # xlim = c(-10000, 10000)
-  # ylim = c(-10000, 10000)
-  # 
-  # if(max(data, na.rm = TRUE) <= 8000 & min(data, na.rm = TRUE) >= -8000){
-  #   xlim = c(-8000, 8000)
-  #   ylim = c(-8000, 8000)
-  # }
   
   if(!ggplot){
     graphs <- sapply(dates, function(X){
@@ -196,7 +191,11 @@ clusterPlot <- function(data,
   } else {
     
     gg_data <- do.call("rbind.data.frame", lapply(dates, function(X){
-      # browser()
+
+      # remove NOTE data.table
+      size <- NULL
+      col <- NULL
+      
       columns <- names(data)[grep(X, names(data))]
       tmp_data <- data[, columns]
       colnames(tmp_data) <- gsub(paste0(X, "_"), "", colnames(tmp_data))

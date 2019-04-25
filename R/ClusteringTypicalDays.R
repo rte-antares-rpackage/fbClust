@@ -98,6 +98,10 @@ clusteringTypicalDays <- function(calendar,
   Max[, isSupLim := V1 > maxDomainSize]
   Max <- Max[Max$isSupLim]
   if(nrow(Max) > 0){
+    
+    # remove NOTE data.table
+    Period <- NULL
+    
     Max <- Max[,list(list(Period)), by = "Date"]
     
     stop(paste("The following flow-based domains exceed the expected maximum size :",
