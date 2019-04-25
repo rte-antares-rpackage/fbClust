@@ -38,6 +38,10 @@ generateClusteringReport <- function(
   countries = list(c("BE", "FR"), c("BE", "NL"), c("DE", "FR"), c("DE", "AT")),
   xlim = c(-10000, 10000),
   ylim = c(-10000, 10000)){
+  
+  # remove NOTE data.table
+  idDayType <- NULL
+  
   output_Dir <- outputFile
   outputFile <- paste0(outputFile, "/", gsub(":", "", gsub( " ", "_",as.character(Sys.time()))), 
                        "_flowBased_",dayType, "_",data[idDayType == dayType]$Class, ".html")

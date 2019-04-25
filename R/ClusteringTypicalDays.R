@@ -73,6 +73,11 @@ clusteringTypicalDays <- function(calendar,
   # pb <- txtProgressBar(style = 3)
   # setTxtProgressBar(pb, 0)
   
+  # remove NOTE data.table
+  isSupLim <- NULL
+  V1 <- NULL
+
+  
   # browser()
   .crtlPlan(PLAN)
   PLAN_raw <- copy(PLAN)
@@ -120,6 +125,12 @@ clusteringTypicalDays <- function(calendar,
   allTypDay <- rbindlist(apply(
     data.table(calendar, We, nn = names(calendar)),
     1, function(season){
+      
+      # remove NOTE data.table
+      Date <- NULL
+      Period <- NULL
+      dist <- NULL
+      
       
       nbClust <- ifelse(season$We, nbClustWeekend, nbClustWeek)
       dt_dist <- .getDistMatrixV2(

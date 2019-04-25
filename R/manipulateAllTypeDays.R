@@ -47,6 +47,11 @@
 #' @import data.table
 #' @export
 manipulateAllTypeDays <- function(allTypeDay, output) {
+  
+  # remove NOTE data.table
+  Class <- NULL
+  idDayType <- NULL
+
   .crtlAllTypeDay(allTypeDay)
   if (length(output) != 1) {
     stop("The length of the ouput must be 1")
@@ -54,6 +59,12 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
   class <- unique(allTypeDay[, Class])
   if (output == "vertices") {
     dt_output <- rbindlist(sapply(class, function(cl) {
+      
+      # remove NOTE data.table
+      idDayType <- NULL
+      dayIn <- NULL
+      VERT_details <- NULL
+      
       data <- allTypeDay[Class == cl]
       data <- rbindlist(sapply(unique(data[, idDayType]), function(X) {
         data.table(rbindlist(data[idDayType == X, dayIn][[1]][, VERT_details]),
@@ -64,6 +75,12 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
     
   } else if (output == "ptdfraw") {
     dt_output <- rbindlist(sapply(class, function(cl) {
+      
+      # remove NOTE data.table
+      idDayType <- NULL
+      dayIn <- NULL
+      PLAN_raw_details <- NULL
+      
       data <- allTypeDay[Class == cl]
       data <- rbindlist(sapply(unique(data[, idDayType]), function(X) {
         data.table(rbindlist(data[idDayType == X, dayIn][[1]][, PLAN_raw_details]),
@@ -74,6 +91,12 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
     
   } else if (output == "ptdf") {
     dt_output <- rbindlist(sapply(class, function(cl) {
+      
+      # remove NOTE data.table
+      idDayType <- NULL
+      dayIn <- NULL
+      PLAN_details <- NULL
+      
       data <- allTypeDay[Class == cl]
       data <- rbindlist(sapply(unique(data[, idDayType]), function(X) {
         data.table(rbindlist(data[idDayType == X, dayIn][[1]][, PLAN_details]), 
@@ -83,6 +106,13 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
     }, simplify = F))
     
   } else if (output == "summary") {
+  
+    # remove NOTE data.table
+    idDayType <- NULL
+    TypicalDay <- NULL
+    dayIn <- NULL
+    Date <- NULL
+    
     id <- allTypeDay[, idDayType]
     class <- allTypeDay[, Class]
     typDay <- allTypeDay[, TypicalDay]

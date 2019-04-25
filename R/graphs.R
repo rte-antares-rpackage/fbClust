@@ -17,6 +17,7 @@
 #' @param height \code{character}, for rAmCharts only. Default to "410px" (set to "100/100" for dynamic resize)
 #' 
 #' @import rAmCharts ggplot2 pipeR
+#' @importFrom grDevices chull
 #'
 #' @examples
 #'
@@ -45,6 +46,7 @@ clusterPlot <- function(data,
                         height = "410px",
                         xlim = c(-10000, 10000),
                         ylim = c(-10000, 10000)){
+  idDayTtpe <- NULL
   .crtlAllTypeDay(data)
   dataPlot <- .getDataPlotClustering(data[idDayType==dayType],  country1, country2, hour)
   .makeGraph(dataPlot, data[idDayType==dayType]$TypicalDay, xlim = xlim, ylim = ylim,
@@ -57,7 +59,12 @@ clusterPlot <- function(data,
 
 .getDataPlotClustering <- function(allTypeDay, country1, country2, hour)
 {
-  # browser()
+  # remove NOTE data.table
+  Period <- NULL
+  PLAN_raw_details <- NULL
+  PLAN_details <- NULL
+  VERT_details <- NULL
+
   if (grepl("ptdf", country1)) {
     ctry1 <- gsub("ptdf", "", country1)
   } else {
@@ -108,7 +115,11 @@ clusterPlot <- function(data,
 ## Compute the convex hull from two countries in a data.frame
 
 .getChull <- function(data, country1, country2, hubname_diff){
-  # browser()
+
+  # remove NOTE data.table
+  chull <- NULL
+  
+  
   data <- data.frame(data)
   if(country1 == hubname_diff){
     ptctry <- -rowSums(data[!grepl("Date|Period|N|nbsign|sign", colnames(data))])
@@ -294,6 +305,10 @@ plotFlowbased <- function(PLAN,
                           main = NULL,
                           width = "420px", height = "410px"){
 
+  # remove NOTE data.table
+  Period <- NULL
+  Date <- NULL
+  
   #Generate data for plot
   if (grepl("ptdf", country1)) {
     ctry1 <- gsub("ptdf", "", country1)
@@ -390,7 +405,13 @@ plotFlowbased <- function(PLAN,
 
 .givePlotData <- function(VERT, ctry1, ctry2, comb, domainsNames, hubname_diff){
   
+  
   res <- lapply(1:nrow(comb), function(X) {
+    
+    # remove NOTE data.table
+    Period <- NULL
+    Date <- NULL
+    
     period <- comb[X, Period]
     date <- comb[X, Date]
     data <- data.table(.getChull(VERT[Period == period & Date == date], 

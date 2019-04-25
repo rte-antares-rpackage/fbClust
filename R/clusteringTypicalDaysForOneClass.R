@@ -57,6 +57,8 @@
 #' @import data.table 
 #' @import quadprog
 #' @import vertexenum
+#' @importFrom stats dist runif
+#' @importFrom utils combn timestamp
 #' 
 #' @export
 
@@ -74,8 +76,12 @@ clusterTypicalDaysForOneClass <- function(dates,
 
   # pb <- txtProgressBar(style = 3)
   # setTxtProgressBar(pb, 0)
-
-  # browser()
+  # remove NOTE data.table
+  isSupLim <- NULL
+  V1 <- NULL
+  Period <- NULL
+  dist <- NULL
+  
   .crtlPlan(PLAN)
   PLAN_raw <- copy(PLAN)
   .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
@@ -83,11 +89,7 @@ clusterTypicalDaysForOneClass <- function(dates,
   if(is.null(VERT)) {
     VERT <- getVertices(PLAN)
   }
-  # PLAN <- .ctrlTimestamp(PLAN)
-  # VERT <- .ctrlTimestamp(VERT)
-  # 
-  # PLAN <- .transformTS(PLAN)
-  # VERT <- .transformTS(VERT)
+
   col_ptdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
   col_vert <- colnames(VERT)[!grepl("Date|Period|sign|N|nbsign", colnames(VERT))]
   Max <- VERT[,max(unlist(.SD)), by = c("Date", "Period"), .SDcols = col_vert]
@@ -108,7 +110,7 @@ clusterTypicalDaysForOneClass <- function(dates,
 
   .ctrlVertPlanFormat(VERT = VERT, PLAN = PLAN)
   
-  ##### Ca c'est un test
+  
   VERT <- .addSignToVertices(VERT)
   dt_dist <- .getDistMatrixV2(VERT = VERT[Period %in% which(hourWeight > 0)], 
                               PLAN = PLAN[Period %in% which(hourWeight > 0)], 

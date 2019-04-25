@@ -28,15 +28,20 @@
 #' }
 #' @import vertexenum
 #' @import data.table
+#' 
 #' @export
 getVertices <- function(PTDF,  ctrdel = NULL){
+  
+  
   .crtlPlan(PTDF)
   
   PTDF <- data.table(PTDF)
   # browser()
   PTDF$timestamp <- paste(PTDF$Date, PTDF$Period, sep = "-")
   DDout <- sapply(unique(PTDF$timestamp), function(X){
-    # print(X)
+    # remove NOTE data.table
+    timestamp <- NULL
+    
     DD <- .foundVertices(PTDF[timestamp == X], ctrdel = ctrdel)
     DD$timestamp <- X
     DD

@@ -16,6 +16,11 @@
 
 .addSignToVertices <- function(VERT) {
   
+  # remove NOTE data.table
+  Date <- NULL
+  Period <- NULL
+  
+  
   col_vert <- colnames(VERT)[!grepl("Date|Period", colnames(VERT))]
   if (all(!grepl("sign|N|nbsign", col_vert))) {
   vert_sign <- VERT[, lapply(.SD, function(X) {(X > 0)}) , list(Date, Period),
@@ -34,6 +39,9 @@
 }
 
 .crtlAllTypeDay <- function(allTypeDay) {
+  
+  # remove NOTE data.table
+  dayIn <- NULL
   
   suppressWarnings(if (!all(colnames(allTypeDay) == c(
     "TypicalDay", "Class", "dayIn", "distance", "idDayType")) |
@@ -59,7 +67,7 @@
       data.frame("X1" = countries[[X]][1], "X2" = countries[[X]][2])
     })))
   } else if(class(countries) == "character") {
-    data <- data.frame(t(combn(countries, 2)))
+    data <- data.frame(t(utils::combn(countries, 2)))
   } else {
     stop("countries type can only be list or character")
   }
@@ -127,6 +135,10 @@
 
 .ctrlPtdfMatrixFactorConstraint <- function(
   dtPtdfMatrixFactor, dtPtdfMatrixConstraint, dtPtdfId) {
+  
+  # remove NOTE data.table
+  FACTOR <- NULL
+  MATRIX_ID <- NULL
   
   if (!all(colnames(dtPtdfMatrixFactor) %in% c(
     "SESSION_ID", "MATRIX_ID", "ROW_ID", "BIDDINGAREA_ID", "FACTOR")) |
@@ -284,14 +296,15 @@
 
 .addVerticesAndPlansToTp <- function(allTypDay, VERT, PLAN, PLAN_raw)
 {
-  # browser()
+  # remove NOTE data.table
+  Date <- NULL
+  Period <- NULL
+  
+  
   col_vert <- colnames(VERT)[!grepl("Period|Date", colnames(VERT))]
   col_ptdf <- colnames(PLAN)[grep("^ptdf[A-Z]{2}", colnames(PLAN))]
   col_ptdf_raw <- colnames(PLAN_raw)[grep("^ptdf[A-Z]{2}", colnames(PLAN_raw))]
-  # col_ptdf_vert <- paste(col_ptdf, "VERT", sep = "_")
-  # col_ptdf_plan <- paste(col_ptdf, "PLAN", sep = "_")
-  # colnames(VERT)[colnames(VERT) %in% col_ptdf] <- col_ptdf_vert
-  # colnames(PLAN)[colnames(PLAN) %in% col_ptdf] <- col_ptdf_plan
+
   for(i in 1:nrow(allTypDay)){
     allTypDay$dayIn[[i]] <- rbindlist(
       sapply(1:nrow(allTypDay$dayIn[[i]]), function(X){

@@ -25,6 +25,9 @@
 .dEnd2 <- function(VERT, PLAN, col_ptdf, col_vert)
 {
   
+  # remove NOTE data.table
+  N <- NULL
+  
   Dmat <- diag(1, nrow = dim(VERT[, .SD, .SDcols = col_vert])[2])
   PL <- as.matrix(PLAN[, .SD, .SDcols = col_ptdf])
   nbsign <- 1/unique(VERT[, nbsign])
