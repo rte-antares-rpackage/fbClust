@@ -41,8 +41,3 @@ test_that("manipulateAllTypeDays", {
       "Class|idDayType", colnames(VERT))]]))
 
 })
-
-
-expect_true(all.equal(
-  PLAN_raw_target, PLAN_raw[, .SD, .SDcols = colnames(PLAN_raw)[!grepl(
-    "Class|idDayType", colnames(PLAN_raw))]]))
