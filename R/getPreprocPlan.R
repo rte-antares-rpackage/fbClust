@@ -4,7 +4,7 @@
 #' this function computes a data.table containing all columns needed to keep going
 #' on the procedure to get the distances between polyhedra.
 #' 
-#' @param path_ptdf_matrix_factor path of the file containing the ptdf of the
+#' @param pathPtdfMatrixFactor path of the file containing the ptdf of the
 #' flowbased structure
 #' \itemize{
 #'  \item SESSION_ID : The Date, in numeric format : YYYYMMDD
@@ -13,7 +13,7 @@
 #'  \item REMAININGAVAILABLEMARGIN : The constraint (or ram)
 #' }
 #' 
-#' @param path_ptdf_matrix_constraint path of the file containing the constraints of 
+#' @param pathPtdfMatrixConstraint path of the file containing the constraints of 
 #' the flowbased structure (the ram). Its columns have to be :
 #' \itemize{
 #'  \item SESSION_ID : The Date, in numeric format : YYYYMMDD
@@ -28,21 +28,21 @@
 #' 
 #' \dontrun{
 #' library(data.table)
-#' path_ptdf_matrix_factor = system.file(
+#' pathPtdfMatrixFactor = system.file(
 #' "testdata/plan_new_version_factor_AT.rds", package = "fbClust")
-#' path_ptdf_matrix_constraint = system.file(
+#' pathPtdfMatrixConstraint = system.file(
 #' "testdata/plan_new_version_constraint_AT.rds", package = "fbClust")
 #' 
-#'  PLAN <- getPreprocPlan(path_ptdf_matrix_factor = path_ptdf_matrix_factor,
-#'  path_ptdf_matrix_constraint =  path_ptdf_matrix_constraint)
+#'  PLAN <- getPreprocPlan(pathPtdfMatrixFactor = pathPtdfMatrixFactor,
+#'  pathPtdfMatrixConstraint =  pathPtdfMatrixConstraint)
 #' }
 #' 
 #' @import data.table
 #' @export
 
 getPreprocPlan <- function(
-  path_ptdf_matrix_factor = "PtdfMatrixFactors.csv", 
-  path_ptdf_matrix_constraint = "PtdfMatrixConstraints.csv") {
+  pathPtdfMatrixFactor = "PtdfMatrixFactors.csv", 
+  pathPtdfMatrixConstraint = "PtdfMatrixConstraints.csv") {
   
   # remove NOTE data.table
   ptdf_id <- NULL
@@ -51,8 +51,8 @@ getPreprocPlan <- function(
 
   dtPtdfId <- fread(system.file("testdata/matchingIdPtdf.csv", package = "fbClust"))
   
-  dtPtdfMatrixFactor <- .ctrlFile(path_file = path_ptdf_matrix_factor)
-  dtPtdfMatrixConstraint <- .ctrlFile(path_file = path_ptdf_matrix_constraint)
+  dtPtdfMatrixFactor <- .ctrlFile(pathFile = pathPtdfMatrixFactor)
+  dtPtdfMatrixConstraint <- .ctrlFile(pathFile = pathPtdfMatrixConstraint)
   
   list_ptdf <- .ctrlPtdfMatrixFactorConstraint(
     dtPtdfMatrixFactor, dtPtdfMatrixConstraint, dtPtdfId)

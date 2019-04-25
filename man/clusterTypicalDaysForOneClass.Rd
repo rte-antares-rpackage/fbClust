@@ -7,7 +7,7 @@
 clusterTypicalDaysForOneClass(dates, PLAN, VERT = NULL,
   hubDrop = list(NL = c("BE", "DE", "FR", "AT")), nbCluster = NULL,
   reportPath = NULL, hourWeight = rep(1, 24), className = NULL,
-  report = F, id_start = 1, maxDomainSize = 20000)
+  report = F, idStart = 1, maxDomainSize = 20000)
 }
 \arguments{
 \item{dates}{\code{character}, vector of date (format YYYY-MM-DD).}
@@ -43,7 +43,7 @@ will be more accurate for the flow-based domains of the hours with a relatively 
 
 \item{report}{\code{boolean}, if TRUE, reports are generated.}
 
-\item{id_start}{\code{numeric}, first identifier of the returned typical days. Default value is 1}
+\item{idStart}{\code{numeric}, first identifier of the returned typical days. Default value is 1}
 
 \item{maxDomainSize}{\code{numeric} limit of domain size in each axis. The function will return an error if one domain
 or more exceed these limits.}
@@ -65,13 +65,13 @@ dates <- seq(as.Date("2018-10-02"), as.Date("2018-10-04"), by = "day")
 hourWeight = rep(1, 24)
 nbcluster <- 2
 maxDomainSize <- 20000
-id_start <- 1
+idStart <- 1
 hubDrop <- list(NL = c("BE", "DE", "FR", "AT"))
 
  clusterTypicalDaysForOneClass(
  dates = dates, PLAN = PLAN, VERT = NULL, maxDomainSize = maxDomainSize,
  hubDrop = hubDrop,
- nbCluster = nbcluster,report = F, hourWeight = hourWeight, id_start = id_start)
+ nbCluster = nbcluster,report = F, hourWeight = hourWeight, idStart = idStart)
 
 }
 

@@ -6,9 +6,9 @@ test_that("clusteringTypicalDays", {
   library(vertexenum)
   
   PLAN <- getPreprocPlan(
-    path_ptdf_matrix_factor = system.file(
+    pathPtdfMatrixFactor = system.file(
       "testdata/plan_new_version_factor_AT.rds", package = "fbClust"),
-    path_ptdf_matrix_constraint = system.file(
+    pathPtdfMatrixConstraint = system.file(
       "testdata/plan_new_version_constraint_AT.rds", package = "fbClust"))
   calendar <- list()
   calendar$interSeasonWe <- c("2018-10-01", "2018-10-02")
@@ -22,6 +22,7 @@ test_that("clusteringTypicalDays", {
     calendar = calendar, PLAN = PLAN, VERT = NULL, hubDrop = hubDrop,
     maxDomainSize = maxDomainSize, nbClustWeek = nbClustWeek, 
     nbClustWeekend = nbClustWeekend, hourWeight = hourWeight)
+  
   expect_true(nrow(allTypDays) == length(calendar))
   expect_true(all(colnames(allTypDays) == c(
     "TypicalDay", "Class", "dayIn", "distance", "idDayType")))
@@ -34,6 +35,7 @@ test_that("clusteringTypicalDays", {
     calendar = calendar, PLAN = PLAN, VERT = VERT, hubDrop = hubDrop,
     maxDomainSize = maxDomainSize, nbClustWeek = nbClustWeek, 
     nbClustWeekend = nbClustWeekend, hourWeight = hourWeight)
+  
   expect_true(nrow(allTypDays) == length(calendar))
   VERT2 <- rbindlist(lapply(1:length(allTypDays2[, dayIn]), function(X) {
     rbindlist(allTypDays2[, dayIn][[X]][, VERT_details])

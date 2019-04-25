@@ -29,7 +29,7 @@
 #' @param nbClustWeekend \code{numeric}, number of clusters for weekend period. Defaut to 1
 #' @param hourWeight \code{numeric}, vector of 24 weights, one for each hour of the day. The clustering algorithm
 #' will be more accurate for the flow-based domains of the hours with a relatively higher weight.
-#' @param id_start \code{numeric}, first identifier of the returned typical days. Default value is 1
+#' @param idStart \code{numeric}, first identifier of the returned typical days. Default value is 1
 #' @param maxDomainSize \code{numeric} limit of domain size in each axis. The function will return an error if one domain
 #' or more exceed these limits.
 #' 
@@ -67,7 +67,7 @@ clusteringTypicalDays <- function(calendar,
                                   nbClustWeek = 1,
                                   nbClustWeekend = 1,
                                   hourWeight = rep(1, 24),
-                                  id_start = 1,
+                                  idStart = 1,
                                   maxDomainSize = 20000) {
   
   # pb <- txtProgressBar(style = 3)
@@ -80,10 +80,10 @@ clusteringTypicalDays <- function(calendar,
   
   # browser()
   .crtlPlan(PLAN)
-  PLAN_raw <- copy(PLAN)
+  PLANRaw <- copy(PLAN)
   .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
   PLAN <- PLAN[as.character(PLAN$Date) %in% as.character(do.call("c", calendar))]
-  PLAN <- .setDiffNotWantedPtdf2(PLAN = PLAN, hubDrop = hubDrop)
+  PLAN <- setDiffNotWantedPtdf(PLAN = PLAN, hubDrop = hubDrop)
   if(is.null(VERT)) {
     VERT <- getVertices(PLAN)
   }
@@ -158,12 +158,12 @@ clusteringTypicalDays <- function(calendar,
         data
       }, simplify = FALSE))
       setDF(allTypDay)
-      allTypDay <- .addVerticesAndPlansToTp(allTypDay, VERT, PLAN, PLAN_raw)
+      allTypDay <- .addVerticesAndPlansToTp(allTypDay, VERT, PLAN, PLANRaw)
       setDT(allTypDay)
       
     }))
   
-  nb <- id_start:(id_start+nrow(allTypDay)-1)
+  nb <- idStart:(idStart+nrow(allTypDay)-1)
   allTypDay$idDayType <- nb
   # print(allTypDay)
   allTypDay

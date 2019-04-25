@@ -24,10 +24,25 @@ test_that("manipulateAllTypeDays", {
     rbindlist(allTypeDay[, dayIn][[X]][, PLAN_details])
   }, simplify = F))
   PLAN_raw_target <- rbindlist(sapply(1:length(allTypeDay[, dayIn]), function(X) {
-    rbindlist(allTypeDay[, dayIn][[X]][, PLAN_raw_details])
+    rbindlist(allTypeDay[, dayIn][[X]][, PLANRaw_details])
   }, simplify = F))
   
-  expect_true(all.equal(PLAN_target, PLAN[, 1:7]))
-  expect_true(all.equal(PLAN_raw_target, PLAN_raw[, 1:8]))
-  expect_true(all.equal(VERT_target, VERT[, 1:6]))
+  # expect_true(all.equal(PLAN_target, PLAN[, 1:7]))
+  # expect_true(all.equal(PLAN_raw_target, PLAN_raw[, 1:8]))
+  # expect_true(all.equal(VERT_target, VERT[, 1:9]))
+  expect_true(all.equal(
+    PLAN_target, PLAN[, .SD, .SDcols = colnames(PLAN)[!grepl(
+      "Class|idDayType", colnames(PLAN))]]))
+  expect_true(all.equal(
+    PLAN_raw_target, PLAN_raw[, .SD, .SDcols = colnames(PLAN_raw)[!grepl(
+      "Class|idDayType", colnames(PLAN_raw))]]))
+  expect_true(all.equal(
+    VERT_target, VERT[, .SD, .SDcols = colnames(VERT)[!grepl(
+      "Class|idDayType", colnames(VERT))]]))
+
 })
+
+
+expect_true(all.equal(
+  PLAN_raw_target, PLAN_raw[, .SD, .SDcols = colnames(PLAN_raw)[!grepl(
+    "Class|idDayType", colnames(PLAN_raw))]]))

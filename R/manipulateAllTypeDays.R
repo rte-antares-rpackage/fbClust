@@ -38,7 +38,7 @@
 #' allTypeDay <- readRDS(system.file("testdata/allTypDays.rds", package = "fbClust"))
 #' 
 #' PLAN <- manipulateAllTypeDays(allTypeDay, "ptdf")
-#' PLAN_raw <- manipulateAllTypeDays(allTypeDay, "ptdfraw")
+#' PLANRaw <- manipulateAllTypeDays(allTypeDay, "ptdfraw")
 #' VERT <- manipulateAllTypeDays(allTypeDay, "vertices")
 #' summary <- manipulateAllTypeDays(allTypeDay, "summary")
 #' 
@@ -79,11 +79,11 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
       # remove NOTE data.table
       idDayType <- NULL
       dayIn <- NULL
-      PLAN_raw_details <- NULL
+      PLANRaw_details <- NULL
       
       data <- allTypeDay[Class == cl]
       data <- rbindlist(sapply(unique(data[, idDayType]), function(X) {
-        data.table(rbindlist(data[idDayType == X, dayIn][[1]][, PLAN_raw_details]),
+        data.table(rbindlist(data[idDayType == X, dayIn][[1]][, PLANRaw_details]),
                    Class = cl, idDayType = X)
       }, simplify = F))
       data

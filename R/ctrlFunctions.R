@@ -50,9 +50,9 @@
                "TypicalDay,", "Class,", "dayIn,", "distance,", "idDayType"))
   })
   if (!all(names(rbindlist(allTypeDay[, dayIn])) == c(
-    "Date", "Period", "VERT_details", "PLAN_details", "PLAN_raw_details"))) {
+    "Date", "Period", "VERT_details", "PLAN_details", "PLANRaw_details"))) {
     stop(paste("The colnames of allTypeDay[, dayIn] must be the following, in this order :",
-               "Date,", "Period,", "VERT_details,", "PLAN_details,", "PLAN_raw_details"))
+               "Date,", "Period,", "VERT_details,", "PLAN_details,", "PLANRaw_details"))
   }
 }
 
@@ -113,20 +113,20 @@
   }
 } 
 
-.ctrlFile <- function(path_file) {
+.ctrlFile <- function(pathFile) {
   # if (is.null(path_data)) {
   #   sep <- ""
   # } else {
   #   sep <- "/"
   # }
-  if (grepl(pattern = "\\.csv$|\\.CSV$", x = path_file)) {
+  if (grepl(pattern = "\\.csv$|\\.CSV$", x = pathFile)) {
     # data <- fread(paste(
-    #   path_data, path_file, sep = sep))
-    data <- fread(path_file)
-  } else if (grepl(pattern = "\\.rds$|\\.RDS$", x =path_file)) {
+    #   path_data, pathFile, sep = sep))
+    data <- fread(pathFile)
+  } else if (grepl(pattern = "\\.rds$|\\.RDS$", x =pathFile)) {
     # data <- readRDS(
-    #   paste(path_data, path_file, sep =sep))
-    data <- readRDS(path_file)
+    #   paste(path_data, pathFile, sep =sep))
+    data <- readRDS(pathFile)
   } else {
     stop("Your input data must be a rds or a csv")
   }
@@ -294,7 +294,7 @@
   }
 }
 
-.addVerticesAndPlansToTp <- function(allTypDay, VERT, PLAN, PLAN_raw)
+.addVerticesAndPlansToTp <- function(allTypDay, VERT, PLAN, PLANRaw)
 {
   # remove NOTE data.table
   Date <- NULL
@@ -303,7 +303,7 @@
   
   col_vert <- colnames(VERT)[!grepl("Period|Date", colnames(VERT))]
   col_ptdf <- colnames(PLAN)[grep("^ptdf[A-Z]{2}", colnames(PLAN))]
-  col_ptdf_raw <- colnames(PLAN_raw)[grep("^ptdf[A-Z]{2}", colnames(PLAN_raw))]
+  col_ptdf_raw <- colnames(PLANRaw)[grep("^ptdf[A-Z]{2}", colnames(PLANRaw))]
 
   for(i in 1:nrow(allTypDay)){
     allTypDay$dayIn[[i]] <- rbindlist(
@@ -318,7 +318,7 @@
             PLAN_details = list(PLAN[
               Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf, "ram")
               ]),
-            PLAN_raw_details = list(PLAN_raw[
+            PLANRaw_details = list(PLANRaw[
               Date == date & Period == period, .SD, .SDcols = c("Date", "Period", col_ptdf_raw, "ram")
               ]))
         } else {

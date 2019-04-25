@@ -6,9 +6,9 @@ test_that("clusterTypicalDaysForOneClass", {
   library(vertexenum)
 
   PLAN <- getPreprocPlan(
-    path_ptdf_matrix_factor = system.file(
+    pathPtdfMatrixFactor = system.file(
       "testdata/plan_new_version_factor_AT.rds", package = "fbClust"),
-    path_ptdf_matrix_constraint = system.file(
+    pathPtdfMatrixConstraint = system.file(
       "testdata/plan_new_version_constraint_AT.rds", package = "fbClust"))
   dates <- seq(as.Date("2018-10-01"), as.Date("2018-10-04"), by = "day")
   nbcluster <- 2
@@ -19,7 +19,7 @@ test_that("clusterTypicalDaysForOneClass", {
     hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
     maxDomainSize = maxDomainSize, nbCluster = nbcluster,
     report = F, hourWeight = hourWeight, className = NULL,
-    reportPath = NULL, id_start = 1)
+    reportPath = NULL, idStart = 1)
   expect_true(nrow(allTypDays) == nbcluster)
   
   VERT <- rbindlist(lapply(1:length(allTypDays[, dayIn]), function(X) {
@@ -32,7 +32,7 @@ test_that("clusterTypicalDaysForOneClass", {
     hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
     maxDomainSize = maxDomainSize, nbCluster = nbcluster,
     report = F, hourWeight = hourWeight, className = NULL,
-    reportPath = NULL, id_start = 1)
+    reportPath = NULL, idStart = 1)
   expect_true(all(allTypDays[, distance][[1]][, Distance][1:2] != 
                     allTypDays2[, distance][[1]][, Distance][1:2]))
   

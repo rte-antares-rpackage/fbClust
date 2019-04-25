@@ -4,11 +4,11 @@
 \alias{getPreprocPlan}
 \title{Generate a data.table with the ptdf}
 \usage{
-getPreprocPlan(path_ptdf_matrix_factor = "PtdfMatrixFactors.csv",
-  path_ptdf_matrix_constraint = "PtdfMatrixConstraints.csv")
+getPreprocPlan(pathPtdfMatrixFactor = "PtdfMatrixFactors.csv",
+  pathPtdfMatrixConstraint = "PtdfMatrixConstraints.csv")
 }
 \arguments{
-\item{path_ptdf_matrix_factor}{path of the file containing the ptdf of the
+\item{pathPtdfMatrixFactor}{path of the file containing the ptdf of the
 flowbased structure
 \itemize{
  \item SESSION_ID : The Date, in numeric format : YYYYMMDD
@@ -17,7 +17,7 @@ flowbased structure
  \item REMAININGAVAILABLEMARGIN : The constraint (or ram)
 }}
 
-\item{path_ptdf_matrix_constraint}{path of the file containing the constraints of 
+\item{pathPtdfMatrixConstraint}{path of the file containing the constraints of 
 the flowbased structure (the ram). Its columns have to be :
 \itemize{
  \item SESSION_ID : The Date, in numeric format : YYYYMMDD
@@ -37,13 +37,13 @@ on the procedure to get the distances between polyhedra.
 
 \dontrun{
 library(data.table)
-path_ptdf_matrix_factor = system.file(
+pathPtdfMatrixFactor = system.file(
 "testdata/plan_new_version_factor_AT.rds", package = "fbClust")
-path_ptdf_matrix_constraint = system.file(
+pathPtdfMatrixConstraint = system.file(
 "testdata/plan_new_version_constraint_AT.rds", package = "fbClust")
 
- PLAN <- getPreprocPlan(path_ptdf_matrix_factor = path_ptdf_matrix_factor,
- path_ptdf_matrix_constraint =  path_ptdf_matrix_constraint)
+ PLAN <- getPreprocPlan(pathPtdfMatrixFactor = pathPtdfMatrixFactor,
+ pathPtdfMatrixConstraint =  pathPtdfMatrixConstraint)
 }
 
 }

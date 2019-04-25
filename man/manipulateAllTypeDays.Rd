@@ -46,7 +46,7 @@ library(data.table)
 allTypeDay <- readRDS(system.file("testdata/allTypDays.rds", package = "fbClust"))
 
 PLAN <- manipulateAllTypeDays(allTypeDay, "ptdf")
-PLAN_raw <- manipulateAllTypeDays(allTypeDay, "ptdfraw")
+PLANRaw <- manipulateAllTypeDays(allTypeDay, "ptdfraw")
 VERT <- manipulateAllTypeDays(allTypeDay, "vertices")
 summary <- manipulateAllTypeDays(allTypeDay, "summary")
 

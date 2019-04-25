@@ -26,7 +26,7 @@
 #' be sustracted
 #' @param nbCluster \code{numeric}, number of clusters
 #' @param className \code{character}, name of the class characterizing the studied time period
-#' @param id_start \code{numeric}, first identifier of the returned typical days. Default value is 1
+#' @param idStart \code{numeric}, first identifier of the returned typical days. Default value is 1
 #' @param reportPath \code{character}, path where the report is written.
 #' @param hourWeight \code{numeric}, vector of 24 weights, one for each hour of the day. The clustering algorithm
 #' will be more accurate for the flow-based domains of the hours with a relatively higher weight.
@@ -44,13 +44,13 @@
 #' hourWeight = rep(1, 24)
 #' nbcluster <- 2
 #' maxDomainSize <- 20000
-#' id_start <- 1
+#' idStart <- 1
 #' hubDrop <- list(NL = c("BE", "DE", "FR", "AT"))
 #' 
 #'  clusterTypicalDaysForOneClass(
 #'  dates = dates, PLAN = PLAN, VERT = NULL, maxDomainSize = maxDomainSize,
 #'  hubDrop = hubDrop,
-#'  nbCluster = nbcluster,report = F, hourWeight = hourWeight, id_start = id_start)
+#'  nbCluster = nbcluster,report = F, hourWeight = hourWeight, idStart = idStart)
 #' 
 #' }
 #' 
@@ -71,7 +71,7 @@ clusterTypicalDaysForOneClass <- function(dates,
                                           hourWeight = rep(1, 24),
                                           className = NULL,
                                           report = F,
-                                          id_start = 1,
+                                          idStart = 1,
                                           maxDomainSize = 20000) {
 
   # pb <- txtProgressBar(style = 3)
@@ -83,9 +83,9 @@ clusterTypicalDaysForOneClass <- function(dates,
   dist <- NULL
   
   .crtlPlan(PLAN)
-  PLAN_raw <- copy(PLAN)
+  PLANRaw <- copy(PLAN)
   .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
-  PLAN <- .setDiffNotWantedPtdf2(PLAN = PLAN, hubDrop = hubDrop)
+  PLAN <- setDiffNotWantedPtdf(PLAN = PLAN, hubDrop = hubDrop)
   if(is.null(VERT)) {
     VERT <- getVertices(PLAN)
   }
@@ -136,9 +136,9 @@ clusterTypicalDaysForOneClass <- function(dates,
   }, simplify = FALSE))
   
   setDF(allTypDay)
-  allTypDay <- .addVerticesAndPlansToTp(allTypDay, VERT, PLAN, PLAN_raw)
+  allTypDay <- .addVerticesAndPlansToTp(allTypDay, VERT, PLAN, PLANRaw)
   setDT(allTypDay)
-  nb <- id_start:(id_start+nrow(allTypDay)-1)
+  nb <- idStart:(idStart+nrow(allTypDay)-1)
   allTypDay$idDayType <- nb
   # print(allTypDay)
 

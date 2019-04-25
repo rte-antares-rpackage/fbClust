@@ -1,37 +1,18 @@
 #' @title Compute facets equations
 #' 
-#' @description Subtract one ptdf to the others and remove it to compute facets equations
+#' @description This function computes the facets equation by droping one or more hubs
+#' and sustracting them to the others (with a named list).
 #' 
 #' @param PLAN {data.table}
-#' @param not_wanted_col {character}, if NULL it takes the last ptdf. This paramater
-#' has to be in the form ptdfXX (where XX is FR, DE, BE or NL for example).
+#' @param hubDrop \code{list}, list of hubs in the ptdf, with the ones which should
+#' sustracted to the others as the names of the arrays which themself contain the ones which
+#' be sustracted
 #' 
 #' @import data.table
 #' 
 #' @export
 
-setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
-{
-  
-  col_ptdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
-  
-  if (is.null(not_wanted_col)) {
-    not_wanted_col <-  col_ptdf[length(col_ptdf)]
-  }
-  if (!grepl("ptdf", not_wanted_col)) {
-    not_wanted_col <- c(paste0("ptdf", not_wanted_col))
-  }
-  
-  col_ptdf <- col_ptdf[-which(col_ptdf == not_wanted_col)]
-  
-  for(i in col_ptdf){
-    PLAN[[i]] <- PLAN[[i]] - PLAN[[not_wanted_col]]
-  }
-  PLAN[[not_wanted_col]] <- NULL
-  return(PLAN)
-}
-
-.setDiffNotWantedPtdf2 <- function(PLAN, hubDrop = list(
+setDiffNotWantedPtdf <- function(PLAN, hubDrop = list(
   NL = c("BE", "DE", "FR", "AT")))
 {
   # browser()
@@ -53,3 +34,24 @@ setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
   }
   return(PLAN)
 }
+
+# setDiffNotWantedPtdf <- function(PLAN, not_wanted_col = NULL)
+# {
+#   
+#   col_ptdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
+#   
+#   if (is.null(not_wanted_col)) {
+#     not_wanted_col <-  col_ptdf[length(col_ptdf)]
+#   }
+#   if (!grepl("ptdf", not_wanted_col)) {
+#     not_wanted_col <- c(paste0("ptdf", not_wanted_col))
+#   }
+#   
+#   col_ptdf <- col_ptdf[-which(col_ptdf == not_wanted_col)]
+#   
+#   for(i in col_ptdf){
+#     PLAN[[i]] <- PLAN[[i]] - PLAN[[not_wanted_col]]
+#   }
+#   PLAN[[not_wanted_col]] <- NULL
+#   return(PLAN)
+# }

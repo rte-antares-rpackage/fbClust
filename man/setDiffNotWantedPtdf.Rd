@@ -4,14 +4,17 @@
 \alias{setDiffNotWantedPtdf}
 \title{Compute facets equations}
 \usage{
-setDiffNotWantedPtdf(PLAN, not_wanted_col = NULL)
+setDiffNotWantedPtdf(PLAN, hubDrop = list(NL = c("BE", "DE", "FR",
+  "AT")))
 }
 \arguments{
 \item{PLAN}{{data.table}}
 
-\item{not_wanted_col}{{character}, if NULL it takes the last ptdf. This paramater
-has to be in the form ptdfXX (where XX is FR, DE, BE or NL for example).}
+\item{hubDrop}{\code{list}, list of hubs in the ptdf, with the ones which should
+sustracted to the others as the names of the arrays which themself contain the ones which
+be sustracted}
 }
 \description{
-Subtract one ptdf to the others and remove it to compute facets equations
+This function computes the facets equation by droping one or more hubs
+and sustracting them to the others (with a named list).
 }

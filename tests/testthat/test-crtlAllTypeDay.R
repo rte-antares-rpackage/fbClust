@@ -14,6 +14,6 @@ test_that(".crtlAllTypeDay", {
   expect_error(
     .crtlAllTypeDay(data2, regexp = paste(
       "The colnames of allTypeDay[, dayIn] must be the following, in this order :",
-      "Date,", "Period,", "VERT_details,", "PLAN_details,", "PLAN_raw_details")))
+      "Date,", "Period,", "VERT_details,", "PLAN_details,", "PLANRaw_details")))
 })
 

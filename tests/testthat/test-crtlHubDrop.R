@@ -4,9 +4,9 @@ test_that(".ctrlHubDrop", {
   library(data.table)
   
   PLAN <- getPreprocPlan(
-    path_ptdf_matrix_factor = system.file(
+    pathPtdfMatrixFactor = system.file(
       "testdata/plan_new_version_factor_AT.rds", package = "fbClust"),
-    path_ptdf_matrix_constraint = system.file(
+    pathPtdfMatrixConstraint = system.file(
       "testdata/plan_new_version_constraint_AT.rds", package = "fbClust"))
   hubDrop <- list(NL = c("BE", "DE", "FR", "AT"))
   

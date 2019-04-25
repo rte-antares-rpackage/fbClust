@@ -12,7 +12,7 @@ test_that("dEnd", {
   setDT(VERT)
   setDT(PLAN)
   
-  res <- .dEnd(VERT = VERT[Date == "2018-10-01"], col_vert = col_vert,
-              PLAN = PLAN[Date == "2018-10-02"], col_ptdf = col_ptdf)
+  res <- .dEnd(VERT = VERT[Date == "2018-10-01"], colVert = col_vert,
+              PLAN = PLAN[Date == "2018-10-02"], colPtdf = col_ptdf)
   expect_true(res < 512 & res > 510)
 })

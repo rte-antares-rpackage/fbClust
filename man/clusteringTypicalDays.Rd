@@ -6,7 +6,7 @@
 \usage{
 clusteringTypicalDays(calendar, PLAN, VERT = NULL, hubDrop = list(NL =
   c("BE", "DE", "FR", "AT")), nbClustWeek = 1, nbClustWeekend = 1,
-  hourWeight = rep(1, 24), id_start = 1, maxDomainSize = 20000)
+  hourWeight = rep(1, 24), idStart = 1, maxDomainSize = 20000)
 }
 \arguments{
 \item{calendar}{\code{list}, vector of date for each period. Can be obtain with \link{getCalendar}}
@@ -38,7 +38,7 @@ be sustracted}
 \item{hourWeight}{\code{numeric}, vector of 24 weights, one for each hour of the day. The clustering algorithm
 will be more accurate for the flow-based domains of the hours with a relatively higher weight.}
 
-\item{id_start}{\code{numeric}, first identifier of the returned typical days. Default value is 1}
+\item{idStart}{\code{numeric}, first identifier of the returned typical days. Default value is 1}
 
 \item{maxDomainSize}{\code{numeric} limit of domain size in each axis. The function will return an error if one domain
 or more exceed these limits.}

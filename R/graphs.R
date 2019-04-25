@@ -65,7 +65,7 @@ clusterPlot <- function(data,
 {
   # remove NOTE data.table
   Period <- NULL
-  PLAN_raw_details <- NULL
+  PLANRaw_details <- NULL
   PLAN_details <- NULL
   VERT_details <- NULL
 
@@ -83,7 +83,7 @@ clusterPlot <- function(data,
     stop("The hubs should be distinct")
   }
   
-  hubnames <- colnames(allTypeDay$dayIn[[1]][Period == hour, PLAN_raw_details][[1]])
+  hubnames <- colnames(allTypeDay$dayIn[[1]][Period == hour, PLANRaw_details][[1]])
   hubnames <- gsub("ptdf", "", hubnames[grepl("ptdf", hubnames)])
   if (!(ctry1 %in% hubnames) |
       !(ctry2 %in% hubnames)) {
@@ -92,12 +92,12 @@ clusterPlot <- function(data,
   }
   hubnames_vert <- colnames(allTypeDay$dayIn[[1]][Period == hour, PLAN_details][[1]])
   hubnames_vert <- gsub("ptdf", "", hubnames_vert[grepl("ptdf", hubnames_vert)])
-  hubname_diff <- hubnames[!(hubnames %in% hubnames_vert)]
+  hubnameDiff <- hubnames[!(hubnames %in% hubnames_vert)]
   
   data_stud <- allTypeDay$dayIn[[1]][Period == hour]
   data_plot <- lapply(1:nrow(data_stud), function(X) {
     # browser()
-    dataChull <- .getChull(data_stud[X, VERT_details][[1]], ctry1, ctry2, hubname_diff)
+    dataChull <- .getChull(data_stud[X, VERT_details][[1]], ctry1, ctry2, hubnameDiff)
     dataChull <- data.frame(dataChull)
     names(dataChull) <- c(
       paste(unique(data_stud[X, VERT_details][[1]]$Date), ctry1, sep = "_"), 
@@ -118,19 +118,19 @@ clusterPlot <- function(data,
 
 ## Compute the convex hull from two countries in a data.frame
 
-.getChull <- function(data, country1, country2, hubname_diff){
+.getChull <- function(data, country1, country2, hubnameDiff){
 
   # remove NOTE data.table
   chull <- NULL
   
   
   data <- data.frame(data)
-  if(country1 == hubname_diff){
+  if(country1 == hubnameDiff){
     ptctry <- -rowSums(data[!grepl("Date|Period|N|nbsign|sign", colnames(data))])
   }else{
     ptctry <- data[[country1]]
   }
-  if(country2 == hubname_diff){
+  if(country2 == hubnameDiff){
     ptctry2 <- -rowSums(data[!grepl("Date|Period|N|nbsign|sign", colnames(data))])
   }else{
     ptctry2 <- data[[country2]]
@@ -329,7 +329,7 @@ plotFlowbased <- function(PLAN,
   PLAN <- copy(PLAN)
   PLAN <- PLAN[Period %in% hours & Date %in% dates]
   .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
-  PLAN <- .setDiffNotWantedPtdf2(PLAN = PLAN, hubDrop = hubDrop)
+  PLAN <- setDiffNotWantedPtdf(PLAN = PLAN, hubDrop = hubDrop)
   comb <- unique(PLAN[, list(Period, Date)])
 
   #Control arguments
@@ -354,12 +354,12 @@ plotFlowbased <- function(PLAN,
   VERT <- getVertices(PLAN)
   hubnames_vert <- colnames(VERT)[!grepl("Date|Period", colnames(VERT))]
   # hubnames_vert <- gsub("ptdf", "", colnames(VERT)[grep("ptdf", colnames(VERT))])
-  hubname_diff <- hubnames[!(hubnames %in% hubnames_vert)]
+  hubnameDiff <- hubnames[!(hubnames %in% hubnames_vert)]
   # lim <- round(max(VERT[, list(get(ctry1), get(ctry2))])+500, -3)
   # xlim <- c(-lim, lim)
   # ylim <- c(-lim, lim)
 
-  dataToGraph <- .givePlotData(VERT, ctry1, ctry2, comb, domainsNames, hubname_diff)
+  dataToGraph <- .givePlotData(VERT, ctry1, ctry2, comb, domainsNames, hubnameDiff)
   rowMax <- max(unlist(lapply(dataToGraph, nrow)))
   dataToGraph <- lapply(dataToGraph, function(dta){
     if(nrow(dta)<rowMax){
@@ -404,7 +404,7 @@ plotFlowbased <- function(PLAN,
   )
 }
 
-.givePlotData <- function(VERT, ctry1, ctry2, comb, domainsNames, hubname_diff){
+.givePlotData <- function(VERT, ctry1, ctry2, comb, domainsNames, hubnameDiff){
   
   
   res <- lapply(1:nrow(comb), function(X) {
@@ -416,7 +416,7 @@ plotFlowbased <- function(PLAN,
     period <- comb[X, Period]
     date <- comb[X, Date]
     data <- data.table(.getChull(VERT[Period == period & Date == date], 
-                                 ctry1, ctry2, hubname_diff))
+                                 ctry1, ctry2, hubnameDiff))
     setnames(data, old = c("ptctry", "ptctry2"),
              new = paste(domainsNames[X], c(gsub("ptdf", "", ctry1), gsub("ptdf", "", ctry2))))
     # names(dataToGraph)[X:(X+1)]))
