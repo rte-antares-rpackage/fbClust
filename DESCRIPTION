@@ -16,7 +16,7 @@ Description: 'Flow-based' is a methodology used in the CWE (Central Western Euro
     The purpose of this package is to import ptdf data, get vertices from it,
     cluster and visualize 'flow-based' domains, manipulate the clusters and generate 
     visualization reports of the clustering.
-    (more information about 'flow-based' and the clustering methodology here: <https://antares.rte-france.com/?page_id=19>).
+    (more information about 'flow-based' and the clustering methodology here: <https://antares-simulator.org/pages/documentation/9/>).
 URL: https://github.com/rte-antares-rpackage/fbClust
 BugReports: https://github.com/rte-antares-rpackage/fbClust/issues
 License: GPL (>= 2) | file LICENSE 
