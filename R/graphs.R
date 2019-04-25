@@ -50,10 +50,9 @@ clusterPlot <- function(data,
   .crtlAllTypeDay(data)
   
   # remove NOTE data.table
-  idDayTtpe <- NULL
+  idDayType <- NULL
   dataPlot <- .getDataPlotClustering(data[idDayType==dayType],  country1, country2, hour)
-  # remove NOTE data.table
-  idDayTtpe <- NULL
+
   .makeGraph(dataPlot, data[idDayType==dayType]$TypicalDay, xlim = xlim, ylim = ylim,
              typicalDayOnly = typicalDayOnly, ggplot = ggplot, width = width, height = height)
 }
@@ -147,6 +146,9 @@ clusterPlot <- function(data,
 .makeGraph <- function(data, typicalDayDate, typicalDayOnly = FALSE, 
                        ggplot = FALSE, width = "420px", height = "410px",
                        xlim, ylim){
+  
+  # remove NOTE data.table
+  size <- NULL
   
   ctry <- unique(substr(names(data), 12, 13))
   if(typicalDayOnly){
