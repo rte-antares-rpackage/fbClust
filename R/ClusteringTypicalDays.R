@@ -32,6 +32,8 @@
 #' @param idStart \code{numeric}, first identifier of the returned typical days. Default value is 1
 #' @param maxDomainSize \code{numeric} limit of domain size in each axis. The function will return an error if one domain
 #' or more exceed these limits.
+#' @param ponderate \code{logical} if you want to use a special ponderation for the calcul of
+#' the distances are not
 #' 
 #' @examples
 #' 
@@ -68,7 +70,8 @@ clusteringTypicalDays <- function(calendar,
                                   nbClustWeekend = 1,
                                   hourWeight = rep(1, 24),
                                   idStart = 1,
-                                  maxDomainSize = 20000) {
+                                  maxDomainSize = 20000,
+                                  ponderate = TRUE) {
   
   # pb <- txtProgressBar(style = 3)
   # setTxtProgressBar(pb, 0)
@@ -142,7 +145,7 @@ clusteringTypicalDays <- function(calendar,
                       Period %in% which(hourWeight > 0)], 
         PLAN = PLAN[Date %in% as.character(season$calendar) &
                       Period %in% which(hourWeight > 0)], 
-        hourWeight = hourWeight)
+        hourWeight = hourWeight, ponderate = ponderate)
       distMat <- dt_dist[, list(dist = sum(dist)), by = c("Date1", "Date2")]
       distMat <- dcast(distMat, Date1~Date2, value.var = "dist")
       # distMat[, Date1 := NULL]

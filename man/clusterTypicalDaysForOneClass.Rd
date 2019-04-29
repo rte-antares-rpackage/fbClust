@@ -7,7 +7,7 @@
 clusterTypicalDaysForOneClass(dates, PLAN, VERT = NULL,
   hubDrop = list(NL = c("BE", "DE", "FR", "AT")), nbCluster = NULL,
   reportPath = NULL, hourWeight = rep(1, 24), className = NULL,
-  report = F, idStart = 1, maxDomainSize = 20000)
+  report = F, idStart = 1, maxDomainSize = 20000, ponderate = TRUE)
 }
 \arguments{
 \item{dates}{\code{character}, vector of date (format YYYY-MM-DD).}
@@ -47,6 +47,9 @@ will be more accurate for the flow-based domains of the hours with a relatively 
 
 \item{maxDomainSize}{\code{numeric} limit of domain size in each axis. The function will return an error if one domain
 or more exceed these limits.}
+
+\item{ponderate}{\code{logical} if you want to use a special ponderation for the calcul of
+the distances are not}
 }
 \description{
 Run a clustering algorithm for a given historical period. It creates clusters by

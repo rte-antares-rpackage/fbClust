@@ -33,6 +33,8 @@
 #' @param report \code{boolean}, if TRUE, reports are generated.
 #' @param maxDomainSize \code{numeric} limit of domain size in each axis. The function will return an error if one domain
 #' or more exceed these limits.
+#' @param ponderate \code{logical} if you want to use a special ponderation for the calcul of
+#' the distances are not
 #' 
 #' @examples
 #' 
@@ -72,7 +74,8 @@ clusterTypicalDaysForOneClass <- function(dates,
                                           className = NULL,
                                           report = F,
                                           idStart = 1,
-                                          maxDomainSize = 20000) {
+                                          maxDomainSize = 20000,
+                                          ponderate = TRUE) {
 
   # pb <- txtProgressBar(style = 3)
   # setTxtProgressBar(pb, 0)
@@ -114,7 +117,7 @@ clusterTypicalDaysForOneClass <- function(dates,
   VERT <- .addSignToVertices(VERT)
   dt_dist <- .getDistMatrixV2(VERT = VERT[Period %in% which(hourWeight > 0)], 
                               PLAN = PLAN[Period %in% which(hourWeight > 0)], 
-                              hourWeight = hourWeight)
+                              hourWeight = hourWeight, ponderate = ponderate)
   distMat <- dt_dist[, list(dist = sum(dist)), by = c("Date1", "Date2")]
   distMat <- dcast(distMat, Date1~Date2, value.var = "dist")
   # distMat[, Date1 := NULL]

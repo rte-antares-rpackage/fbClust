@@ -6,7 +6,8 @@
 \usage{
 clusteringTypicalDays(calendar, PLAN, VERT = NULL, hubDrop = list(NL =
   c("BE", "DE", "FR", "AT")), nbClustWeek = 1, nbClustWeekend = 1,
-  hourWeight = rep(1, 24), idStart = 1, maxDomainSize = 20000)
+  hourWeight = rep(1, 24), idStart = 1, maxDomainSize = 20000,
+  ponderate = TRUE)
 }
 \arguments{
 \item{calendar}{\code{list}, vector of date for each period. Can be obtain with \link{getCalendar}}
@@ -42,6 +43,9 @@ will be more accurate for the flow-based domains of the hours with a relatively 
 
 \item{maxDomainSize}{\code{numeric} limit of domain size in each axis. The function will return an error if one domain
 or more exceed these limits.}
+
+\item{ponderate}{\code{logical} if you want to use a special ponderation for the calcul of
+the distances are not}
 }
 \description{
 Run a clustering algorithm on the different classes of the calendar (\link{getCalendar})

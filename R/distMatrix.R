@@ -4,7 +4,7 @@
 
 
 .getDistMatrixV2 <- function(
-  VERT, PLAN, hourWeight){
+  VERT, PLAN, hourWeight, ponderate = TRUE){
 
   # remove NOTE data.table
   Date <- NULL
@@ -29,15 +29,20 @@
       # remove NOTE data.table
       Date <- NULL
       Period <- NULL
-      DD <- .dEnd(VERT[Date == date_1 & Period == h], colVert = colVert,
-                  PLAN[Date == date_2 & Period == h], colPtdf = colPtdf)
-      DD2 <- .dEnd(VERT[Date == date_2 & Period == h], colVert = colVert,
-                   PLAN[Date == date_1 & Period == h], colPtdf = colPtdf)
+
       ###### Test
-      # DD <- .dEnd2(VERT[Date == date_1 & Period == h], colVert = colVert,
-      #             PLAN[Date == date_2 & Period == h], colPtdf = colPtdf)
-      # DD2 <- .dEnd2(VERT[Date == date_2 & Period == h], colVert = colVert,
-      #              PLAN[Date == date_1 & Period == h], colPtdf = colPtdf)
+      if (ponderate) {
+        DD <- .dEnd2(VERT[Date == date_1 & Period == h], colVert = colVert,
+                     PLAN[Date == date_2 & Period == h], colPtdf = colPtdf)
+        DD2 <- .dEnd2(VERT[Date == date_2 & Period == h], colVert = colVert,
+                      PLAN[Date == date_1 & Period == h], colPtdf = colPtdf)
+      } else {
+        DD <- .dEnd(VERT[Date == date_1 & Period == h], colVert = colVert,
+                    PLAN[Date == date_2 & Period == h], colPtdf = colPtdf)
+        DD2 <- .dEnd(VERT[Date == date_2 & Period == h], colVert = colVert,
+                     PLAN[Date == date_1 & Period == h], colPtdf = colPtdf)
+      }
+
       d <- DD + DD2
       weigthPond <- hourWeight[as.numeric(h)]
       d <- weigthPond * d
