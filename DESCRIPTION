@@ -41,5 +41,9 @@ Imports:
   flexdashboard,
   DT
 RoxygenNote: 6.1.1
-Suggests: testthat,
-    covr
+Suggests: 
+  testthat,
+  covr,
+  knitr
+VignetteBuilder:
+  knitr
