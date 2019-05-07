@@ -410,5 +410,5 @@ These captures show you how the report is constituted.
 </div>
 
 <div style="text-align:center" markdown="1">
-<img src="ramchart_part.PNG" alt="Drawing" style="width: 90%; height: 90%">
+<img src="ramchart_part.png" alt="Drawing" style="width: 90%; height: 90%">
 </div>
