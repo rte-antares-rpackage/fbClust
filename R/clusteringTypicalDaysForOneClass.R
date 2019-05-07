@@ -27,10 +27,8 @@
 #' @param nbCluster \code{numeric}, number of clusters
 #' @param className \code{character}, name of the class characterizing the studied time period
 #' @param idStart \code{numeric}, first identifier of the returned typical days. Default value is 1
-#' @param reportPath \code{character}, path where the report is written.
 #' @param hourWeight \code{numeric}, vector of 24 weights, one for each hour of the day. The clustering algorithm
 #' will be more accurate for the flow-based domains of the hours with a relatively higher weight.
-#' @param report \code{boolean}, if TRUE, reports are generated.
 #' @param maxDomainSize \code{numeric} limit of domain size in each axis. The function will return an error if one domain
 #' or more exceed these limits.
 #' @param ponderate \code{logical} if you want to use a special ponderation for the calcul of
@@ -69,10 +67,8 @@ clusterTypicalDaysForOneClass <- function(dates,
                                           VERT = NULL,
                                           hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
                                           nbCluster = NULL,
-                                          reportPath = NULL,
                                           hourWeight = rep(1, 24),
                                           className = NULL,
-                                          report = F,
                                           idStart = 1,
                                           maxDomainSize = 20000,
                                           ponderate = TRUE) {

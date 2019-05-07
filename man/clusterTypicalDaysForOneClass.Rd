@@ -6,8 +6,8 @@
 \usage{
 clusterTypicalDaysForOneClass(dates, PLAN, VERT = NULL,
   hubDrop = list(NL = c("BE", "DE", "FR", "AT")), nbCluster = NULL,
-  reportPath = NULL, hourWeight = rep(1, 24), className = NULL,
-  report = F, idStart = 1, maxDomainSize = 20000, ponderate = TRUE)
+  hourWeight = rep(1, 24), className = NULL, idStart = 1,
+  maxDomainSize = 20000, ponderate = TRUE)
 }
 \arguments{
 \item{dates}{\code{character}, vector of date (format YYYY-MM-DD).}
@@ -34,14 +34,10 @@ be sustracted}
 
 \item{nbCluster}{\code{numeric}, number of clusters}
 
-\item{reportPath}{\code{character}, path where the report is written.}
-
 \item{hourWeight}{\code{numeric}, vector of 24 weights, one for each hour of the day. The clustering algorithm
 will be more accurate for the flow-based domains of the hours with a relatively higher weight.}
 
 \item{className}{\code{character}, name of the class characterizing the studied time period}
-
-\item{report}{\code{boolean}, if TRUE, reports are generated.}
 
 \item{idStart}{\code{numeric}, first identifier of the returned typical days. Default value is 1}
 

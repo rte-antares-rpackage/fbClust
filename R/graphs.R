@@ -82,7 +82,6 @@ clusterPlot <- function(data,
   if(ctry1 == ctry2) {
     stop("The hubs should be distinct")
   }
-  
   hubnames <- colnames(allTypeDay$dayIn[[1]][Period == hour, PLANRaw_details][[1]])
   hubnames <- gsub("ptdf", "", hubnames[grepl("ptdf", hubnames)])
   if (!(ctry1 %in% hubnames) |
@@ -191,7 +190,6 @@ clusterPlot <- function(data,
       plot(width = width, height = height)
     )
   } else {
-    
     gg_data <- do.call("rbind.data.frame", lapply(dates, function(X){
 
       # remove NOTE data.table
@@ -223,7 +221,8 @@ clusterPlot <- function(data,
       scale_size(range=c(0.1, 2), guide=FALSE) + 
       theme(legend.position= "none") +
       # xlim(xlim[1], xlim[2]) + ylim(ylim[1], ylim[2]) + 
-      ggtitle(paste0("Flow-based  clustering ", ctry[1], "/", ctry[2])) +
+      ggtitle(paste0("Typical day: ", typicalDayDate, "\n", 
+                     "Flow-based  clustering ", ctry[1], "/", ctry[2])) +
       theme(plot.title = element_text(hjust = 0.5)) + 
       ylab(paste(ctry[2], "(MW)")) +
       xlab(paste(ctry[1], "(MW)")) + 
