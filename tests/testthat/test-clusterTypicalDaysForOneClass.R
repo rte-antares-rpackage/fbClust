@@ -18,8 +18,7 @@ test_that("clusterTypicalDaysForOneClass", {
     dates = dates, PLAN = PLAN, VERT = NULL,
     hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
     maxDomainSize = maxDomainSize, nbCluster = nbcluster,
-    report = F, hourWeight = hourWeight, className = NULL,
-    reportPath = NULL, idStart = 1)
+    hourWeight = hourWeight, className = NULL, idStart = 1)
   expect_true(nrow(allTypDays) == nbcluster)
   
   VERT <- rbindlist(lapply(1:length(allTypDays[, dayIn]), function(X) {
@@ -30,9 +29,8 @@ test_that("clusterTypicalDaysForOneClass", {
   allTypDays2 <- clusterTypicalDaysForOneClass(
     dates = dates, PLAN = PLAN, VERT = VERT, 
     hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
-    maxDomainSize = maxDomainSize, nbCluster = nbcluster,
-    report = F, hourWeight = hourWeight, className = NULL,
-    reportPath = NULL, idStart = 1)
+    maxDomainSize = maxDomainSize, nbCluster = nbcluster, 
+    hourWeight = hourWeight, className = NULL, idStart = 1)
   expect_true(all(allTypDays[, distance][[1]][, Distance][1:2] != 
                     allTypDays2[, distance][[1]][, Distance][1:2]))
   
@@ -45,7 +43,6 @@ test_that("clusterTypicalDaysForOneClass", {
   expect_error(clusterTypicalDaysForOneClass(
     dates = dates, PLAN = PLAN, VERT = VERT,
     hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
-    maxDomainSize = maxDomainSize2, nbCluster = nbcluster,
-    report = F))
+    maxDomainSize = maxDomainSize2, nbCluster = nbcluster))
 
 })
