@@ -51,9 +51,9 @@ dates <- seq(as.Date("2018-10-01"), as.Date("2018-10-04"), by = "day")
 # Generate ptdf data from a constraint file and a factor file
 PLAN <- getPreprocPlan(
   pathPtdfMatrixFactor = system.file(
-    "testdata/plan_new_version_factor_AT.rds", package = "fbClust"),
+    "ptdfFactor.csv", package = "fbClust"),
   pathPtdfMatrixConstraint = system.file(
-    "testdata/plan_new_version_constraint_AT.rds", package = "fbClust"))
+    "ptdfConstraint.csv", package = "fbClust"))
 
 
 # Clustering on the days
@@ -90,9 +90,9 @@ If you need more information, you can write getPreprocPlan in the help section o
 # read ptdf data from rds or csv (the input is two files, one with the ptdf and one with the rams)
 PLAN <- getPreprocPlan(
   pathPtdfMatrixFactor = system.file(
-    "testdata/plan_new_version_factor_AT.rds", package = "fbClust"),
+    "ptdfFactor.csv", package = "fbClust"),
   pathPtdfMatrixConstraint = system.file(
-    "testdata/plan_new_version_constraint_AT.rds", package = "fbClust"))
+    "ptdfConstraint.csv", package = "fbClust"))
 DT::datatable(PLAN[1:100])
 ```
 This data.table is an example of what you have in output of getPreprocPlan if your inputs match.
