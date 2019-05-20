@@ -31,8 +31,8 @@
 #' will be more accurate for the flow-based domains of the hours with a relatively higher weight.
 #' @param maxDomainSize \code{numeric} limit of domain size in each axis. The function will return an error if one domain
 #' or more exceed these limits.
-#' @param ponderate \code{logical} if you want to use a special ponderation for the calcul of
-#' the distances are not
+#' @param ponderate \code{logical} if TRUE, each angular sector have the same weight 
+#' in the clustering metric. E.g. {BE and FR imports, DE and NL exports} is one sector.
 #' 
 #' @examples
 #' 
@@ -71,7 +71,7 @@ clusterTypicalDaysForOneClass <- function(dates,
                                           className = NULL,
                                           idStart = 1,
                                           maxDomainSize = 20000,
-                                          ponderate = TRUE) {
+                                          ponderate = FALSE) {
 
   # pb <- txtProgressBar(style = 3)
   # setTxtProgressBar(pb, 0)
