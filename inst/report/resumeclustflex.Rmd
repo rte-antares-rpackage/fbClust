@@ -14,7 +14,6 @@ title: "`r params$set_title`"
 library(flexdashboard)
 library(rAmCharts)
 library(manipulateWidget)
-library(flowBasedClustering)
 library(ggplot2)
 library(pipeR)
 library(data.table)
