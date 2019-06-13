@@ -387,7 +387,7 @@ This function takes the following main arguments:
 ### An example of the report generation (can not be launched in this vignette).
 
 
-# allTypDay <- readRDS(system.file("testdata/report_test.rds", package = "fbClust"))
+# allTypDay <- readRDS(system.file("testdata/allTypDays.rds", package = "fbClust"))
 # generateClusteringReport(dayType = 1, data = allTypDay, outputFile = tempdir(),
 # countries = list(c("BE", "FR"), c("BE", "NL")), xlim = c(-12000, 12000),
 # ylim = c(-12000, 12000))

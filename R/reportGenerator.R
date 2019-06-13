@@ -61,7 +61,7 @@ generateClusteringReport <- function(
   
   
   CompTitle <- matchingNameTable$title[which(data[dayType]$Class == matchingNameTable$Class)]
-  print(CompTitle)
+  # print(CompTitle)
   e$CompTitle <- CompTitle
   
   rmarkdown::render(system.file("/report/resumeclustflex.Rmd", package = "fbClust"),
