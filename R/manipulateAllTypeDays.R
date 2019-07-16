@@ -6,7 +6,7 @@
 #' the vertices of the input data, the raw ptdf of the input data or the ptdf after 
 #' differenciation of the input data.
 #' 
-#' @param allTypeDay the output data.table of one of the functions 
+#' @param allTypeDay \code{data.table} the output data.table of one of the functions 
 #' \link{clusterTypicalDaysForOneClass} and \link{clusteringTypicalDays}.
 #' \itemize{
 #'  \item TypicalDay : The typical day of the cluster defined by the idDayType column.
@@ -17,7 +17,7 @@
 #'  \item idDayType : The id of the cluster.
 #' }
 #' 
-#' @param output The type of output you want to return (either ptdf, ptdfraw, vertices or summary)
+#' @param output \code{character} The type of output you want to return (either ptdf, ptdfraw, vertices or summary)
 #' \itemize{
 #'  \item ptdf : The ptdf obtained after differenciation 
 #'  \item ptdfraw : The raw ptdf (obtained just after \link{getPreprocPlan})
@@ -51,7 +51,7 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
   # remove NOTE data.table
   Class <- NULL
   idDayType <- NULL
-
+  
   .crtlAllTypeDay(allTypeDay)
   if (length(output) != 1) {
     stop("The length of the ouput must be 1")
@@ -106,7 +106,7 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
     }, simplify = F))
     
   } else if (output == "summary") {
-  
+    
     # remove NOTE data.table
     idDayType <- NULL
     TypicalDay <- NULL
@@ -128,3 +128,76 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
   
   
 }
+
+
+#' @title Write the output data of a clustering in csv file
+#'
+#' @description This function has been built to give the possibility to the user
+#' to keep the results of the clustering in a csv file using the output object of 
+#' the functions \link{clusterTypicalDaysForOneClass} and
+#' \link{clusteringTypicalDays}. The user can choose to get 
+#' the vertices of the input data, the raw ptdf of the input data or the ptdf after 
+#' differenciation of the input data. One of the interests of this function is to 
+#' get the ptdf to use easily the package fbAntares
+#' 
+#' @param allTypeDay \code{data.table} the output data.table of one of the functions 
+#' \link{clusterTypicalDaysForOneClass} and \link{clusteringTypicalDays}.
+#' \itemize{
+#'  \item TypicalDay : The typical day of the cluster defined by the idDayType column.
+#'  \item Class : The class of the clustering (typically, one of the classes obtained
+#'  with the \link{getCalendar} function).
+#'  \item dayIn : The details of the days in the cluster.
+#'  \item distance : The distance of each day of the cluster to the typical day.
+#'  \item idDayType : The id of the cluster.
+#' }
+#' 
+#' @param output \code{character} The type of output you want to return 
+#' (either ptdf, ptdfraw, vertices), default ptdf
+#' \itemize{
+#'  \item ptdf : The ptdf obtained after differenciation 
+#'  \item ptdfraw : The raw ptdf (obtained just after \link{getPreprocPlan})
+#'  \item vertices : The vertices obtained with the function \link{getVertices}
+#' }
+#' 
+#' @param outputFile \code{character} The directory where you want to save the file.
+#' @param csv \code{logical} If you want to write a csv or a rds, default TRUE
+#' @param onlyTypicalDay \code{logical} If you want only the typical days or all 
+#' days of the clustering
+#' 
+#' @examples
+#' 
+#' \dontrun{
+#' library(data.table)
+#' allTypeDay <- readRDS(system.file("testdata/allTypDays.rds", package = "fbClust"))
+#' 
+#' output <- "ptdf
+#' outputFile <- tempdir()
+#' csv <- T
+#' onlyTypicalDay <- T
+#' 
+#' writeAllTypeDays(allTypeDay, output, outputFile, csv, onlyTypicalDay)
+#' }
+#' 
+#' @import data.table
+#' @export
+writeAllTypeDays <- function(allTypeDay, output = "ptdf", outputFile, csv = T,
+                             onlyTypicalDay = T) {
+  if (!(output %in% c("ptdfraw", "ptdf", "vertices"))) {
+    stop("You chose a wrong output, possible outputs are vertices, ptdfraw and ptdf")
+  }
+  dtOutput <- manipulateAllTypeDays(allTypeDay = allTypeDay, output = output)
+  if (onlyTypicalDay) {
+    dtOutput <- dtOutput[Date %in% allTypeDay$TypicalDay]
+  }
+  dtOutput[Date %in% allTypeDay$TypicalDay, TypicalDay := T]
+  dtOutput[!(Date %in% allTypeDay$TypicalDay), TypicalDay := F]
+  if (csv) {
+    fwrite(file = paste(outputFile, paste0(Sys.Date(), output, ".csv"), sep = "/"), 
+           x = dtOutput, sep = "|")
+  } else {
+    saveRDS(dtOutput, paste(outputFile, paste0(Sys.Date(), output, ".rds"), sep = "/"))
+  }
+  
+}
+
+
