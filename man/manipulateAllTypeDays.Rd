@@ -7,7 +7,7 @@
 manipulateAllTypeDays(allTypeDay, output)
 }
 \arguments{
-\item{allTypeDay}{the output data.table of one of the functions 
+\item{allTypeDay}{\code{data.table} the output data.table of one of the functions 
 \link{clusterTypicalDaysForOneClass} and \link{clusteringTypicalDays}.
 \itemize{
  \item TypicalDay : The typical day of the cluster defined by the idDayType column.
@@ -18,7 +18,7 @@ manipulateAllTypeDays(allTypeDay, output)
  \item idDayType : The id of the cluster.
 }}
 
-\item{output}{The type of output you want to return (either ptdf, ptdfraw, vertices or summary)
+\item{output}{\code{character} The type of output you want to return (either ptdf, ptdfraw, vertices or summary)
 \itemize{
  \item ptdf : The ptdf obtained after differenciation 
  \item ptdfraw : The raw ptdf (obtained just after \link{getPreprocPlan})
