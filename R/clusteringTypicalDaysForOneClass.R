@@ -139,23 +139,6 @@ clusterTypicalDaysForOneClass <- function(dates,
   setDT(allTypDay)
   nb <- idStart:(idStart+nrow(allTypDay)-1)
   allTypDay$idDayType <- nb
-  # print(allTypDay)
-
-  # if(report){
-  #   cat("\n")
-  #   cat("Writing report(s)\n")
-  #   # pb <- txtProgressBar(style = 3)
-  #   # setTxtProgressBar(pb, 0)
-  #   outL <- .crtOutFile(allTypDay, reportPath)
-  # 
-  #   sapply(allTypDay$idDayType, function(X){
-  #     setTxtProgressBar(pb, getTxtProgressBar(pb) + 1/(outL$step + 1))
-  #     generateClusteringReport(X, data = allTypDay, outputFile = outL$outputFile)
-  #   })
-  # 
-  #   saveRDS(allTypDay, paste0(outL$outputFile, "/resultClust.RDS"))
-  #   # setTxtProgressBar(pb, 1)
-  # }
 
   allTypDay
 }
