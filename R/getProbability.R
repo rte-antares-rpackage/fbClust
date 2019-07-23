@@ -40,6 +40,7 @@
 getProbability <- function(climate, cluster, levelsProba = c(1/3, 2/3), extrapolationNA = TRUE,
                            writeProba = FALSE, outputFile = tempdir())
 {
+  
   quantiles <- NULL
   if ("class" %in% colnames(cluster)) {
     setnames(cluster, "class","Class")
