@@ -80,7 +80,7 @@ clusterTypicalDaysForOneClass <- function(dates,
   V1 <- NULL
   Period <- NULL
   dist <- NULL
-  
+  PLAN[, Date := as.character(Date)]
   .crtlPlan(PLAN)
   PLANRaw <- copy(PLAN)
   .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
@@ -88,6 +88,7 @@ clusterTypicalDaysForOneClass <- function(dates,
   if(is.null(VERT)) {
     VERT <- getVertices(PLAN)
   }
+  
 
   col_ptdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
   col_vert <- colnames(VERT)[!grepl("Date|Period|sign|N|nbsign", colnames(VERT))]

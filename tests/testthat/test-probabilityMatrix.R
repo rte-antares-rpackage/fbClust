@@ -9,7 +9,7 @@ test_that("clustering getProbability works", {
   
   # load previsouly made typical day selection on a few days (cf. test-clustering.R)
   clusterTD <- readRDS(system.file("testdata/allTypDays.rds", package = "fbClust"))
-  
+
   # run getProbability function
   probMatrix <- getProbability(climate, cluster = clusterTD, levelsProba = c(0.333, 0.666))
   

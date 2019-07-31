@@ -37,17 +37,20 @@ explaning the occurence of a particular typical day
 \dontrun{
 # load climate daily time serires
 library(data.table)
-climate <- fread(system.file("dataset/climate_example.txt",package = "flowBasedClustering"))
+climate <- fread(system.file("testdata/climate_example.txt",package = "fbClust"))
 
 # load clustering results (or build them with clusteringTypicalDays function())
-clusterTD <- readRDS(system.file("dataset/cluster_example.RDS",package = "flowBasedClustering"))
+clusterTD <- readRDS(system.file("testdata/allTypDays.rds", package = "fbClust"))
 
 # get Probability matrices
 MatProb <- getProbability(climate, clusterTD)
 
-# run with specified probability levels, and witout auto-filling the NA cases
-levelsProba <- list(summerWd = list(FR_load = c(0.5), DE_wind = c(1/3, 2/3), DE_solar = .5),
-                    summerWe = list(FR_load = c(0.5, 0.7), DE_wind = c(.5))
+
+clusterTD[, Class := c("Class1", "Class2")]
+levelsProba <- list(Class1 = list(FR_load = c(0.5), DE_wind = c(1/3, 2/3), DE_solar = .5),
+                   Class2 = list(FR_load = c(0.5, 0.7), DE_wind = c(.5))
+)
+
 )
 MatProb <- getProbability(climate, clusterTD, levelsProba = levelsProba, extrapolationNA = FALSE)
 MatProb2 <- getProbability(climate, clusterTD, levelsProba = levelsProba, extrapolationNA = TRUE)

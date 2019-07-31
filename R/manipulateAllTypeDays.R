@@ -47,7 +47,7 @@
 #' @import data.table
 #' @export
 manipulateAllTypeDays <- function(allTypeDay, output) {
-  
+  # browser()
   # remove NOTE data.table
   Class <- NULL
   idDayType <- NULL
@@ -58,6 +58,8 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
   }
   class <- unique(allTypeDay[, Class])
   if (output == "vertices") {
+    
+    colorder <- colnames(allTypeDay[, dayIn][[1]][, VERT_details][[1]])
     dt_output <- rbindlist(sapply(class, function(cl) {
       
       # remove NOTE data.table
@@ -67,15 +69,34 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
       
       data <- allTypeDay[Class == cl]
       data <- rbindlist(sapply(unique(data[, idDayType]), function(X) {
-        data.table(rbindlist(data[idDayType == X, dayIn][[1]][, VERT_details]),
-                   Class = cl, idDayType = X)
+        
+        lst <- data[idDayType == X, dayIn][[1]][, VERT_details]
+        if (!(all(colnames(lst[[1]]) == colorder))) {
+          for (i in 1:length(lst)) {
+            setcolorder(lst[[i]], colorder)
+          }
+        }
+        
+        if (class(lst[[1]]$Date) == "Date") {
+          for (i in 1:length(lst)) {
+            lst[[i]]$Date <- as.character(lst[[i]]$Date)
+          }
+          # lapply(lst, function(dt) {
+          #   dt[['Date']] <- as.character(dt[['Date']])
+          # })
+        }
+        
+        data.table(rbindlist(lst), Class = cl, idDayType = X)
+        
       }, simplify = F))
       data
     }, simplify = F))
     
   } else if (output == "ptdfraw") {
+    
+    colorder <- colnames(allTypeDay[, dayIn][[1]][, PLANRaw_details][[1]])
     dt_output <- rbindlist(sapply(class, function(cl) {
-      
+      # browser()
       # remove NOTE data.table
       idDayType <- NULL
       dayIn <- NULL
@@ -83,13 +104,31 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
       
       data <- allTypeDay[Class == cl]
       data <- rbindlist(sapply(unique(data[, idDayType]), function(X) {
-        data.table(rbindlist(data[idDayType == X, dayIn][[1]][, PLANRaw_details]),
-                   Class = cl, idDayType = X)
+        # browser()
+        lst <- data[idDayType == X, dayIn][[1]][, PLANRaw_details]
+        if (!(all(colnames(lst[[1]]) == colorder))) {
+          for (i in 1:length(lst)) {
+            setcolorder(lst[[i]], colorder)
+          }
+        }
+
+        if (class(lst[[1]]$Date) == "Date") {
+          for (i in 1:length(lst)) {
+            lst[[i]]$Date <- as.character(lst[[i]]$Date)
+          }
+          # lapply(lst, function(dt) {
+          #   dt[['Date']] <- as.character(dt[['Date']])
+          # })
+        }
+        
+        data.table(rbindlist(lst), Class = cl, idDayType = X)
       }, simplify = F))
       data
     }, simplify = F))
     
   } else if (output == "ptdf") {
+    
+    colorder <- colnames(allTypeDay[, dayIn][[1]][, PLAN_details][[1]])
     dt_output <- rbindlist(sapply(class, function(cl) {
       
       # remove NOTE data.table
@@ -99,8 +138,26 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
       
       data <- allTypeDay[Class == cl]
       data <- rbindlist(sapply(unique(data[, idDayType]), function(X) {
-        data.table(rbindlist(data[idDayType == X, dayIn][[1]][, PLAN_details]), 
-                   Class = cl, idDayType = X)
+        
+        lst <- data[idDayType == X, dayIn][[1]][, PLAN_details]
+        if (!(all(colnames(lst[[1]]) == colorder))) {
+          for (i in 1:length(lst)) {
+            setcolorder(lst[[i]], colorder)
+          }
+        }
+        
+        if (class(lst[[1]]$Date) == "Date") {
+          for (i in 1:length(lst)) {
+            lst[[i]]$Date <- as.character(lst[[i]]$Date)
+          }
+          # lapply(lst, function(dt) {
+          #   dt[['Date']] <- as.character(dt[['Date']])
+          # })
+        }
+        
+        data.table(rbindlist(lst), Class = cl, idDayType = X)
+        
+
       }, simplify = F))
       data
     }, simplify = F))

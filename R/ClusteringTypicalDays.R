@@ -82,6 +82,7 @@ clusteringTypicalDays <- function(calendar,
 
   
   # browser()
+  PLAN[, Date := as.character(Date)]
   .crtlPlan(PLAN)
   PLANRaw <- copy(PLAN)
   .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)

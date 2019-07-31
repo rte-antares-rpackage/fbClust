@@ -273,24 +273,26 @@
   #detect day closed to middle of cluster
   if(length(dateIn) > 1)
   {
+    #### Modif Date en as.character
     minDay <- which.min(rowSums(distMat[, colSel]))
     distINfo <- distMat[minDay,colSel]
     data.table(TypicalDay = names(minDay),
                Class = className,
-               dayIn = list(data.table(Date = rep(dateIn, each = 24), 
+               dayIn = list(data.table(Date = as.character(rep(dateIn, each = 24)), 
                                        Period = rep(1:24, length(dateIn)))),
-               distance = list(data.table(Date = dateIn, Distance = distINfo)))
+               distance = list(data.table(Date = as.character(dateIn), Distance = distINfo)))
   }
   # case where cluster is of size one :
   else
   {
     minDay <- dateIn
     distINfo <- 0
+    #### Modif Date en as.character
     data.table(TypicalDay = minDay,
                Class = className,
-               dayIn = list(data.table(Date = rep(dateIn, each = 24),
+               dayIn = list(data.table(Date = as.character(rep(dateIn, each = 24)),
                                        Period = rep(1:24, length(dateIn)))),
-               distance = list(data.table(Date = dateIn, Distance = distINfo)))
+               distance = list(data.table(Date = as.character(dateIn), Distance = distINfo)))
   }
 }
 
