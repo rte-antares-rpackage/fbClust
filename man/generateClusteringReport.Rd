@@ -33,7 +33,7 @@ with the domains of the other historical days it represents.
 
 \dontrun{
 
-allTypDay <- readRDS(system.file("testdata/report_test.rds", package = "fbClust"))
+allTypDay <- readRDS(system.file("testdata/allTypDays.rds", package = "fbClust"))
 generateClusteringReport(dayType = 1, data = allTypDay, outputFile = tempdir(),
 countries = list(c("BE", "FR"), c("BE", "NL")), xlim = c(-12000, 12000),
 ylim = c(-12000, 12000))

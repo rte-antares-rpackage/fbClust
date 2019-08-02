@@ -49,11 +49,22 @@
     stop(paste("The colnames of allTypeDay must be the following, in this order :",
                "TypicalDay,", "Class,", "dayIn,", "distance,", "idDayType"))
   })
-  if (!all(names(rbindlist(allTypeDay[, dayIn])) == c(
+  listdt <- lapply(allTypeDay[, dayIn], function(dt) {
+    dt
+  })
+  for (i in 1:length(listdt)) {
+    listdt[[i]]$Date <- as.character(listdt[[i]]$Date)
+  }
+  if (!all(names(rbindlist(listdt)) == c(
     "Date", "Period", "VERT_details", "PLAN_details", "PLANRaw_details"))) {
     stop(paste("The colnames of allTypeDay[, dayIn] must be the following, in this order :",
                "Date,", "Period,", "VERT_details,", "PLAN_details,", "PLANRaw_details"))
   }
+  # if (!all(names(rbindlist(allTypeDay[, dayIn])) == c(
+  #   "Date", "Period", "VERT_details", "PLAN_details", "PLANRaw_details"))) {
+  #   stop(paste("The colnames of allTypeDay[, dayIn] must be the following, in this order :",
+  #              "Date,", "Period,", "VERT_details,", "PLAN_details,", "PLANRaw_details"))
+  # }
 }
 
 
