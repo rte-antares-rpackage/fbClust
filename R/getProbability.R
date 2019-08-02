@@ -45,7 +45,7 @@ getProbability <- function(climate, cluster, levelsProba = c(1/3, 2/3), extrapol
                            writeProba = FALSE, outputFile = tempdir())
 {
   
-  quantiles <- NULL
+  quantiles <- idDayType <- Class <- Proba <- NULL
   if ("class" %in% colnames(cluster)) {
     setnames(cluster, "class","Class")
   }
@@ -227,7 +227,7 @@ getProbability <- function(climate, cluster, levelsProba = c(1/3, 2/3), extrapol
 
 
 .calcProbByComb <- function(allComb, ClimQuantiles, clVar, climateAssoClasif){
-  
+  idDayType <- Class <- NULL
   cbind(allComb, rbindlist(sapply(1:nrow(allComb), function(j)
   {
     tpComb <- allComb[j]
@@ -376,6 +376,7 @@ getProbability <- function(climate, cluster, levelsProba = c(1/3, 2/3), extrapol
 
 .calclQuantiles <- function(levelsProba, climateAssoClasif)
 {
+  Quantiles <- NULL
   mergeQuantiles <- function(X, Y){merge(x = X, y = Y,  by = c("Class", "Quantiles"),all = TRUE)}
   rbindlist(sapply(names(levelsProba), function(X){
     Reduce(mergeQuantiles, sapply(names(levelsProba[[X]]), function(Y){

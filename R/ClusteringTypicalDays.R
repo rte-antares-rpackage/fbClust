@@ -79,7 +79,7 @@ clusteringTypicalDays <- function(calendar,
   # remove NOTE data.table
   isSupLim <- NULL
   V1 <- NULL
-
+  Date <- NULL
   
   # browser()
   PLAN[, Date := as.character(Date)]

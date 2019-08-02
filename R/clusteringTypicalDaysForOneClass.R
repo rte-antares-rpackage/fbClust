@@ -80,6 +80,7 @@ clusterTypicalDaysForOneClass <- function(dates,
   V1 <- NULL
   Period <- NULL
   dist <- NULL
+  Date <- NULL
   PLAN[, Date := as.character(Date)]
   .crtlPlan(PLAN)
   PLANRaw <- copy(PLAN)

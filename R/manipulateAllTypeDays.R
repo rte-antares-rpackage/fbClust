@@ -51,7 +51,7 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
   # remove NOTE data.table
   Class <- NULL
   idDayType <- NULL
-  
+  VERT_details <- PLANRaw_details <- PLAN_details <- NULL
   .crtlAllTypeDay(allTypeDay)
   if (length(output) != 1) {
     stop("The length of the ouput must be 1")
@@ -239,6 +239,8 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
 #' @export
 writeAllTypeDays <- function(allTypeDay, output = "ptdf", outputFile, csv = T,
                              onlyTypicalDay = T) {
+  
+  Date <- TypicalDay <- NULL
   if (!(output %in% c("ptdfraw", "ptdf", "vertices"))) {
     stop("You chose a wrong output, possible outputs are vertices, ptdfraw and ptdf")
   }
