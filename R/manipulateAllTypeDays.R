@@ -59,7 +59,14 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
   class <- unique(allTypeDay[, Class])
   if (output == "vertices") {
     
+    lenDiffCols <- length(unique(sapply(1:nrow(allTypeDay), function(X) {
+      colnames(allTypeDay[, dayIn][[X]][, VERT_details][[1]])
+    })))
+    
     colorder <- colnames(allTypeDay[, dayIn][[1]][, VERT_details][[1]])
+    if(lenDiffCols > 1) {
+      colorder <- colorder[!grepl("N|nbsign|sign", colorder)]
+    }
     dt_output <- rbindlist(sapply(class, function(cl) {
       
       # remove NOTE data.table
@@ -71,11 +78,12 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
       data <- rbindlist(sapply(unique(data[, idDayType]), function(X) {
         
         lst <- data[idDayType == X, dayIn][[1]][, VERT_details]
-        if (!(all(colnames(lst[[1]]) == colorder))) {
-          for (i in 1:length(lst)) {
-            setcolorder(lst[[i]], colorder)
-          }
+        # if (!(all(colnames(lst[[1]]) == colorder))) {
+        for (i in 1:length(lst)) {
+          lst[[i]] <- lst[[i]][, .SD, .SDcols = colorder]
+          setcolorder(lst[[i]], colorder)
         }
+        # }
         
         if (class(lst[[1]]$Date) == "Date") {
           for (i in 1:length(lst)) {
@@ -111,7 +119,7 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
             setcolorder(lst[[i]], colorder)
           }
         }
-
+        
         if (class(lst[[1]]$Date) == "Date") {
           for (i in 1:length(lst)) {
             lst[[i]]$Date <- as.character(lst[[i]]$Date)
@@ -157,7 +165,7 @@ manipulateAllTypeDays <- function(allTypeDay, output) {
         
         data.table(rbindlist(lst), Class = cl, idDayType = X)
         
-
+        
       }, simplify = F))
       data
     }, simplify = F))
