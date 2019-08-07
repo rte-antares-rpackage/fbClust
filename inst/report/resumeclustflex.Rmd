@@ -23,17 +23,28 @@ library(gridExtra)
 ```
 
 ```{r}
+# vizTypicalDay <- function(data, combi, hour, dayType) {
+#   tags$div(
+#     tags$div(style = "height: 830px; width : 840px",
+#              combineWidgets(
+#                ncol = 2,
+#                list = lapply(1:nrow(combi), function(X) {
+#                  clusterPlot(data, combi[X, 1], combi[X, 2], hour, dayType,
+#                              ggplot = F, typicalDayOnly = T, xlim = xlim, ylim = ylim)
+#                }))
+#     ),
+#     align = "center")
+# }
+
 vizTypicalDay <- function(data, combi, hour, dayType) {
-  tags$div(
-    tags$div(style = "height: 830px; width : 840px",
-             combineWidgets(
-               ncol = 2,
-               list = lapply(1:nrow(combi), function(X) {
-                 clusterPlot(data, combi[X, 1], combi[X, 2], hour, dayType, 
-                             ggplot = F, typicalDayOnly = T, xlim = xlim, ylim = ylim)
-               }))
-    ), 
-    align = "center")
+  column(width = 12,
+         combineWidgets(
+           ncol = 2,
+           list = lapply(1:nrow(combi), function(X) {
+             clusterPlot(data, combi[X, 1], combi[X, 2], hour, dayType,
+                         ggplot = F, typicalDayOnly = T, xlim = xlim, ylim = ylim)
+           }),  height = "100%", width = "100%")
+  )
 }
 
 vizHistoricalDay <- function(data, combi, hour, dayType) {
@@ -125,7 +136,7 @@ Column {.tabset}
 ### Historical domains, hour 2
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -133,7 +144,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -152,7 +163,7 @@ Column {.tabset}
 ### Historical domains, hour 3
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -160,7 +171,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -177,7 +188,7 @@ Column {.tabset}
 ### Historical domains, hour 4
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -185,7 +196,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -202,7 +213,7 @@ Column {.tabset}
 ### Historical domains, hour 5
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -210,7 +221,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -228,7 +239,7 @@ Column {.tabset}
 
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -236,7 +247,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -253,7 +264,7 @@ Column {.tabset}
 ### Historical domains, hour 7
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -261,7 +272,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -278,7 +289,7 @@ Column {.tabset}
 ### Historical domains, hour 8
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -286,7 +297,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -303,7 +314,7 @@ Column {.tabset}
 ### Historical domains, hour 9
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -311,7 +322,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -328,7 +339,7 @@ Column {.tabset}
 ### Historical domains, hour 10
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -336,7 +347,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -353,7 +364,7 @@ Column {.tabset}
 ### Historical domains, hour 11
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -361,7 +372,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -378,7 +389,7 @@ Column {.tabset}
 ### Historical domains, hour 12
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -386,7 +397,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -403,7 +414,7 @@ Column {.tabset}
 ### Historical domains, hour 13
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -411,7 +422,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -428,7 +439,7 @@ Column {.tabset}
 ### Historical domains, hour 14
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -436,7 +447,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -453,7 +464,7 @@ Column {.tabset}
 ### Historical domains, hour 15
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -461,7 +472,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -478,7 +489,7 @@ Column {.tabset}
 ### Historical domains, hour 16
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -486,7 +497,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -503,7 +514,7 @@ Column {.tabset}
 ### Historical domains, hour 17
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -511,7 +522,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -528,7 +539,7 @@ Column {.tabset}
 ### Historical domains, hour 18
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -536,7 +547,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -553,7 +564,7 @@ Column {.tabset}
 ### Historical domains, hour 19
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -561,7 +572,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -578,7 +589,7 @@ Column {.tabset}
 ### Historical domains, hour 20
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -586,7 +597,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -603,7 +614,7 @@ Column {.tabset}
 ### Historical domains, hour 21
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -611,7 +622,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -628,7 +639,7 @@ Column {.tabset}
 ### Historical domains, hour 22
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -636,7 +647,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -653,7 +664,7 @@ Column {.tabset}
 ### Historical domains, hour 23
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -661,7 +672,7 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -678,7 +689,7 @@ Column {.tabset}
 ### Historical domains, hour 24
 ```{r, fig.width=8.5, fig.height=8}
 if (hour %in% uniqPeriod) {
-vizHistoricalDay(data, combi, hour, dayType)
+  vizHistoricalDay(data, combi, hour, dayType)
 }
 ```
 
@@ -686,6 +697,6 @@ vizHistoricalDay(data, combi, hour, dayType)
 
 ```{r,  fig.width=10, fig.height=9}
 if (hour %in% uniqPeriod) {
-vizTypicalDay(data, combi, hour, dayType)
+  vizTypicalDay(data, combi, hour, dayType)
 }
 ```
