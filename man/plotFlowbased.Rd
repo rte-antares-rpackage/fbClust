@@ -79,11 +79,11 @@ pathPtdfMatrixConstraint = system.file(
  
  hubDrop = list(NL = c("BE", "DE", "FR", "AT"))
 #Plot unique polyhedron
-plotFlowbased(PLAN, "BE", "DE", hubDrop = hubDrop, 
+plotFlowbased(PLAN, country1 = "BE", country2 = "DE", hubDrop = hubDrop, 
 hours = c(2), dates = c("2018-10-02"), domainsNames = "2018-10-02", main = "")
 
 #Plot four polyhedra
-plotFlowbased(PLAN, "BE", "DE", hubDrop = hubDrop, 
+plotFlowbased(PLAN, country1 = "BE", country2 = "DE", hubDrop = hubDrop, 
 hours = c(3, 4), dates = c("2018-10-02", "2018-10-04"), domainsNames = NULL,
 main = NULL)
 
@@ -93,12 +93,23 @@ main = NULL)
  PLAN2 <- PLAN2[Date == "2018-10-04"]
  PLAN2[, ptdfAT := NULL]
  hubDrop2 <- list("NL" = list("BE", "DE", "FR"))
- out3 <- plotFlowbased(PLAN, PLAN2 = PLAN2, country1 = "BE", country2 = "DE", 
+ plotFlowbased(PLAN, PLAN2 = PLAN2, country1 = "BE", country2 = "DE", 
                        hubDrop = hubDrop, hubDrop2 = hubDrop2,
                        hours = c(3, 4), dates = c("2018-10-02"),
                        hours2 = c(4), dates2 = c("2018-10-04"),
                        domainsNames = NULL, main = NULL)
 
+
+
+ # Plot two domains from cwe and cwe-at at the same hours 
+ PLAN3 <- copy(PLAN)
+ PLAN3[, ptdfAT := NULL]
+ hubDrop2 <- list("NL" = list("BE", "DE", "FR"))
+ plotFlowbased(PLAN, PLAN2 = PLAN3, country1 = "BE", country2 = "DE", 
+                       hubDrop = hubDrop, hubDrop2 = hubDrop2,
+                       hours = c(3, 4), dates = c("2018-10-02"),
+                       hours2 = c(3, 4), dates2 = c("2018-10-02"),
+                       domainsNames = NULL, main = NULL)
 
 }
 
