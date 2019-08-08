@@ -292,11 +292,11 @@ clusterPlot <- function(data,
 #'  
 #'  hubDrop = list(NL = c("BE", "DE", "FR", "AT"))
 #' #Plot unique polyhedron
-#' plotFlowbased(PLAN, "BE", "DE", hubDrop = hubDrop, 
+#' plotFlowbased(PLAN, country1 = "BE", country2 = "DE", hubDrop = hubDrop, 
 #' hours = c(2), dates = c("2018-10-02"), domainsNames = "2018-10-02", main = "")
 #'
 #' #Plot four polyhedra
-#' plotFlowbased(PLAN, "BE", "DE", hubDrop = hubDrop, 
+#' plotFlowbased(PLAN, country1 = "BE", country2 = "DE", hubDrop = hubDrop, 
 #' hours = c(3, 4), dates = c("2018-10-02", "2018-10-04"), domainsNames = NULL,
 #' main = NULL)
 #'
@@ -306,12 +306,23 @@ clusterPlot <- function(data,
 #'  PLAN2 <- PLAN2[Date == "2018-10-04"]
 #'  PLAN2[, ptdfAT := NULL]
 #'  hubDrop2 <- list("NL" = list("BE", "DE", "FR"))
-#'  out3 <- plotFlowbased(PLAN, PLAN2 = PLAN2, country1 = "BE", country2 = "DE", 
+#'  plotFlowbased(PLAN, PLAN2 = PLAN2, country1 = "BE", country2 = "DE", 
 #'                        hubDrop = hubDrop, hubDrop2 = hubDrop2,
 #'                        hours = c(3, 4), dates = c("2018-10-02"),
 #'                        hours2 = c(4), dates2 = c("2018-10-04"),
 #'                        domainsNames = NULL, main = NULL)
 #'
+#'
+#'
+#'  # Plot two domains from cwe and cwe-at at the same hours 
+#'  PLAN3 <- copy(PLAN)
+#'  PLAN3[, ptdfAT := NULL]
+#'  hubDrop2 <- list("NL" = list("BE", "DE", "FR"))
+#'  plotFlowbased(PLAN, PLAN2 = PLAN3, country1 = "BE", country2 = "DE", 
+#'                        hubDrop = hubDrop, hubDrop2 = hubDrop2,
+#'                        hours = c(3, 4), dates = c("2018-10-02"),
+#'                        hours2 = c(3, 4), dates2 = c("2018-10-02"),
+#'                        domainsNames = NULL, main = NULL)
 #'
 #' }
 #'
@@ -360,7 +371,7 @@ plotFlowbased <- function(PLAN,
   .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
   PLAN <- setDiffNotWantedPtdf(PLAN = PLAN, hubDrop = hubDrop)
   comb <- unique(PLAN[, list(Period, Date)])
-  
+  comb[,  PLAN := "PLAN"]
   if (!is.null(PLAN2)) {
     hubnames2 <- gsub("ptdf", "", colnames(PLAN2)[grep("ptdf", colnames(PLAN2))])
     PLAN2 <- copy(PLAN2)
@@ -368,6 +379,7 @@ plotFlowbased <- function(PLAN,
     .ctrlHubDrop(hubDrop = hubDrop2, PLAN = PLAN2)
     PLAN2 <- setDiffNotWantedPtdf(PLAN = PLAN2, hubDrop = hubDrop2)
     comb2 <- unique(PLAN2[, list(Period, Date)])
+    comb2[,  PLAN := "PLAN2"]
     comb <- rbindlist(list(comb, comb2))
   }
   
@@ -389,6 +401,9 @@ plotFlowbased <- function(PLAN,
   }
   if(is.null(domainsNames)){
     domainsNames <- paste("Date :", comb[, Date], "Hour :", comb[, Period])
+    if (length(unique(comb$PLAN) > 1)) {
+      domainsNames <- paste(domainsNames, "PTDF :", comb[, PLAN])
+    }
   }
   
   VERT <- getVertices(PLAN)
@@ -462,13 +477,13 @@ plotFlowbased <- function(PLAN,
     
     period <- comb[X, Period]
     date <- comb[X, Date]
-    if (nrow(VERT[Period == period & Date == date]) == 0 &
-        !is.null(VERT2)) {
+    pl <- comb[X, PLAN]
+    if (pl == "PLAN2") {
       data <- data.table(.getChull(VERT2[Period == period & Date == date], 
                                    ctry1, ctry2, hubnameDiff2))
     } else {
-        data <- data.table(.getChull(VERT[Period == period & Date == date], 
-                                     ctry1, ctry2, hubnameDiff))
+      data <- data.table(.getChull(VERT[Period == period & Date == date], 
+                                   ctry1, ctry2, hubnameDiff))
       
     }
     
