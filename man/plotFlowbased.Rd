@@ -4,8 +4,9 @@
 \alias{plotFlowbased}
 \title{Plot flow-based domain(s)}
 \usage{
-plotFlowbased(PLAN, country1, country2, hours, dates,
-  domainsNames = NULL, hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
+plotFlowbased(PLAN, PLAN2 = NULL, country1, country2, hours, dates,
+  hours2 = NULL, dates2 = NULL, domainsNames = NULL,
+  hubDrop = list(NL = c("BE", "DE", "FR", "AT")), hubDrop2 = NULL,
   xlim = c(-10000, 10000), ylim = c(-10000, 10000), main = NULL,
   width = "420px", height = "410px")
 }
@@ -22,18 +23,33 @@ plotFlowbased(PLAN, country1, country2, hours, dates,
 }
 PLAN is generated in this format with the function \link{getPreprocPlan}}
 
+\item{PLAN2}{\code{data.table}, at least ram, Date, Period and two ptdf columns.
+This argument is optional, default is NULL. You can use it if you want to make
+comparison between domains from cwe and domains from cwe-at.}
+
 \item{country1}{\code{character}, name of the country whose net position is in the x axis (BE, FR, DE, AT or NL)}
 
 \item{country2}{\code{character}, name of the country whose net position is in the y axis (BE, FR, DE, AT or NL)}
 
 \item{hours}{\code{character}, hours of interest for the graphics.}
 
-\item{dates}{\code{character}, dates of interest for the graphics. (All the combinations of dates and hours are )}
+\item{dates}{\code{character}, dates of interest for the graphics.}
+
+\item{hours2}{\code{character}, optional (default NULL) hours of interest for 
+the graphics of the domains from PLAN2.}
+
+\item{dates2}{\code{character}, optional (default NULL) dates of interest for the graphics. 
+of the domains from PLAN2.}
 
 \item{domainsNames}{\code{character} names of the domain(s), used as legend of the graphics.
 The length of domainsNames has to be the same of the number of combinations of hours and dates}
 
 \item{hubDrop}{\code{list}, list of hubs in the ptdf, with the ones which should
+sustracted to the others as the names of the arrays which themself contain the ones which
+be sustracted}
+
+\item{hubDrop2}{\code{list}, optional (default NULL) list of hubs in the ptdf from PLAN2, 
+with the ones which should
 sustracted to the others as the names of the arrays which themself contain the ones which
 be sustracted}
 
@@ -56,9 +72,9 @@ Plot flow-based domain(s)
 library(data.table)
 library(rAmCharts)
 PLAN <- getPreprocPlan(
-path_ptdf_matrix_factor = system.file(
+pathPtdfMatrixFactor = system.file(
   "testdata/plan_new_version_factor_AT.rds", package = "fbClust"),
-path_ptdf_matrix_constraint = system.file(
+pathPtdfMatrixConstraint = system.file(
  "testdata/plan_new_version_constraint_AT.rds", package = "fbClust"))
  
  hubDrop = list(NL = c("BE", "DE", "FR", "AT"))
@@ -70,6 +86,19 @@ hours = c(2), dates = c("2018-10-02"), domainsNames = "2018-10-02", main = "")
 plotFlowbased(PLAN, "BE", "DE", hubDrop = hubDrop, 
 hours = c(3, 4), dates = c("2018-10-02", "2018-10-04"), domainsNames = NULL,
 main = NULL)
+
+
+#Plot two domains from cwe_at and one domain from cwe in the same graphic
+ PLAN2 <- copy(PLAN)
+ PLAN2 <- PLAN2[Date == "2018-10-04"]
+ PLAN2[, ptdfAT := NULL]
+ hubDrop2 <- list("NL" = list("BE", "DE", "FR"))
+ out3 <- plotFlowbased(PLAN, PLAN2 = PLAN2, country1 = "BE", country2 = "DE", 
+                       hubDrop = hubDrop, hubDrop2 = hubDrop2,
+                       hours = c(3, 4), dates = c("2018-10-02"),
+                       hours2 = c(4), dates2 = c("2018-10-04"),
+                       domainsNames = NULL, main = NULL)
+
 
 }
 

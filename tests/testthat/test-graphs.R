@@ -53,7 +53,7 @@ test_that("clusterPlot", {
   out2 <- plotFlowbased(PLAN, country1 = "BE", country2 = "DE", hubDrop = hubDrop,
                         hours = c(3, 4), dates = c("2018-10-02", "2018-10-04"), domainsNames = NULL,
                         main = NULL)
-  expect_true("htmlwidget" %in% class(out))
+  expect_true("htmlwidget" %in% class(out2))
 
   expect_error(plotFlowbased(
     PLAN, country1 = "BE", country2 = "DE", hubDrop = hubDrop, hours = c(3, 4),
@@ -67,6 +67,17 @@ test_that("clusterPlot", {
     dates = c("2018-10-04"), domainsNames = c("one domain", "two domains"), main = NULL),
     regexp = "Only one PLAN specified for 2 or more domainsNames", fixed = T)
   
+  
+  PLAN2 <- copy(PLAN)
+  PLAN2 <- PLAN2[Date == "2018-10-04"]
+  PLAN2[, ptdfAT := NULL]
+  hubDrop2 <- list("NL" = list("BE", "DE", "FR"))
+  out3 <- plotFlowbased(PLAN, PLAN2 = PLAN2, country1 = "BE", country2 = "DE", 
+                        hubDrop = hubDrop, hubDrop2 = hubDrop2,
+                        hours = c(3, 4), dates = c("2018-10-02"),
+                        hours2 = c(4), dates2 = c("2018-10-04"),
+                        domainsNames = NULL, main = NULL)
+  expect_true("htmlwidget" %in% class(out3))
   
   
 })

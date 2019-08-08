@@ -208,14 +208,14 @@ If you have used the function **getPreprocPlan**, you can visualize flowbased do
 
 ```{r}
 # Example with one plot
-plotFlowbased(PLAN, "FR", "DE", hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
+plotFlowbased(PLAN = PLAN, country1 = "FR", country2 = "DE", hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
 hours = 2, dates = "2018-10-03", domainsNames = NULL, main = NULL, width = "100%", height = "640px")
 ```
 
 
 ```{r}
 # Example with four plots
-plotFlowbased(PLAN, "BE", "NL", hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
+plotFlowbased(PLAN = PLAN, country1 = "BE", country2 = "NL", hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
 hours = c(3, 4), dates = c("2018-10-02", "2018-10-04"), domainsNames = NULL,
 main = NULL, width = "100%", height = "640px", xlim = c(-12000, 12000), ylim = c(-12000, 12000))
 ```

@@ -52,7 +52,7 @@ clusterPlot <- function(data,
   # remove NOTE data.table
   idDayType <- NULL
   dataPlot <- .getDataPlotClustering(data[idDayType==dayType],  country1, country2, hour)
-
+  
   .makeGraph(dataPlot, data[idDayType==dayType]$TypicalDay, xlim = xlim, ylim = ylim,
              typicalDayOnly = typicalDayOnly, ggplot = ggplot, width = width, height = height)
 }
@@ -68,7 +68,7 @@ clusterPlot <- function(data,
   PLANRaw_details <- NULL
   PLAN_details <- NULL
   VERT_details <- NULL
-
+  
   if (grepl("ptdf", country1)) {
     ctry1 <- gsub("ptdf", "", country1)
   } else {
@@ -118,7 +118,7 @@ clusterPlot <- function(data,
 ## Compute the convex hull from two countries in a data.frame
 
 .getChull <- function(data, country1, country2, hubnameDiff){
-
+  
   # remove NOTE data.table
   chull <- NULL
   
@@ -191,7 +191,7 @@ clusterPlot <- function(data,
     )
   } else {
     gg_data <- do.call("rbind.data.frame", lapply(dates, function(X){
-
+      
       # remove NOTE data.table
       size <- NULL
       col <- NULL
@@ -253,14 +253,25 @@ clusterPlot <- function(data,
 #'  \item Period : hour in the day, between 1 and 24
 #' }
 #' PLAN is generated in this format with the function \link{getPreprocPlan}
+#' @param PLAN2 \code{data.table}, at least ram, Date, Period and two ptdf columns.
+#' This argument is optional, default is NULL. You can use it if you want to make
+#' comparison between domains from cwe and domains from cwe-at.
 #' @param country1 \code{character}, name of the country whose net position is in the x axis (BE, FR, DE, AT or NL)
 #' @param country2 \code{character}, name of the country whose net position is in the y axis (BE, FR, DE, AT or NL)
+#' @param hours2 \code{character}, optional (default NULL) hours of interest for 
+#' the graphics of the domains from PLAN2.
+#' @param dates2 \code{character}, optional (default NULL) dates of interest for the graphics. 
+#' of the domains from PLAN2.
 #' @param hours \code{character}, hours of interest for the graphics.
-#' @param dates \code{character}, dates of interest for the graphics. (All the combinations of dates and hours are )
+#' @param dates \code{character}, dates of interest for the graphics.
 #' @param domainsNames \code{character} names of the domain(s), used as legend of the graphics.
 #' The length of domainsNames has to be the same of the number of combinations of hours and dates
 #' @param main \code{character} title of the graph, if NULL, the title will be "Domains country1 - country2"
 #' @param hubDrop \code{list}, list of hubs in the ptdf, with the ones which should
+#' sustracted to the others as the names of the arrays which themself contain the ones which
+#' be sustracted
+#' @param hubDrop2 \code{list}, optional (default NULL) list of hubs in the ptdf from PLAN2, 
+#' with the ones which should
 #' sustracted to the others as the names of the arrays which themself contain the ones which
 #' be sustracted
 #' @param xlim \code{numeric}, limits of x-axis (default = c(-10000, 10000))
@@ -274,9 +285,9 @@ clusterPlot <- function(data,
 #' library(data.table)
 #' library(rAmCharts)
 #' PLAN <- getPreprocPlan(
-#' path_ptdf_matrix_factor = system.file(
+#' pathPtdfMatrixFactor = system.file(
 #'   "testdata/plan_new_version_factor_AT.rds", package = "fbClust"),
-#' path_ptdf_matrix_constraint = system.file(
+#' pathPtdfMatrixConstraint = system.file(
 #'  "testdata/plan_new_version_constraint_AT.rds", package = "fbClust"))
 #'  
 #'  hubDrop = list(NL = c("BE", "DE", "FR", "AT"))
@@ -289,22 +300,39 @@ clusterPlot <- function(data,
 #' hours = c(3, 4), dates = c("2018-10-02", "2018-10-04"), domainsNames = NULL,
 #' main = NULL)
 #'
+#'
+#' #Plot two domains from cwe_at and one domain from cwe in the same graphic
+#'  PLAN2 <- copy(PLAN)
+#'  PLAN2 <- PLAN2[Date == "2018-10-04"]
+#'  PLAN2[, ptdfAT := NULL]
+#'  hubDrop2 <- list("NL" = list("BE", "DE", "FR"))
+#'  out3 <- plotFlowbased(PLAN, PLAN2 = PLAN2, country1 = "BE", country2 = "DE", 
+#'                        hubDrop = hubDrop, hubDrop2 = hubDrop2,
+#'                        hours = c(3, 4), dates = c("2018-10-02"),
+#'                        hours2 = c(4), dates2 = c("2018-10-04"),
+#'                        domainsNames = NULL, main = NULL)
+#'
+#'
 #' }
 #'
 #' @export
 
 plotFlowbased <- function(PLAN,
+                          PLAN2 = NULL,
                           country1,
                           country2,
                           hours,
                           dates,
+                          hours2 = NULL,
+                          dates2 = NULL,
                           domainsNames = NULL,
                           hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
+                          hubDrop2 = NULL,
                           xlim = c(-10000, 10000),
                           ylim = c(-10000, 10000),
                           main = NULL,
                           width = "420px", height = "410px"){
-
+  
   # remove NOTE data.table
   Period <- NULL
   Date <- NULL
@@ -323,16 +351,29 @@ plotFlowbased <- function(PLAN,
   if(ctry1 == ctry2) {
     stop("The countries should be distinct")
   }
-  PLAN
   hubnames <- gsub("ptdf", "", colnames(PLAN)[grep("ptdf", colnames(PLAN))])
   PLAN <- copy(PLAN)
   PLAN <- PLAN[Period %in% hours & Date %in% dates]
+  
+  
+  
   .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
   PLAN <- setDiffNotWantedPtdf(PLAN = PLAN, hubDrop = hubDrop)
   comb <- unique(PLAN[, list(Period, Date)])
-
+  
+  if (!is.null(PLAN2)) {
+    hubnames2 <- gsub("ptdf", "", colnames(PLAN2)[grep("ptdf", colnames(PLAN2))])
+    PLAN2 <- copy(PLAN2)
+    PLAN2 <- PLAN2[Period %in% hours2 & Date %in% dates2]
+    .ctrlHubDrop(hubDrop = hubDrop2, PLAN = PLAN2)
+    PLAN2 <- setDiffNotWantedPtdf(PLAN = PLAN2, hubDrop = hubDrop2)
+    comb2 <- unique(PLAN2[, list(Period, Date)])
+    comb <- rbindlist(list(comb, comb2))
+  }
+  
   #Control arguments
   multiPDTF <- (nrow(comb) > 1)
+  
   if(!is.null(domainsNames)){
     if(!multiPDTF){
       if(length(domainsNames) != 1){
@@ -349,16 +390,22 @@ plotFlowbased <- function(PLAN,
   if(is.null(domainsNames)){
     domainsNames <- paste("Date :", comb[, Date], "Hour :", comb[, Period])
   }
-
+  
   VERT <- getVertices(PLAN)
   hubnames_vert <- colnames(VERT)[!grepl("Date|Period", colnames(VERT))]
-  # hubnames_vert <- gsub("ptdf", "", colnames(VERT)[grep("ptdf", colnames(VERT))])
   hubnameDiff <- hubnames[!(hubnames %in% hubnames_vert)]
-  # lim <- round(max(VERT[, list(get(ctry1), get(ctry2))])+500, -3)
-  # xlim <- c(-lim, lim)
-  # ylim <- c(-lim, lim)
-
-  dataToGraph <- .givePlotData(VERT, ctry1, ctry2, comb, domainsNames, hubnameDiff)
+  
+  if(!is.null(PLAN2)) {
+    VERT2 <- getVertices(PLAN2)
+    hubnames_vert2 <- colnames(VERT2)[!grepl("Date|Period", colnames(VERT2))]
+    hubnameDiff2 <- hubnames2[!(hubnames2 %in% hubnames_vert2)]
+  } else {
+    VERT2 <- NULL
+    hubnameDiff2 <- NULL
+  }
+  
+  dataToGraph <- .givePlotData(VERT, VERT2, ctry1, ctry2, comb, 
+                               domainsNames, hubnameDiff, hubnameDiff2)
   rowMax <- max(unlist(lapply(dataToGraph, nrow)))
   dataToGraph <- lapply(dataToGraph, function(dta){
     if(nrow(dta)<rowMax){
@@ -374,8 +421,8 @@ plotFlowbased <- function(PLAN,
   if (is.null(main)) {
     main <- paste("Domains", gsub("ptdf", "", ctry1), "-", gsub("ptdf", " ", ctry2))
   }
-
-
+  
+  
   #Graph creation for more exmples see rAmCharts::runExamples()
   graphs <- sapply(1:length(domainsNames), function(X){
     amGraph(title = domainsNames[X], balloonText =
@@ -386,7 +433,7 @@ plotFlowbased <- function(PLAN,
             bullet = 'circle', xField = paste0(domainsNames[X], " ", ctry1),
             yField = paste0(domainsNames[X], " ", ctry2),
             lineAlpha = 1, bullet = "bubble", bulletSize = 4, lineThickness = 3)
-
+    
   }, USE.NAMES = FALSE)
   pipeR::pipeline(
     amXYChart(dataProvider = dataToGraph),
@@ -403,7 +450,8 @@ plotFlowbased <- function(PLAN,
   )
 }
 
-.givePlotData <- function(VERT, ctry1, ctry2, comb, domainsNames, hubnameDiff){
+.givePlotData <- function(VERT, VERT2, ctry1, ctry2, comb, 
+                          domainsNames, hubnameDiff, hubnameDiff2){
   
   
   res <- lapply(1:nrow(comb), function(X) {
@@ -414,12 +462,152 @@ plotFlowbased <- function(PLAN,
     
     period <- comb[X, Period]
     date <- comb[X, Date]
-    data <- data.table(.getChull(VERT[Period == period & Date == date], 
-                                 ctry1, ctry2, hubnameDiff))
+    if (nrow(VERT[Period == period & Date == date]) == 0 &
+        !is.null(VERT2)) {
+      data <- data.table(.getChull(VERT2[Period == period & Date == date], 
+                                   ctry1, ctry2, hubnameDiff2))
+    } else {
+        data <- data.table(.getChull(VERT[Period == period & Date == date], 
+                                     ctry1, ctry2, hubnameDiff))
+      
+    }
+    
     setnames(data, old = c("ptctry", "ptctry2"),
              new = paste(domainsNames[X], c(gsub("ptdf", "", ctry1), gsub("ptdf", "", ctry2))))
     # names(dataToGraph)[X:(X+1)]))
     data
   })
 }
+
+
+
+# plotFlowbased <- function(PLAN,
+#                           country1,
+#                           country2,
+#                           hours,
+#                           dates,
+#                           domainsNames = NULL,
+#                           hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
+#                           xlim = c(-10000, 10000),
+#                           ylim = c(-10000, 10000),
+#                           main = NULL,
+#                           width = "420px", height = "410px"){
+# 
+#   # remove NOTE data.table
+#   Period <- NULL
+#   Date <- NULL
+#   
+#   #Generate data for plot
+#   if (grepl("ptdf", country1)) {
+#     ctry1 <- gsub("ptdf", "", country1)
+#   } else {
+#     ctry1 <- country1
+#   }
+#   if (grepl("ptdf", country2)) {
+#     ctry2 <- gsub("ptdf", "", country2)
+#   } else {
+#     ctry2 <- country2
+#   }
+#   if(ctry1 == ctry2) {
+#     stop("The countries should be distinct")
+#   }
+#   PLAN
+#   hubnames <- gsub("ptdf", "", colnames(PLAN)[grep("ptdf", colnames(PLAN))])
+#   PLAN <- copy(PLAN)
+#   PLAN <- PLAN[Period %in% hours & Date %in% dates]
+#   .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
+#   PLAN <- setDiffNotWantedPtdf(PLAN = PLAN, hubDrop = hubDrop)
+#   comb <- unique(PLAN[, list(Period, Date)])
+# 
+#   #Control arguments
+#   multiPDTF <- (nrow(comb) > 1)
+#   if(!is.null(domainsNames)){
+#     if(!multiPDTF){
+#       if(length(domainsNames) != 1){
+#         stop("Only one PLAN specified for 2 or more domainsNames")
+#       }
+#     }else{
+#       if(length(domainsNames) != nrow(comb)){
+#         stop(paste0("You must have one domainsNames specified by combination of hours and time, currently you have ",
+#                     length(domainsNames), " domainsNames specify for ",
+#                     nrow(comb), " PLAN"))
+#       }
+#     }
+#   }
+#   if(is.null(domainsNames)){
+#     domainsNames <- paste("Date :", comb[, Date], "Hour :", comb[, Period])
+#   }
+# 
+#   VERT <- getVertices(PLAN)
+#   hubnames_vert <- colnames(VERT)[!grepl("Date|Period", colnames(VERT))]
+#   # hubnames_vert <- gsub("ptdf", "", colnames(VERT)[grep("ptdf", colnames(VERT))])
+#   hubnameDiff <- hubnames[!(hubnames %in% hubnames_vert)]
+#   # lim <- round(max(VERT[, list(get(ctry1), get(ctry2))])+500, -3)
+#   # xlim <- c(-lim, lim)
+#   # ylim <- c(-lim, lim)
+# 
+#   dataToGraph <- .givePlotData(VERT, ctry1, ctry2, comb, domainsNames, hubnameDiff)
+#   rowMax <- max(unlist(lapply(dataToGraph, nrow)))
+#   dataToGraph <- lapply(dataToGraph, function(dta){
+#     if(nrow(dta)<rowMax){
+#       Na <-  data.frame(rep(NA,rowMax - nrow(dta)),
+#                         rep(NA,rowMax - nrow(dta)))
+#       names(Na) <- names(dta)
+#       rbind(dta,Na)
+#     }else{
+#       dta
+#     }
+#   })
+#   dataToGraph <- do.call(cbind, dataToGraph)
+#   if (is.null(main)) {
+#     main <- paste("Domains", gsub("ptdf", "", ctry1), "-", gsub("ptdf", " ", ctry2))
+#   }
+# 
+# 
+#   #Graph creation for more exmples see rAmCharts::runExamples()
+#   graphs <- sapply(1:length(domainsNames), function(X){
+#     amGraph(title = domainsNames[X], balloonText =
+#               paste0('<b>',domainsNames[X],'<br>',
+#                      paste0(domainsNames[X], gsub("ptdf", " ", ctry1)),
+#                      '</b> :[[x]] <br><b>',
+#                      paste0(domainsNames[X], gsub("ptdf", " ", ctry2)), '</b> :[[y]]'),
+#             bullet = 'circle', xField = paste0(domainsNames[X], " ", ctry1),
+#             yField = paste0(domainsNames[X], " ", ctry2),
+#             lineAlpha = 1, bullet = "bubble", bulletSize = 4, lineThickness = 3)
+# 
+#   }, USE.NAMES = FALSE)
+#   pipeR::pipeline(
+#     amXYChart(dataProvider = dataToGraph),
+#     addTitle(text = main),
+#     setGraphs(graphs),
+#     setChartCursor(),
+#     addValueAxes(title = paste(gsub("ptdf", "", ctry1), "(MW)"), position = "bottom", minimum = xlim[1],
+#                  maximum = xlim[2], minHorizontalGap = 35, minVerticalGap = 35),
+#     addValueAxes(title =  paste(gsub("ptdf", "", ctry2), "(MW)"), minimum = ylim[1],
+#                  maximum = ylim[2], minHorizontalGap = 35, minVerticalGap = 35),
+#     setExport(enabled = TRUE),
+#     setLegend(enabled = TRUE),
+#     plot(width = width, height = height)
+#   )
+# }
+# 
+# .givePlotData <- function(VERT, ctry1, ctry2, comb, domainsNames, hubnameDiff){
+#   
+#   
+#   res <- lapply(1:nrow(comb), function(X) {
+#     
+#     # remove NOTE data.table
+#     Period <- NULL
+#     Date <- NULL
+#     
+#     period <- comb[X, Period]
+#     date <- comb[X, Date]
+#     data <- data.table(.getChull(VERT[Period == period & Date == date], 
+#                                  ctry1, ctry2, hubnameDiff))
+#     setnames(data, old = c("ptctry", "ptctry2"),
+#              new = paste(domainsNames[X], c(gsub("ptdf", "", ctry1), gsub("ptdf", "", ctry2))))
+#     # names(dataToGraph)[X:(X+1)]))
+#     data
+#   })
+# }
 
