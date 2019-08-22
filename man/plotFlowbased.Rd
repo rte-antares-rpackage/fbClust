@@ -8,7 +8,7 @@ plotFlowbased(PLAN, PLAN2 = NULL, country1, country2, hours, dates,
   hours2 = NULL, dates2 = NULL, domainsNames = NULL,
   hubDrop = list(NL = c("BE", "DE", "FR", "AT")), hubDrop2 = NULL,
   xlim = c(-10000, 10000), ylim = c(-10000, 10000), main = NULL,
-  width = "420px", height = "410px")
+  width = "420px", height = "410px", color = NULL)
 }
 \arguments{
 \item{PLAN}{\code{data.table}, at least ram, Date, Period and two ptdf columns :
@@ -62,6 +62,11 @@ be sustracted}
 \item{width}{\code{character}, for rAmCharts only. Default to "420px" (set to "100/100" for dynamic resize)}
 
 \item{height}{\code{character}, for rAmCharts only. Default to "410px" (set to "100/100" for dynamic resize)}
+
+\item{color}{\code{character}, default NULL, if you want to customize the 
+colors of the graphics, color has to be the same length as the number of
+graphics you want. The colors can be written either in the format "red", "blue"...
+or "#CC0000", "#00CC00"...}
 }
 \description{
 Plot flow-based domain(s)
@@ -110,6 +115,22 @@ main = NULL)
                        hours = c(3, 4), dates = c("2018-10-02"),
                        hours2 = c(3, 4), dates2 = c("2018-10-02"),
                        domainsNames = NULL, main = NULL)
+                       
+                       
+ # Examples with colors chosen
+ plotFlowbased(PLAN, country1 = "AT", country2 = "DE", 
+                       hubDrop = hubDrop,
+                       hours = c(3), dates = c("2018-10-02", "2018-10-03"),
+                       domainsNames = NULL, main = NULL,
+                       color = c("#CC0000", "purple"))
+                       
+                           
+ plotFlowbased(PLAN, PLAN2 = PLAN3, country1 = "BE", country2 = "DE", 
+                       hubDrop = hubDrop, hubDrop2 = hubDrop2,
+                       hours = c(3, 4), dates = c("2018-10-02"),
+                       hours2 = c(3, 4), dates2 = c("2018-10-02"),
+                       domainsNames = NULL, main = NULL,
+                       color = c("blue", "grey", "green", "brown"))                      
 
 }
 

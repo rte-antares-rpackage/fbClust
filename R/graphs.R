@@ -278,6 +278,10 @@ clusterPlot <- function(data,
 #' @param ylim \code{numeric}, limits of x-axis (default = c(-10000, 10000))
 #' @param width \code{character}, for rAmCharts only. Default to "420px" (set to "100/100" for dynamic resize)
 #' @param height \code{character}, for rAmCharts only. Default to "410px" (set to "100/100" for dynamic resize)
+#' @param color \code{character}, default NULL, if you want to customize the 
+#' colors of the graphics, color has to be the same length as the number of
+#' graphics you want. The colors can be written either in the format "red", "blue"...
+#' or "#CC0000", "#00CC00"...
 #' 
 #' @examples
 #'
@@ -323,6 +327,22 @@ clusterPlot <- function(data,
 #'                        hours = c(3, 4), dates = c("2018-10-02"),
 #'                        hours2 = c(3, 4), dates2 = c("2018-10-02"),
 #'                        domainsNames = NULL, main = NULL)
+#'                        
+#'                        
+#'  # Examples with colors chosen
+#'  plotFlowbased(PLAN, country1 = "AT", country2 = "DE", 
+#'                        hubDrop = hubDrop,
+#'                        hours = c(3), dates = c("2018-10-02", "2018-10-03"),
+#'                        domainsNames = NULL, main = NULL,
+#'                        color = c("#CC0000", "purple"))
+#'                        
+#'                            
+#'  plotFlowbased(PLAN, PLAN2 = PLAN3, country1 = "BE", country2 = "DE", 
+#'                        hubDrop = hubDrop, hubDrop2 = hubDrop2,
+#'                        hours = c(3, 4), dates = c("2018-10-02"),
+#'                        hours2 = c(3, 4), dates2 = c("2018-10-02"),
+#'                        domainsNames = NULL, main = NULL,
+#'                        color = c("blue", "grey", "green", "brown"))                      
 #'
 #' }
 #'
@@ -342,7 +362,8 @@ plotFlowbased <- function(PLAN,
                           xlim = c(-10000, 10000),
                           ylim = c(-10000, 10000),
                           main = NULL,
-                          width = "420px", height = "410px"){
+                          width = "420px", height = "410px",
+                          color = NULL){
   
   # remove NOTE data.table
   Period <- NULL
@@ -421,6 +442,13 @@ plotFlowbased <- function(PLAN,
   
   dataToGraph <- .givePlotData(VERT, VERT2, ctry1, ctry2, comb, 
                                domainsNames, hubnameDiff, hubnameDiff2)
+  if(!is.null(color)) {
+    if(length(color) != length(domainsNames)) {
+      stop(paste("If color is not null, it has to be the same length of the number",
+                 "of graphics. There is currently", length(domainsNames), "graphics",
+                 "and", length(color), "colors set"))
+    }
+  }
   rowMax <- max(unlist(lapply(dataToGraph, nrow)))
   dataToGraph <- lapply(dataToGraph, function(dta){
     if(nrow(dta)<rowMax){
@@ -440,15 +468,19 @@ plotFlowbased <- function(PLAN,
   
   #Graph creation for more exmples see rAmCharts::runExamples()
   graphs <- sapply(1:length(domainsNames), function(X){
-    amGraph(title = domainsNames[X], balloonText =
-              paste0('<b>',domainsNames[X],'<br>',
-                     paste0(domainsNames[X], gsub("ptdf", " ", ctry1)),
-                     '</b> :[[x]] <br><b>',
-                     paste0(domainsNames[X], gsub("ptdf", " ", ctry2)), '</b> :[[y]]'),
-            bullet = 'circle', xField = paste0(domainsNames[X], " ", ctry1),
-            yField = paste0(domainsNames[X], " ", ctry2),
-            lineAlpha = 1, bullet = "bubble", bulletSize = 4, lineThickness = 3)
-    
+    graph <- amGraph(title = domainsNames[X], balloonText =
+                       paste0('<b>',domainsNames[X],'<br>',
+                              paste0(domainsNames[X], gsub("ptdf", " ", ctry1)),
+                              '</b> :[[x]] <br><b>',
+                              paste0(domainsNames[X], gsub("ptdf", " ", ctry2)), '</b> :[[y]]'),
+                     bullet = 'circle', xField = paste0(domainsNames[X], " ", ctry1),
+                     yField = paste0(domainsNames[X], " ", ctry2),
+                     lineAlpha = 1, bullet = "bubble", bulletSize = 4, lineThickness = 3)
+    if (!is.null(color)) {
+      graph@otherProperties$lineColor <- color[X]
+    }
+    # graph@otherProperties$lineColor <- "#0D8ECF"
+    graph
   }, USE.NAMES = FALSE)
   pipeR::pipeline(
     amXYChart(dataProvider = dataToGraph),

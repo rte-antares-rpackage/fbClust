@@ -79,6 +79,13 @@ test_that("clusterPlot", {
                         domainsNames = NULL, main = NULL)
   expect_true("htmlwidget" %in% class(out3))
   
+  expect_error(plotFlowbased(
+    PLAN, country1 = "BE", country2 = "DE", hubDrop = hubDrop, hours = c(4),
+    dates = c("2018-10-04"), main = NULL, color = c("green", "yellow")))
   
+  out4 <- plotFlowbased(
+    PLAN, country1 = "BE", country2 = "DE", hubDrop = hubDrop, hours = c(4),
+    dates = c("2018-10-04"), main = NULL, color = c("yellow"))
+  expect_true("htmlwidget" %in% class(out4))
 })
 
