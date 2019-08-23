@@ -6,7 +6,8 @@
 \usage{
 clusterPlot(data, country1, country2, hour, dayType,
   typicalDayOnly = FALSE, ggplot = FALSE, width = "420px",
-  height = "410px", xlim = c(-10000, 10000), ylim = c(-10000, 10000))
+  height = "410px", xlim = c(-10000, 10000), ylim = c(-10000, 10000),
+  export = T)
 }
 \arguments{
 \item{data}{\code{data.table} results from the clustering, output data from \link{clusterTypicalDaysForOneClass}}
@@ -31,6 +32,9 @@ and not the other domains of the cluster}
 \item{xlim}{\code{numeric}, limits of x-axis (default = c(-10000, 10000))}
 
 \item{ylim}{\code{numeric}, limits of x-axis (default = c(-10000, 10000))}
+
+\item{export}{\code{logical} If you want to have the possibility to export your
+graphic (if true in rmarkdown, can return a blank html)}
 }
 \description{
 For a given hour, plot the flow-based domain of one typical day along with the other
