@@ -8,7 +8,7 @@ plotFlowbased(PLAN, PLAN2 = NULL, country1, country2, hours, dates,
   hours2 = NULL, dates2 = NULL, domainsNames = NULL,
   hubDrop = list(NL = c("BE", "DE", "FR", "AT")), hubDrop2 = NULL,
   xlim = c(-10000, 10000), ylim = c(-10000, 10000), main = NULL,
-  width = "420px", height = "410px", color = NULL)
+  width = "420px", height = "410px", color = NULL, export = F)
 }
 \arguments{
 \item{PLAN}{\code{data.table}, at least ram, Date, Period and two ptdf columns :
@@ -67,6 +67,9 @@ be sustracted}
 colors of the graphics, color has to be the same length as the number of
 graphics you want. The colors can be written either in the format "red", "blue"...
 or "#CC0000", "#00CC00"...}
+
+\item{export}{\code{logical} If you want to have the possibility to export your
+graphic (if true in rmarkdown, can return a blank html)}
 }
 \description{
 Plot flow-based domain(s)

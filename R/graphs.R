@@ -15,6 +15,8 @@
 #' @param ylim \code{numeric}, limits of x-axis (default = c(-10000, 10000))
 #' @param width \code{character}, for rAmCharts only. Default to "420px" (set to "100/100" for dynamic resize)
 #' @param height \code{character}, for rAmCharts only. Default to "410px" (set to "100/100" for dynamic resize)
+#' @param export \code{logical} If you want to have the possibility to export your
+#' graphic (if true in rmarkdown, can return a blank html)
 #' 
 #' @import rAmCharts ggplot2 pipeR
 #' @importFrom grDevices chull
@@ -45,7 +47,8 @@ clusterPlot <- function(data,
                         width = "420px", 
                         height = "410px",
                         xlim = c(-10000, 10000),
-                        ylim = c(-10000, 10000)){
+                        ylim = c(-10000, 10000),
+                        export = T){
   
   .crtlAllTypeDay(data)
   
@@ -54,7 +57,8 @@ clusterPlot <- function(data,
   dataPlot <- .getDataPlotClustering(data[idDayType==dayType],  country1, country2, hour)
   
   .makeGraph(dataPlot, data[idDayType==dayType]$TypicalDay, xlim = xlim, ylim = ylim,
-             typicalDayOnly = typicalDayOnly, ggplot = ggplot, width = width, height = height)
+             typicalDayOnly = typicalDayOnly, ggplot = ggplot, width = width, 
+             height = height, export = export)
 }
 
 
@@ -144,7 +148,7 @@ clusterPlot <- function(data,
 
 .makeGraph <- function(data, typicalDayDate, typicalDayOnly = FALSE, 
                        ggplot = FALSE, width = "420px", height = "410px",
-                       xlim, ylim){
+                       xlim, ylim, export = T){
   
   # remove NOTE data.table
   size <- NULL
@@ -186,8 +190,9 @@ clusterPlot <- function(data,
                    maximum = xlim[2], minHorizontalGap = 35, minVerticalGap = 35),
       addValueAxes(title =  paste(ctry[2], "(MW)"), minimum = ylim[1], 
                    maximum = ylim[2], minHorizontalGap = 35, minVerticalGap = 35),
-      setExport(enabled = TRUE),
+      setExport(enabled = export),
       plot(width = width, height = height)
+      # plot()
     )
   } else {
     gg_data <- do.call("rbind.data.frame", lapply(dates, function(X){
@@ -282,6 +287,8 @@ clusterPlot <- function(data,
 #' colors of the graphics, color has to be the same length as the number of
 #' graphics you want. The colors can be written either in the format "red", "blue"...
 #' or "#CC0000", "#00CC00"...
+#' @param export \code{logical} If you want to have the possibility to export your
+#' graphic (if true in rmarkdown, can return a blank html)
 #' 
 #' @examples
 #'
@@ -363,7 +370,8 @@ plotFlowbased <- function(PLAN,
                           ylim = c(-10000, 10000),
                           main = NULL,
                           width = "420px", height = "410px",
-                          color = NULL){
+                          color = NULL,
+                          export = F){
   
   # remove NOTE data.table
   Period <- NULL
@@ -491,7 +499,7 @@ plotFlowbased <- function(PLAN,
                  maximum = xlim[2], minHorizontalGap = 35, minVerticalGap = 35),
     addValueAxes(title =  paste(gsub("ptdf", "", ctry2), "(MW)"), minimum = ylim[1],
                  maximum = ylim[2], minHorizontalGap = 35, minVerticalGap = 35),
-    setExport(enabled = TRUE),
+    setExport(enabled = export),
     setLegend(enabled = TRUE),
     plot(width = width, height = height)
   )

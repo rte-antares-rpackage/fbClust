@@ -37,14 +37,16 @@ library(gridExtra)
 # }
 
 vizTypicalDay <- function(data, combi, hour, dayType) {
-  column(width = 12,
+  # column(12,
          combineWidgets(
            ncol = 2,
            list = lapply(1:nrow(combi), function(X) {
-             clusterPlot(data, combi[X, 1], combi[X, 2], hour, dayType,
-                         ggplot = F, typicalDayOnly = T, xlim = xlim, ylim = ylim)
-           }),  height = "100%", width = "100%")
-  )
+             clusterPlot(data = data, country1 = combi[X, 1], country2 = combi[X, 2], 
+                         hour = hour, dayType = dayType,
+                         ggplot = F, typicalDayOnly = T, xlim = xlim, ylim = ylim,
+                         export = F)
+           }), width = "100%", height = "100%")
+  # )
 }
 
 vizHistoricalDay <- function(data, combi, hour, dayType) {
