@@ -291,14 +291,15 @@ The argument nbClust is also replaced by two arguments, nbClustWeek and nbClustW
 
 If you need more details, you can use ?clusterTypicalDays
 
-```{r message = FALSE, results = "hide"}
+```{r eval = FALSE}
 
 # Or for many classes
-calendar <- list()
-calendar$interSeasonWe <- c("2018-10-01", "2018-10-02")
-calendar$interSeasonWd <- c("2018-10-03", "2018-10-04")
-allTypeDay2 <- clusteringTypicalDays(PLAN = PLAN, calendar = calendar,
-                      hubDrop = list(NL = c("BE", "DE", "FR", "AT")), nbClustWeek = 1,
+dates <- getSequence("2018-09-01", "2019-08-31")
+interSeasonBegin <- c("2018-10-01", "2019-03-01")
+interSeasonEnd <- c("2018-11-30", "2019-05-31")
+calendar <- getCalendar(dates, interSeasonBegin, interSeasonEnd)
+dtClust <- clusteringTypicalDays(PLAN = PLAN, calendar = calendar,
+                      hubDrop = list(NL = c("BE", "DE", "FR", "AT")), nbClustWeek = 3,
                       nbClustWeekend = 1, hourWeight = rep(1, 24), maxDomainSize = 20000,
                       VERT = NULL)
 
@@ -318,7 +319,7 @@ If you want to easily manipulate the output of the clustering functions, the fun
 #### The raw ptdf
 
 ```{r}
-ptdfraw <- manipulateAllTypeDays(allTypeDay2, output = "ptdfraw")
+ptdfraw <- manipulateAllTypeDays(allTypeDay, output = "ptdfraw")
 DT::datatable(head(ptdfraw))
 ```
 
@@ -326,26 +327,27 @@ DT::datatable(head(ptdfraw))
 #### The ptdf
 
 ```{r}
-ptdf <- manipulateAllTypeDays(allTypeDay2, output = "ptdf")
+ptdf <- manipulateAllTypeDays(allTypeDay, output = "ptdf")
 DT::datatable(head(ptdf))
 ```
 
 #### The vertices
 
 ```{r}
-vertices <- manipulateAllTypeDays(allTypeDay2, output = "vertices")
-DT::datatable(head(vertices[, list(Date, Period, FR = round(FR, 2), DE = round(DE, 2), AT = round(AT, 2), BE = round(BE, 2),
+vertices <- manipulateAllTypeDays(allTypeDay, output = "vertices")
+DT::datatable(head(vertices[, list(Date, Period, FR = round(FR, 2), 
+                                   DE = round(DE, 2), AT = round(AT, 2), BE = round(BE, 2),
                                    Class, idDayType)]))
 ```
 
 #### The summary
 
 ```{r}
-summary <- manipulateAllTypeDays(allTypeDay2, output = "summary")
+summary <- manipulateAllTypeDays(allTypeDay, output = "summary")
 DT::datatable(summary)
 ```
 
-## <span style="color:blue">4 - Graphics after clustering</span>
+## <span style="color:blue">5 - Graphics after clustering</span>
 
 The graph function **clusterPlot** has to be used on the output object of one of the two clustering functions. It is also the function called to generate the reports.
 
@@ -374,7 +376,7 @@ clusterPlot(allTypeDay, "AT", "DE", hour = 1, dayType = 1, ggplot = FALSE, width
 
 
 
-## <span style="color:blue">4 - The report function</span>
+## <span style="color:blue">6 - The report function</span>
 
 The function **generateClusteringReport** render a html with, for a given cluster, the sections of the flowbased domain on chosen countries hour by hour. The graphs are the same as in the plot in the previous section.
 This function takes the following main arguments:
@@ -383,18 +385,18 @@ This function takes the following main arguments:
 * *data* the input data, corresponding to the output of one of the clustering functions.
 * *countries* a list or a vector of characters with the combinations of countries used to visualize the domains.
 
-```{r}
-### An example of the report generation (can not be launched in this vignette).
+```{r eval = FALSE}
+### An example of the report generation
 
 
-# allTypDay <- readRDS(system.file("testdata/allTypDays.rds", package = "fbClust"))
-# generateClusteringReport(dayType = 1, data = allTypDay, outputFile = tempdir(),
-# countries = list(c("BE", "FR"), c("BE", "NL")), xlim = c(-12000, 12000),
-# ylim = c(-12000, 12000))
-# 
-# generateClusteringReport(dayType = 1, data = allTypDay, outputFile = tempdir(),
-# countries = c("AT", "FR", "NL", "DE"), xlim = c(-12000, 12000),
-# ylim = c(-12000, 12000))
+allTypDay <- readRDS(system.file("testdata/allTypDays.rds", package = "fbClust"))
+generateClusteringReport(dayType = 1, data = allTypDay, outputFile = tempdir(),
+countries = list(c("BE", "FR"), c("BE", "NL")), xlim = c(-12000, 12000),
+ylim = c(-12000, 12000))
+
+generateClusteringReport(dayType = 1, data = allTypDay, outputFile = tempdir(),
+countries = c("AT", "FR", "NL", "DE"), xlim = c(-12000, 12000),
+ylim = c(-12000, 12000))
 
 ```
 
@@ -412,3 +414,32 @@ These captures show you how the report is constituted.
 <div style="text-align:center" markdown="1">
 <img src="ramchart_part.png" alt="Drawing" style="width: 90%; height: 90%">
 </div>
+
+
+## <span style="color:blue">7 - Probabilities and quantiles</span>
+Finally, the function ``getProbability()`` can be used to learn the correlations between the occurences of the different clusters and external data (typically climatic data). 
+
+* ``climate`` : data table, the first column is the ``Date`` (``YYYY-MM-DD``), other columns are exogenous variables (e.g. wind speed and temperature)
+* ``cluster`` : output of ``clusteringTypicalDays()`` or ``clusterTypicalDaysForOneClass()``
+
+Below, an example of a climate file :
+```{r, eval = TRUE, echo = FALSE}
+climate <- data.table::fread(system.file("testdata/climate_example.txt",package = "fbClust"))
+head(climate)
+```
+
+The quantiles are set with ``levelsProba``, and can be : 
+
+* the same for all exogenous variables and classes using a ``numeric vector``
+* set for each class (season / type of day) and climate variable using a ``named list``
+
+
+```{r, echo = TRUE, eval = FALSE}
+# same quantiles for each variables 
+MatProb <- getProbability(climate, dtClust, levelsProba = c(1/3, 2/3))
+
+# diffents quantiles for each class and variables 
+levelsProba <- list(summerWd = list(FR_load = c(0.5), DE_wind = c(1/3, 2/3), DE_solar = .5),
+                    winterWd = list(FR_load = c(0.5, 0.7), DE_wind = c(.5)))
+MatProb <- getProbability(dtClust, allTypDay, levelsProba = levelsProba)
+```
