@@ -74,7 +74,12 @@ getVertices <- function(PTDF,  ctrdel = NULL){
   }
   vertices <- vertexenum::enumerate.vertices(
     as.matrix(PTDF[,.SD, .SDcols = ctrnodel]), PTDF$ram)
+  if(all(vertices == rep(0,length(ctrnodel)))){
+    vertices <- matrix(0, nrow = 1, ncol = length(ctrnodel))
+  }
+  
   vertices <- data.table(vertices)
+
   names(vertices) <- ctrnodel
   vertices
 }
