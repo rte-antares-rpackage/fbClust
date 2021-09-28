@@ -22,7 +22,7 @@
   
   
   col_vert <- colnames(VERT)[!grepl("Date|Period", colnames(VERT))]
-  if (all(!grepl("sign|N|nbsign", col_vert))) {
+  if (all(!grepl("sign|^N$|nbsign", col_vert))) {
   vert_sign <- VERT[, lapply(.SD, function(X) {(X > 0)}) , list(Date, Period),
                         .SDcols = col_vert]
   sign <- vert_sign[, get(col_vert[1])]
@@ -257,7 +257,7 @@
   col_plan_all <- colnames(PLAN)
   col_vert_all <- colnames(VERT)
   col_ptdf <- col_plan_all[grep("^ptdf[A-Z]{2}$", col_plan_all)]
-  col_vert <- col_vert_all[!grepl("Date|Period|N|nbsign|sign", col_vert_all)]
+  col_vert <- col_vert_all[!grepl("Date|Period|^N$|nbsign|sign", col_vert_all)]
   
   if(length(col_ptdf) == 0 | length(col_vert) == 0) {
     stop("PLAN must have ptdf colnames in the form ptdfXX (ex : ptdfFR) & VERT in the form XX (ex : FR)")

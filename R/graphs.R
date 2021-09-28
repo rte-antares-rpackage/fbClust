@@ -129,12 +129,12 @@ clusterPlot <- function(data,
   
   data <- data.frame(data)
   if(country1 == hubnameDiff){
-    ptctry <- -rowSums(data[!grepl("Date|Period|N|nbsign|sign", colnames(data))])
+    ptctry <- -rowSums(data[!grepl("Date|Period|^N$|nbsign|sign", colnames(data))])
   }else{
     ptctry <- data[[country1]]
   }
   if(country2 == hubnameDiff){
-    ptctry2 <- -rowSums(data[!grepl("Date|Period|N|nbsign|sign", colnames(data))])
+    ptctry2 <- -rowSums(data[!grepl("Date|Period|^N$|nbsign|sign", colnames(data))])
   }else{
     ptctry2 <- data[[country2]]
   }

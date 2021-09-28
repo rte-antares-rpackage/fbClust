@@ -12,7 +12,7 @@
   set.seed(1234)
   PLAN[['ram']] <- PLAN[['ram']] + runif(nrow(PLAN))/10000
   colPtdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
-  colVert <- colnames(VERT)[!grepl("Date|Period|N|nbsign|sign", colnames(VERT))]
+  colVert <- colnames(VERT)[!grepl("Date|Period|^N$|nbsign|sign", colnames(VERT))]
   print(colVert)
   res_hour <- data.frame(t(combn(unique(VERT[['Date']]), 2)))
   colnames(res_hour) <- c("V1", "V2")

@@ -97,7 +97,7 @@ clusteringTypicalDays <- function(calendar,
   
   
   col_ptdf <- colnames(PLAN)[grep("ptdf", colnames(PLAN))]
-  col_vert <- colnames(VERT)[!grepl("Date|Period|sign|N|nbsign", colnames(VERT))]
+  col_vert <- colnames(VERT)[!grepl("Date|Period|sign|^N$|nbsign", colnames(VERT))]
   Max <- VERT[,max(unlist(.SD)), by = c("Date", "Period"), .SDcols = col_vert]
   Max[, isSupLim := V1 > maxDomainSize]
   Max <- Max[Max$isSupLim]
