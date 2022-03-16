@@ -110,7 +110,7 @@ clusterPlot <- function(data,
   
   maxRow <- max(unlist(lapply(data_plot, nrow)))
   data_plot <- lapply(data_plot, function(X){
-    rbind(X, data.table(rep(NA, maxRow-nrow(X)), rep(NA, maxRow-nrow(X))), use.names=FALSE)
+    rbind(as.data.table(X), data.table(rep(NA, maxRow-nrow(X)), rep(NA, maxRow-nrow(X))), use.names=FALSE)
   })
   data_plot <- cbind.data.frame(data_plot)
   data_plot
