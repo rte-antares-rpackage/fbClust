@@ -85,9 +85,13 @@ clusteringTypicalDays <- function(calendar,
   PLAN[, Date := as.character(Date)]
   .crtlPlan(PLAN)
   PLANRaw <- copy(PLAN)
-  .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
   PLAN <- PLAN[as.character(PLAN$Date) %in% as.character(do.call("c", calendar))]
-  PLAN <- setDiffNotWantedPtdf(PLAN = PLAN, hubDrop = hubDrop)
+  
+  if(!is.null(hubDrop)){
+    .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
+    PLAN <- setDiffNotWantedPtdf(PLAN = PLAN, hubDrop = hubDrop)
+  }
+  
   if(is.null(VERT)) {
     VERT <- getVertices(PLAN)
   }
