@@ -12,7 +12,7 @@ test_that(".ctrlVertPlanFormat", {
   VERT2[, FR := NULL]
   col_plan <- colnames(PLAN)
   col_vert2 <- colnames(VERT2)
-  col_ptdf_plan <- col_plan[grep("^ptdf[A-Z]{2}$", col_plan)]
+  col_ptdf_plan <- col_plan[grep("^ptdf.{1,}$", col_plan)]
   col_ptdf_vert2 <- col_plan[!grepl("Date|Period", col_vert2)]
   
   expect_message(.ctrlVertPlanFormat(VERT, PLAN), fixed = T,

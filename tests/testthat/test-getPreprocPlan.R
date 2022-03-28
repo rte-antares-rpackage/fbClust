@@ -8,7 +8,7 @@ test_that("getPreprocPlan", {
     pathPtdfMatrixConstraint = system.file(
       "testdata/plan_new_version_constraint_AT.rds", package = "fbClust"))
   
-  expect_true(all(grepl("ROW_ID|Period|Date|ram|ptdf[A-Z]{2}", colnames(res))))
+  expect_true(all(grepl("ROW_ID|Period|Date|ram|^ptdf.{1,}$", colnames(res))))
   expect_true(nrow(res) == 2423)
   expect_true(all(grepl("^[0-9]{4}-[0-9]{2}-[0-9]{2}", res[['Date']])))
   

@@ -256,7 +256,7 @@
   
   col_plan_all <- colnames(PLAN)
   col_vert_all <- colnames(VERT)
-  col_ptdf <- col_plan_all[grep("^ptdf[A-Z]{2}$", col_plan_all)]
+  col_ptdf <- col_plan_all[grep("^ptdf.{1,}$", col_plan_all)]
   col_vert <- col_vert_all[!grepl("Date|Period|^N$|nbsign|sign", col_vert_all)]
   
   if(length(col_ptdf) == 0 | length(col_vert) == 0) {
@@ -315,8 +315,8 @@
   
   
   col_vert <- colnames(VERT)[!grepl("Period|Date", colnames(VERT))]
-  col_ptdf <- colnames(PLAN)[grep("^ptdf[A-Z]{2}", colnames(PLAN))]
-  col_ptdf_raw <- colnames(PLANRaw)[grep("^ptdf[A-Z]{2}", colnames(PLANRaw))]
+  col_ptdf <- colnames(PLAN)[grep("^ptdf.{1,}$", colnames(PLAN))]
+  col_ptdf_raw <- colnames(PLANRaw)[grep("^ptdf.{1,}$", colnames(PLANRaw))]
 
   for(i in 1:nrow(allTypDay)){
     allTypDay$dayIn[[i]] <- rbindlist(

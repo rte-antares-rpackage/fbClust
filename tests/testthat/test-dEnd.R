@@ -6,7 +6,7 @@ test_that("dEnd", {
   pl_vert <- readRDS(system.file("testdata/expl_plan_vert.rds", package = "fbClust"))
   VERT <- pl_vert$VERT
   PLAN <- pl_vert$PLAN
-  col_ptdf <- colnames(PLAN)[grep("^ptdf[A-Z]{2}$", colnames(PLAN))]
+  col_ptdf <- colnames(PLAN)[grep("^ptdf.{1,}$", colnames(PLAN))]
   col_vert <- colnames(VERT)[!grepl("Date|Period", colnames(VERT))]
 
   setDT(VERT)

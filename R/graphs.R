@@ -395,18 +395,23 @@ plotFlowbased <- function(PLAN,
   PLAN <- copy(PLAN)
   PLAN <- PLAN[Period %in% hours & Date %in% dates]
   
+    if(!is.null(hubDrop)){
+    .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
+    PLAN <- setDiffNotWantedPtdf(PLAN = PLAN, hubDrop = hubDrop)
+  }
   
-  
-  .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
-  PLAN <- setDiffNotWantedPtdf(PLAN = PLAN, hubDrop = hubDrop)
   comb <- unique(PLAN[, list(Period, Date)])
   comb[,  PLAN := "PLAN"]
   if (!is.null(PLAN2)) {
     hubnames2 <- gsub("ptdf", "", colnames(PLAN2)[grep("ptdf", colnames(PLAN2))])
     PLAN2 <- copy(PLAN2)
     PLAN2 <- PLAN2[Period %in% hours2 & Date %in% dates2]
-    .ctrlHubDrop(hubDrop = hubDrop2, PLAN = PLAN2)
-    PLAN2 <- setDiffNotWantedPtdf(PLAN = PLAN2, hubDrop = hubDrop2)
+    
+    if(!is.null(hubDrop2)){
+      .ctrlHubDrop(hubDrop = hubDrop2, PLAN = PLAN2)
+      PLAN2 <- setDiffNotWantedPtdf(PLAN = PLAN2, hubDrop = hubDrop2)
+    }
+    
     comb2 <- unique(PLAN2[, list(Period, Date)])
     comb2[,  PLAN := "PLAN2"]
     comb <- rbindlist(list(comb, comb2))
