@@ -4,11 +4,28 @@
 \alias{plotFlowbased}
 \title{Plot flow-based domain(s)}
 \usage{
-plotFlowbased(PLAN, PLAN2 = NULL, country1, country2, hours, dates,
-  hours2 = NULL, dates2 = NULL, domainsNames = NULL,
-  hubDrop = list(NL = c("BE", "DE", "FR", "AT")), hubDrop2 = NULL,
-  xlim = c(-10000, 10000), ylim = c(-10000, 10000), main = NULL,
-  width = "420px", height = "410px", color = NULL, export = F)
+plotFlowbased(
+  PLAN,
+  PLAN2 = NULL,
+  VERT = NULL,
+  VERT2 = NULL,
+  country1,
+  country2,
+  hours,
+  dates,
+  hours2 = NULL,
+  dates2 = NULL,
+  domainsNames = NULL,
+  hubDrop = list(NL = c("BE", "DE", "FR", "AT")),
+  hubDrop2 = NULL,
+  xlim = c(-10000, 10000),
+  ylim = c(-10000, 10000),
+  main = NULL,
+  width = "420px",
+  height = "410px",
+  color = NULL,
+  export = F
+)
 }
 \arguments{
 \item{PLAN}{\code{data.table}, at least ram, Date, Period and two ptdf columns :
@@ -26,6 +43,12 @@ PLAN is generated in this format with the function \link{getPreprocPlan}}
 \item{PLAN2}{\code{data.table}, at least ram, Date, Period and two ptdf columns.
 This argument is optional, default is NULL. You can use it if you want to make
 comparison between domains from cwe and domains from cwe-at.}
+
+\item{VERT}{\code{data.table}, Vertices of PLAN. If set to NULL, vertices
+will be calculated within the function.}
+
+\item{VERT2}{\code{data.table}, Vertices of PLAN2. If set to NULL, vertices
+will be calculated within the function.}
 
 \item{country1}{\code{character}, name of the country whose net position is in the x axis (BE, FR, DE, AT or NL)}
 

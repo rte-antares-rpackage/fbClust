@@ -289,6 +289,10 @@ clusterPlot <- function(data,
 #' or "#CC0000", "#00CC00"...
 #' @param export \code{logical} If you want to have the possibility to export your
 #' graphic (if true in rmarkdown, can return a blank html)
+#' @param VERT \code{data.table}, Vertices of PLAN. If set to NULL, vertices
+#' will be calculated within the function.
+#' @param VERT2 \code{data.table}, Vertices of PLAN2. If set to NULL, vertices
+#' will be calculated within the function.
 #' 
 #' @examples
 #'
@@ -357,6 +361,8 @@ clusterPlot <- function(data,
 
 plotFlowbased <- function(PLAN,
                           PLAN2 = NULL,
+                          VERT = NULL,
+                          VERT2 = NULL,
                           country1,
                           country2,
                           hours,
@@ -395,7 +401,7 @@ plotFlowbased <- function(PLAN,
   PLAN <- copy(PLAN)
   PLAN <- PLAN[Period %in% hours & Date %in% dates]
   
-    if(!is.null(hubDrop)){
+  if(!is.null(hubDrop)){
     .ctrlHubDrop(hubDrop = hubDrop, PLAN = PLAN)
     PLAN <- setDiffNotWantedPtdf(PLAN = PLAN, hubDrop = hubDrop)
   }
@@ -440,12 +446,16 @@ plotFlowbased <- function(PLAN,
     }
   }
   
-  VERT <- getVertices(PLAN)
+  if(is.null(VERT)){
+    VERT <- getVertices(PLAN)
+  }
   hubnames_vert <- colnames(VERT)[!grepl("Date|Period", colnames(VERT))]
   hubnameDiff <- hubnames[!(hubnames %in% hubnames_vert)]
   
   if(!is.null(PLAN2)) {
-    VERT2 <- getVertices(PLAN2)
+    if(is.null(VERT2)){
+      VERT2 <- getVertices(PLAN2)
+    }
     hubnames_vert2 <- colnames(VERT2)[!grepl("Date|Period", colnames(VERT2))]
     hubnameDiff2 <- hubnames2[!(hubnames2 %in% hubnames_vert2)]
   } else {
