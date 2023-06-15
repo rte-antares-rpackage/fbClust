@@ -212,7 +212,7 @@ getProbability <- function(climate, cluster, levelsProba = c(1/3, 2/3), extrapol
 
 
 .getClosedValue <- function(initI, lvlI){
-  witchI <- which(initI%in%lvlI)
+  witchI <- which(lvlI %in% initI)
   endW <- witchI
   if(witchI[1]!=1){
     endW <- c(endW, witchI[1] - 1)
